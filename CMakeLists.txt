@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(renderer CXX)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2  -L/usr/local/lib -lSDL2_image -lSDL2 -std=c++11 -lm -lstdc++")
 
 set(SOURCE_FILES
         src/scene/Transform.cpp src/scene/Transform.hpp
