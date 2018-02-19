@@ -6,12 +6,14 @@
 #define RENDERER_CAMERA_HPP
 
 #include <glm/glm.hpp>
+
 namespace McRenderer {
     using namespace glm;
     struct Camera {
         vec3 position;
-        vec3 direction;
+        vec3 right;
         vec3 up;
+        vec3 forward;
 
         float aspectRatio;
         float nearClippingDistance;
