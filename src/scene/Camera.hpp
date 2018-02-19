@@ -24,6 +24,7 @@ namespace McRenderer {
 
         mat4 viewingMatrix();
         mat4 projectionMatrix();
+        mat4 viewProjectionMatrix();
 
         Camera(vec3 positionIn, vec3 directionIn, vec3 upIn): position{positionIn}, forward{directionIn}, up{upIn} {}
         Camera() {}

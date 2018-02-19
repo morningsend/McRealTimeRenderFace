@@ -25,5 +25,9 @@ namespace  McRenderer {
                               );
     }
 
+    mat4 Camera::viewProjectionMatrix() {
+        return projectionMatrix() * viewingMatrix();
+    }
+
 
 }
