@@ -6,7 +6,6 @@
 #define RENDERER_RENDERTARGET_HPP
 
 #include <glm/vec3.hpp>
-#include "../Exception.hpp"
 
 namespace McRenderer {
     using namespace glm;

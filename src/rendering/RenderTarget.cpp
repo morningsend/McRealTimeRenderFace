@@ -11,7 +11,7 @@ McRenderer::RenderTarget::~RenderTarget() {
 McRenderer::RenderTarget::RenderTarget(int widthIn, int heightIn)
         : width{widthIn}, height{heightIn} {
     if(width < 1 || height < 1) {
-        throw Exception("width or height must be positive");
+        throw 1;
     }
     
 }
