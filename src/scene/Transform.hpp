@@ -5,14 +5,16 @@
 #ifndef RENDERER_TRANSFORM_HPP
 #define RENDERER_TRANSFORM_HPP
 
-#include <glm/vec4.hpp>
+#include <glm/glm.hpp>
 
 namespace McRenderer {
     using namespace glm;
     struct Transform {
-        vec4 translation;
-        vec4 rotation;
-        vec4 scale;
+        vec3 translation;
+        vec3 rotation;
+        vec3 scale;
+
+        mat4x4 matrix();
     };
 }
 

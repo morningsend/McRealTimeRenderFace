@@ -3,3 +3,7 @@
 //
 
 #include "Transform.hpp"
+
+glm::mat4x4 McRenderer::Transform::matrix() {
+    return glm::mat4x4();
+}

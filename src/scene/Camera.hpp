@@ -18,6 +18,7 @@ namespace McRenderer {
         float farClippingDistance;
 
         mat4 viewingMatrix();
+        mat4 projectionMatrix();
 
         explicit Camera(const vec4& positionIn, const vec4& directionIn, const vec4& up);
 
