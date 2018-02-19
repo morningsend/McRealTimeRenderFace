@@ -7,12 +7,17 @@
 namespace  McRenderer {
 
 
+
     void Camera::move(vec3 delta) {
         position += delta;
     }
 
     mat4 Camera::viewingMatrix(){
-        return glm::mat4(1);
+      return  glm::lookAt(position, forward, up);
+    }
+
+    mat4 Camera::projectionMatrix(){
+      return glm::mat4(1);
     }
 
 
