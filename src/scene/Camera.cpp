@@ -17,7 +17,12 @@ namespace  McRenderer {
     }
 
     mat4 Camera::projectionMatrix(){
-      return glm::mat4(1);
+      return glm::perspective(
+                                glm::radians(fieldOfView),
+                                aspectRatio,
+                                nearClippingDistance,
+                                farClippingDistance
+                              );
     }
 
 
