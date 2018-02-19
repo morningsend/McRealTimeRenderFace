@@ -5,15 +5,16 @@
 #ifndef RENDERER_BOUNDINGBOX_HPP
 #define RENDERER_BOUNDINGBOX_HPP
 
-
-struct BoundingBox {
-    float top;
-    float bottom;
-    float left;
-    float right;
-    float front;
-    float back;
-};
+namespace McRenderer {
+    struct BoundingBox {
+        float top;
+        float bottom;
+        float left;
+        float right;
+        float front;
+        float back;
+    };
+}
 
 
 #endif //RENDERER_BOUNDINGBOX_HPP

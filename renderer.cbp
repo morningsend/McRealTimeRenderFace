@@ -138,11 +138,23 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/SDLauxiliary.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/SDLauxiliary.h">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/main.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Rasterizer.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Rasterizer.hpp">
+			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RayTracer.cpp">
@@ -158,6 +170,14 @@
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RenderTarget.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Renderer.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Renderer.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
-#include "SDLauxiliary.h"
 #include "scene/TestModelH.h"
+#include "rendering/Rasterizer.hpp"
 #include <stdint.h>
 
 using namespace std;
@@ -21,16 +21,16 @@ using glm::mat4;
 
 void Update();
 void Draw(screen* screen);
-
+using namespace McRenderer;
 int main( int argc, char* argv[] )
 {
 
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
-
+    Rasterizer rasterizer{};
     while( NoQuitMessageSDL() )
     {
         Update();
-        Draw(screen);
+        rasterizer.renderToScreen(screen);
         SDL_Renderframe(screen);
     }
 
