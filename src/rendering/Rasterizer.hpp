@@ -6,11 +6,15 @@
 #define RENDERER_RASTERIZER_HPP
 
 #include "Renderer.hpp"
+#include "../scene/Scene.hpp"
 
 namespace McRenderer {
     using namespace glm;
     class Rasterizer : public Renderer {
+    private:
+        Scene* scene;
     public:
+        Rasterizer(Scene* sceneIn): scene{sceneIn} {}
         void renderToScreen(screen* screen) override;
         ~Rasterizer() = default;
     };

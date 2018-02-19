@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 using namespace std;
+using namespace McRenderer;
 using glm::vec3;
 using glm::mat3;
 using glm::vec4;
@@ -19,17 +20,25 @@ using glm::mat4;
 /* ----------------------------------------------------------------------------*/
 /* FUNCTIONS                                                                   */
 
-void Update();
+void Update(Camera& camera);
 void Draw(screen* screen);
-using namespace McRenderer;
+
+void setupScene(Scene& scene) {
+    scene.camera.position = vec3(0, 0, 5);
+    scene.camera.forward = vec3(0,0,-1);
+    scene.camera.up = vec3(0,1,0);
+
+    //scene.model
+}
 int main( int argc, char* argv[] )
 {
 
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
-    Rasterizer rasterizer{};
+    Scene scene;
+    Rasterizer rasterizer{&scene};
     while( NoQuitMessageSDL() )
     {
-        Update();
+        Update(scene.camera);
         rasterizer.renderToScreen(screen);
         SDL_Renderframe(screen);
     }
@@ -56,8 +65,22 @@ void Draw(screen* screen)
 }
 
 /*Place updates of parameters here*/
-void Update()
+void Update(Camera& camera)
 {
+    uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
+
+    if(keystate[SDL_SCANCODE_UP]) {
+        camera.position += camera.forward * 0.1f;
+    }
+    if(keystate[SDL_SCANCODE_DOWN]) {
+        camera.position -= camera.forward * 0.1f;
+    }
+    if(keystate[SDL_SCANCODE_LEFT]) {
+        camera.position += camera.right * 0.1f;
+    }
+    if(keystate[SDL_SCANCODE_RIGHT]) {
+        camera.position -= camera.right * 0.1f;
+    }
     static int t = SDL_GetTicks();
     /* Compute frame time */
     int t2 = SDL_GetTicks();
@@ -65,5 +88,9 @@ void Update()
     t = t2;
     /*Good idea to remove this*/
     std::cout << "Render time: " << dt << " ms." << std::endl;
+    std::cout << "Camera position:"
+              << camera.position.x << ' '
+              << camera.position.y << ' '
+              << camera.position.z << endl;
     /* Update variables*/
 }

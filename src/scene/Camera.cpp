@@ -11,15 +11,8 @@ namespace  McRenderer {
         position += delta;
     }
 
-    Camera::Camera(const vec4 &positionIn, const vec4 &directionIn, const vec4 &upIn)
-            : position(positionIn), forward(directionIn), up(upIn){
-            //determine right vector using thoses two ones
-    }
-
     mat4 Camera::viewingMatrix(){
-      return glm::lookAt(
-                          position, forward, up
-                        );
+        return glm::mat4(1);
     }
 
 

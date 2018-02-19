@@ -13,9 +13,11 @@
 namespace McRenderer {
     using namespace std;
     class Scene {
-        vector <Light> lights;
-        vector <Triangle> model;
-        Camera camera;
+    public:
+        vector <Light> lights{};
+        vector <Triangle> model{};
+        Camera camera{};
+        Scene() {}
     };
 }
 

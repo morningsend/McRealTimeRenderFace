@@ -10,20 +10,20 @@
 namespace McRenderer {
     using namespace glm;
     struct Camera {
-        vec3 position;
-        vec3 right;
-        vec3 up;
-        vec3 forward;
+        vec3 position{0,0,0};
+        vec3 right{-1, 0, 0};
+        vec3 up{0,1,0};
+        vec3 forward{0,0,1};
 
-        float aspectRatio;
-        float nearClippingDistance;
-        float farClippingDistance;
+        float aspectRatio{1};
+        float nearClippingDistance{0.2};
+        float farClippingDistance{1000};
 
         mat4 viewingMatrix();
         mat4 projectionMatrix();
 
-        explicit Camera(const vec4& positionIn, const vec4& directionIn, const vec4& up);
-
+        Camera(vec3 positionIn, vec3 directionIn, vec3 upIn): position{positionIn}, forward{directionIn}, up{upIn} {}
+        Camera() {}
         void move(vec3 delta);
 
     };
