@@ -24,10 +24,10 @@ void Update(Camera& camera);
 void Draw(screen* screen);
 
 void setupScene(Scene& scene) {
-    scene.camera.position = vec3(0, 0, 5);
+    scene.camera.position = vec3(0, 0, 0);
     scene.camera.forward = vec3(0,0,-1);
     scene.camera.up = vec3(0,1,0);
-
+    scene.camera.aspectRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
     //scene.model
 }
 int main( int argc, char* argv[] )
@@ -35,7 +35,7 @@ int main( int argc, char* argv[] )
 
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;
-    Rasterizer rasterizer{&scene};
+    Rasterizer rasterizer{&scene, SCREEN_WIDTH, SCREEN_HEIGHT};
     while( NoQuitMessageSDL() )
     {
         Update(scene.camera);

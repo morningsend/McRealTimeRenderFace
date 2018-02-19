@@ -13,8 +13,11 @@ namespace McRenderer {
     class Rasterizer : public Renderer {
     private:
         Scene* scene;
+        vec3* frameBuffer;
+        float* depthBuffer;
+
     public:
-        Rasterizer(Scene* sceneIn): scene{sceneIn} {}
+        Rasterizer(Scene* sceneIn, int wdith, int height): scene{sceneIn} {}
         void renderToScreen(screen* screen) override;
         ~Rasterizer() = default;
     };
