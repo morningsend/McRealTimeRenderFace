@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "system_error": "cpp",
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "type_traits": "cpp",
+        "algorithm": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+        "string_view": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp"
+    }
+}

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="renderer"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="renderer_tests">
+				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/renderer_tests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/lib/glm"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 renderer_tests"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="renderer_tests/fast">
+				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/renderer_tests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/lib/glm"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 renderer_tests/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="renderer">
+				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/renderer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/lib/glm"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 renderer"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="renderer/fast">
+				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/renderer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/lib/glm"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 renderer/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/Exception.cpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/Exception.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/SDLauxiliary.h">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/main.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/rendering/RayTracer.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/rendering/RayTracer.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/rendering/RenderTarget.cpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/rendering/RenderTarget.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/BoundingBox.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/BoundingBox.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Camera.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Camera.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Light.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Light.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Line.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Line.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Material.cpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Material.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Mesh.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Mesh.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Plane.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Plane.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Ray.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Ray.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Scene.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Scene.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Sphere.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Sphere.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/TestModelH.h">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/TextureMap.cpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/TextureMap.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/TextureSampler2D.cpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/TextureSampler2D.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Transform.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Transform.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Triangle.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Triangle.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Vertex.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/src/scene/Vertex.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/tests/catch.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/tests/scene/RayTests.hpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/tests/testMain.cpp">
+			<Option target="renderer_tests"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/renderer/../../../../../../usr/local/lib/cmake/SDL2/sdl2-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
