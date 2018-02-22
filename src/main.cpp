@@ -92,5 +92,9 @@ void Update(Camera& camera)
               << camera.position.x << ' '
               << camera.position.y << ' '
               << camera.position.z << endl;
+    std::cout << "Camera forward" << ' '
+              << camera.forward.x << ' '
+              << camera.forward.y << ' '
+              << camera.forward.z << ' '<<endl;
     /* Update variables*/
 }

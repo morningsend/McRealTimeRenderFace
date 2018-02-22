@@ -18,9 +18,9 @@ namespace McRenderer {
         vec3 forward{0,0,1};
 
         float aspectRatio{1};
-        float nearClippingDistance{0.2};
+        float nearClippingDistance{.1};
         float farClippingDistance{1000};
-        float fieldOfView{90};
+        float fieldOfView{45};
 
         mat4 viewingMatrix();
         mat4 projectionMatrix();
