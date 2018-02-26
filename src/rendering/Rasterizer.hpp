@@ -29,19 +29,11 @@ namespace McRenderer {
         ~Rasterizer() = default;
     };
 
-    /**
-     * Clip a transformed triangle against a 3D canonical view volumn
-     * where -1 <= x <= 1, -1 <= y <= 1, -1 <= z <= 1
-     * @param triangle
-     * @param result
-     */
-    void clipLine3D(const Line& line, Line& result);
-    void clipTriangle3D(const Triangle &triangle, vector<Triangle> &result);
-    void clipTriangleFrustum(const Triangle& triangle, vector<Triangle>& result);
-    void drawLine(screen *screen, int x1, int y1, int x2, int y2);
-    int computeOutcode3D(vec4 point);
 }
 
-
+vec4 lineAligndPlaneIntersection(Line line, vec3 plane);
+void clipLine(Line *line);
+void drawLine(screen *screen, int x1, int y1, int x2, int y2);
+void bhm_line(screen *screen, int x1,int y1,int x2,int y2);
 
 #endif //RENDERER_RASTERIZER_HPP

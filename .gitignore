@@ -74,5 +74,9 @@ CTestTestfile.cmake
 
 renderer
 renderer_tests
+<<<<<<< HEAD
+=======
+cmake.script
+>>>>>>> 7a2bf056c87062186b77a79d07a386174d0cd95d
 
 *.bmp
