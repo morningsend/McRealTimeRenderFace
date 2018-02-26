@@ -4,7 +4,7 @@
 
 #ifndef RENDERER_RASTERIZER_HPP
 #define RENDERER_RASTERIZER_HPP
-
+#include "../SDLauxiliary.h"
 #include "Renderer.hpp"
 #include "../scene/Scene.hpp"
 #include "../scene/Line.hpp"
@@ -13,14 +13,22 @@
 namespace McRenderer {
 
     using namespace glm;
+    enum class FaceRenderMode {
+        FrontOnly,
+        DoubleSide
+    };
     class Rasterizer : public Renderer {
     private:
+        int width{1};
+        int height{1};
         Scene* scene;
         vec3* frameBuffer;
         float* depthBuffer;
+        FaceRenderMode faceMode { FaceRenderMode::DoubleSide };
     public:
-        void fillTriangle(McRenderer::Triangle& triangle, screen* screen);
-        Rasterizer(Scene* sceneIn, int wdith, int height): scene{sceneIn} {}
+        void fillTriangle(Triangle& triangle, screen* screen);
+        void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y);
+        Rasterizer(Scene* sceneIn, int width, int height): scene{sceneIn}, width{width}, height{height} {}
         void renderToScreen(screen* screen) override;
         ~Rasterizer() = default;
     };

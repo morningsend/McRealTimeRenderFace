@@ -20,7 +20,7 @@ namespace McRenderer {
         float aspectRatio{1};
         float nearClippingDistance{.1};
         float farClippingDistance{1000};
-        float fieldOfView{45};
+        float fieldOfView{90};
 
         mat4 viewingMatrix();
         mat4 projectionMatrix();
