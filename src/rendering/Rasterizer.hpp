@@ -7,6 +7,8 @@
 
 #include "Renderer.hpp"
 #include "../scene/Scene.hpp"
+#include "../scene/Line.hpp"
+
 
 namespace McRenderer {
     using namespace glm;
@@ -21,8 +23,12 @@ namespace McRenderer {
         void renderToScreen(screen* screen) override;
         ~Rasterizer() = default;
     };
+
 }
 
+vec4 lineAligndPlaneIntersection(Line line, vec3 plane);
+void clipLine(Line *line);
 void drawLine(screen *screen, int x1, int y1, int x2, int y2);
+void bhm_line(screen *screen, int x1,int y1,int x2,int y2);
 
 #endif //RENDERER_RASTERIZER_HPP
