@@ -7,6 +7,8 @@
 
 #include <glm/glm.hpp>
 
+#include <iostream>
+
   using namespace glm;
 
   #define INSIDEMASK 0
@@ -36,7 +38,7 @@
   };
 
   int computeOutcode3D(vec4 point, vec4 min, vec4 max);
-  void clipLine3D(Line &line);
+  bool clipLine3D(Line &line);
 
 
 
