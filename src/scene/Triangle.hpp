@@ -16,8 +16,8 @@ namespace McRenderer {
         vec4 normal;
 
     };
-    vec4 computeTriangleNormal(vec4 vertices[3]);
-    void clipTriangle2D(const Triangle& triangle, const Viewport& viewport, vector<Triangle>& result);
+    void computeTriangleNormal(Triangle& triangle);
+    void clipTriangle3D(const Triangle& triangle, vector<Triangle>& result);
 }
 
 
