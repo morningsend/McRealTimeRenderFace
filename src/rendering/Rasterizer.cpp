@@ -44,8 +44,8 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen) {
     mat4 viewProjectionMatrix = scene->camera.viewProjectionMatrix();
     Line projLine = line.projectLine(viewProjectionMatrix);
 
-    std::cout << projLine.ends[0].x << ' '<< projLine.ends[0].y <<' '<< projLine.ends[0].z <<' '<< projLine.ends[0].w <<' '<<'\n';
-    std::cout << projLine.ends[1].x << ' '<< projLine.ends[1].y <<' '<< projLine.ends[1].z <<' '<< projLine.ends[1].w <<' '<<'\n';
+    // std::cout << projLine.ends[0].x << ' '<< projLine.ends[0].y <<' '<< projLine.ends[0].z <<' '<< projLine.ends[0].w <<' '<<'\n';
+    // std::cout << projLine.ends[1].x << ' '<< projLine.ends[1].y <<' '<< projLine.ends[1].z <<' '<< projLine.ends[1].w <<' '<<'\n';
 
 
     if (clipLine3D(projLine)){
