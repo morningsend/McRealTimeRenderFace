@@ -35,6 +35,7 @@ int main( int argc, char* argv[] )
 
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;
+    setupScene(scene);
     Rasterizer rasterizer{&scene, SCREEN_WIDTH, SCREEN_HEIGHT};
     while( NoQuitMessageSDL() )
     {
