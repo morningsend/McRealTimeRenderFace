@@ -7,7 +7,7 @@
 
 
 #include "../scene/Scene.hpp"
-#include "RenderTarget.hpp"
+#include "FrameBuffer.hpp"
 
 namespace McRenderer {
     class RayTracer {
@@ -15,7 +15,7 @@ namespace McRenderer {
         int threads;
 
     public:
-        void render(const Scene& scene, RenderTarget& target);
+        void render(const Scene& scene, FrameBuffer& target);
     };
 }
 

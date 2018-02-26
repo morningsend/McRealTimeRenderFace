@@ -17,18 +17,22 @@ namespace McRenderer {
         FrontOnly,
         DoubleSide
     };
+    struct RasterizerConfig {
+        FaceRenderMode faceMode { FaceRenderMode::DoubleSide };
+    };
     class Rasterizer : public Renderer {
     private:
         int width{1};
         int height{1};
         Scene* scene;
-        vec3* frameBuffer;
-        float* depthBuffer;
-        FaceRenderMode faceMode { FaceRenderMode::DoubleSide };
+        vec3* frameBuffer {nullptr};
+        float* depthBuffer {nullptr};
+        RasterizerConfig config {};
     public:
         void fillTriangle(Triangle& triangle, screen* screen);
         void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y);
         Rasterizer(Scene* sceneIn, int width, int height): scene{sceneIn}, width{width}, height{height} {}
+        Rasterizer(RasterizerConfig config) {}
         void renderToScreen(screen* screen) override;
         ~Rasterizer() = default;
     };
