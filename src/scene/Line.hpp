@@ -9,6 +9,14 @@
 
   using namespace glm;
 
+  #define INSIDEMASK 0
+  #define LEFTMASK 1 << 0
+  #define RIGHTMASK 1 << 1
+  #define TOPMASK 1 << 2
+  #define BOTTOMMASK 1 << 3
+  #define FRONTMASK 1 << 4
+  #define BACKMASK 1 << 5
+
   // struct ProjectedLine{
   //   vec4 ends[2];
   // };
@@ -26,6 +34,10 @@
 
 
   };
+
+  int computeOutcode3D(vec4 point, vec4 min, vec4 max);
+  void clipLine3D(Line &line);
+
 
 
 
