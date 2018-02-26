@@ -40,4 +40,6 @@ void clipLine(Line *line);
 void drawLine(screen *screen, int x1, int y1, int x2, int y2);
 void bhm_line(screen *screen, int x1,int y1,int x2,int y2);
 int computeOutcode3D(vec4 point, vec4 min, vec4 max);
+void clipLine3D(Line &line);
+
 #endif //RENDERER_RASTERIZER_HPP

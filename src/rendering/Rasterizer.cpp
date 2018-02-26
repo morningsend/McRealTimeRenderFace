@@ -5,10 +5,8 @@
 #include "Rasterizer.hpp"
 #include "../SDLauxiliary.h"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> e60b46074e83fb109ebd2bfb7da651a1920635ef
+
 void McRenderer::Rasterizer::renderToScreen(screen *screen) {
 
     const int width = screen->width;
@@ -404,7 +402,7 @@ void bhm_line(screen *screen, int x1,int y1,int x2,int y2)
         }
     }
 
-    void clipLine3D(const Line &line, Line &result) {
+    void clipLine3D(Line &line) {
 
         int outcode1 = computeOutcode3D(line.ends[0], vec4(-1,-1,-1,1), vec4(1,1,1,1));
         int outcode2 = computeOutcode3D(line.ends[1], vec4(-1,-1,-1,1), vec4(1,1,1,1));
@@ -413,6 +411,14 @@ void bhm_line(screen *screen, int x1,int y1,int x2,int y2)
             // both end points are inside the region.
             if((outcode1 | outcode2) == INSIDEMASK) {
                 break;
+            }
+            // both ends points are outside the region
+            else if (outcode1 & outcode2){
+                break;
+            }
+            else{
+              double x,y;
+
             }
         }
     }
