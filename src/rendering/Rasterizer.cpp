@@ -5,7 +5,10 @@
 #include "Rasterizer.hpp"
 #include "../SDLauxiliary.h"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e60b46074e83fb109ebd2bfb7da651a1920635ef
 void McRenderer::Rasterizer::renderToScreen(screen *screen) {
 
     const int width = screen->width;
