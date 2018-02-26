@@ -5,6 +5,8 @@
 #include "rendering/Rasterizer.hpp"
 #include <stdint.h>
 
+#include <math.h>
+
 using namespace std;
 using namespace McRenderer;
 using glm::vec3;
@@ -81,6 +83,10 @@ void Update(Camera& camera)
     }
     if(keystate[SDL_SCANCODE_RIGHT]) {
         camera.position -= camera.right * 0.1f;
+    }
+    if(keystate[SDL_SCANCODE_R]) {
+        camera.up.x= camera.up.x * cos(0.01) - camera.up.y*sin(0.01);
+        camera.up.y= camera.up.y*cos(0.01) + sin(0.01) * camera.up.x;
     }
     static int t = SDL_GetTicks();
     /* Compute frame time */
