@@ -305,6 +305,14 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Viewport.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Viewport.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/tests/catch.hpp">
 			<Option target="renderer_tests"/>
 		</Unit>

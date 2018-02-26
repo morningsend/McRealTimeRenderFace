@@ -73,5 +73,6 @@ compile_commands.json
 CTestTestfile.cmake
 
 renderer
+renderer_tests
 
 *.bmp
