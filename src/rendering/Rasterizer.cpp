@@ -486,6 +486,7 @@ void McRenderer::Rasterizer::drawHorizontalLine(screen* screen, vec3 colour, int
     int temp2 = x1 < x2 ? x2 : x1;
     x1 = temp1;
     x2 = temp2;
+
     int xmin = x1 < 0 ? 0 : x1;
     int xmax = x2 > width -1 ? width -1 : x2;
 
@@ -493,7 +494,7 @@ void McRenderer::Rasterizer::drawHorizontalLine(screen* screen, vec3 colour, int
         return;
     }
 
-    for(int i = x1; i <= x2; i++) {
+    for(int i = xmin; i <= xmax; i++) {
         PutPixelSDL(screen, i, y, colour);
     }
 }
