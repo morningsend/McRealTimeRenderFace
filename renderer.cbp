@@ -149,15 +149,15 @@
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/main.cpp">
 			<Option target="renderer"/>
 		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/FragmentBuffer.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/FragmentBuffer.hpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/FragmentShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/FrameBuffer.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/FrameBuffer.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -182,14 +182,6 @@
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RayTracer.hpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RenderTarget.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RenderTarget.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>

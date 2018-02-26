@@ -24,7 +24,7 @@ namespace McRenderer {
         std::unique_ptr<FragmentShader> fragmentShader;
         std::unique_ptr<VertexShader> vertexShader;
         std::unique_ptr<FrameBuffer> frameBuffer;
-        Rasterizer rasterizer;
+        Rasterizer rasterizer { RasterizerConfig {}};
         PrimitivePreprocessor preprocessor;
         RenderingPipelineConfig pipelineConfig;
     public:
@@ -42,6 +42,14 @@ namespace McRenderer {
             initialize();
         }
 
+        RenderingPipeline(const RenderingPipeline& other) {
+
+        }
+
+        RenderingPipeline(const RenderingPipeline&& other) {
+
+        }
+        ~RenderingPipeline() = default;
         /**
          * In initialize, we can allocate memory or create threads.
          */
@@ -54,8 +62,10 @@ namespace McRenderer {
          * @param scene
          */
         void submitScene(Scene& scene){};
-        ~RenderingPipeline() = default;
-        
+        FrameBuffer& getFrameBuffer() const {
+            return *frameBuffer;
+        }
+
     };
 
     class PipelineBuilder {

@@ -15,7 +15,9 @@ namespace McRenderer {
 
     class FragmentShader {
     public:
-        virtual void run(ShaderEnvironment& env, VertexShaderOutputParams& vertexOutput, FragmentShaderOutput& output) = 0;
+        virtual void run(ShaderEnvironment& env,
+                         VertexShaderOutputParams& vertexOutput,
+                         FragmentShaderOutput& output) {};
         virtual ~FragmentShader() = default;
     };
 }

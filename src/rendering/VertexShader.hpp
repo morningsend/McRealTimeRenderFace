@@ -17,7 +17,9 @@ namespace McRenderer {
 
     class VertexShader {
     public:
-        virtual void run(ShaderEnvironment& env, VertexShaderInputParams& input, VertexShaderOutputParams& output) = 0;
+        virtual void run(ShaderEnvironment& env,
+                         VertexShaderInputParams& input,
+                         VertexShaderOutputParams& output) {};
         virtual ~VertexShader() = default;
     };
 }

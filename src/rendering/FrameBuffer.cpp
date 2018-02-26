@@ -19,7 +19,7 @@ namespace McRenderer {
         }
     }
 
-    FrameBuffer::FrameBuffer(int width, int height, vec3 clearColour = vec3(0), float clearDepth = 1.0f)
+    FrameBuffer::FrameBuffer(int width, int height, vec3 clearColour, float clearDepth)
             : width{width}, height{height}, clearColour{clearColour}, clearDepth{clearDepth} {
 
         if (width < 1 || height < 1) {
@@ -30,8 +30,8 @@ namespace McRenderer {
     }
 
     void FrameBuffer::copyToScreen(screen *screen) {
-        const minWidth = screen->width < width ? screen->width : width;
-        const minHeight = screen->height < height ? screen->height : height;
+        const int minWidth = screen->width < width ? screen->width : width;
+        const int minHeight = screen->height < height ? screen->height : height;
         for(int i = 0; i < minHeight; i++) {
             for(int j = 0; j < minWidth; j++) {
                 PutPixelSDL(screen, i, j, colourBuffer[i * width + j]);

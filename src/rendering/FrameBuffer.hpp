@@ -23,10 +23,6 @@ namespace McRenderer {
     public:
         FrameBuffer(int width, int height, vec3 clearColour = vec3(0), float clearDepth = 1.0f);
 
-        // prevent copying.
-        FrameBuffer(const FrameBuffer& other) = delete;
-        FrameBuffer(const FrameBuffer&& other) = delete;
-
         void setClearDepth(float );
         void setClearColour(vec3 colour);
         void copyToScreen(screen* screen);

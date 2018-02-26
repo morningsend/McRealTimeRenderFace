@@ -6,12 +6,13 @@
 #define RENDERER_RENDERER_HPP
 
 #include "../SDLauxiliary.h"
+#include "../scene/Scene.hpp"
 
 namespace McRenderer {
     class Renderer {
     public:
         virtual ~Renderer() = default;
-        virtual void renderToScreen(screen* screen) = 0;
+        virtual void renderToScreen(screen* screen, Scene& scene) = 0;
     };
 }
 

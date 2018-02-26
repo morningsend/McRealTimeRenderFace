@@ -38,11 +38,11 @@ int main( int argc, char* argv[] )
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;
     setupScene(scene);
-    Rasterizer rasterizer{&scene, SCREEN_WIDTH, SCREEN_HEIGHT};
+    Rasterizer rasterizer{SCREEN_WIDTH, SCREEN_HEIGHT};
     while( NoQuitMessageSDL() )
     {
         Update(scene.camera);
-        rasterizer.renderToScreen(screen);
+        rasterizer.renderToScreen(screen, scene);
         SDL_Renderframe(screen);
     }
 

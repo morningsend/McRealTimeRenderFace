@@ -7,7 +7,7 @@
 using namespace glm;
 
 
-void McRenderer::Rasterizer::renderToScreen(screen *screen) {
+void McRenderer::Rasterizer::renderToScreen(screen *screen, Scene& scene) {
 
     const int width = screen->width;
     const int height = screen->height;
@@ -41,7 +41,7 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen) {
     Line line = Line({.2, 0.2, -1, 1}, {-.2, 0, -1, 1});
     // vec4 point(-.5, .2, -1, 1);
 
-    mat4 viewProjectionMatrix = scene->camera.viewProjectionMatrix();
+    mat4 viewProjectionMatrix = scene.camera.viewProjectionMatrix();
     Line projLine = line.projectLine(viewProjectionMatrix);
 
     // std::cout << projLine.ends[0].x << ' '<< projLine.ends[0].y <<' '<< projLine.ends[0].z <<' '<< projLine.ends[0].w <<' '<<'\n';
@@ -420,7 +420,7 @@ void bhm_line(screen *screen, int x1,int y1,int x2,int y2)
  */
 void McRenderer::Rasterizer::fillTriangle(McRenderer::Triangle &triangle, screen *screen) {
     //ignore backfacing triangles.
-    if(faceMode == FaceRenderMode::FrontOnly && triangle.normal.z < 0) {
+    if(config.faceMode == FaceRenderMode::FrontOnly && triangle.normal.z < 0) {
         return;
     }
 
