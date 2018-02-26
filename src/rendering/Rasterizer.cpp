@@ -38,7 +38,7 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen) {
     //     PutPixelSDL(screen, x2, y2, vec3(1.0f));
     // }
 
-    Line line = Line({.2, 0.2, 1, 1}, {-.2, 0, 1, 1});
+    Line line = Line({.2, 0.2, -1, 1}, {-.2, 0, -1, 1});
     // vec4 point(-.5, .2, -1, 1);
 
     mat4 viewProjectionMatrix = scene->camera.viewProjectionMatrix();
@@ -47,18 +47,21 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen) {
     std::cout << projLine.ends[0].x << ' '<< projLine.ends[0].y <<' '<< projLine.ends[0].z <<' '<< projLine.ends[0].w <<' '<<'\n';
     std::cout << projLine.ends[1].x << ' '<< projLine.ends[1].y <<' '<< projLine.ends[1].z <<' '<< projLine.ends[1].w <<' '<<'\n';
 
-    clipLine(&projLine);
 
-    int x1 = (int) (projLine.ends[0].x * width / 2 + width / 2);
-    int y1 = (int) (projLine.ends[0].y * height / 2 + height / 2);
-    int x2 = (int) (projLine.ends[1].x * width / 2 + width / 2);
-    int y2 = (int) (projLine.ends[1].y * height / 2 + height / 2);
+    if (clipLine3D(projLine)){
 
 
-    std::cout << projLine.ends[0].x << ' '<< projLine.ends[0].y <<' '<< projLine.ends[0].z <<' '<< projLine.ends[0].w <<' '<<'\n';
-    std::cout << projLine.ends[1].x << ' '<< projLine.ends[1].y <<' '<< projLine.ends[1].z <<' '<< projLine.ends[1].w <<' '<<'\n';
+      int x1 = (int) (projLine.ends[0].x * width / 2 + width / 2);
+      int y1 = (int) (projLine.ends[0].y * height / 2 + height / 2);
+      int x2 = (int) (projLine.ends[1].x * width / 2 + width / 2);
+      int y2 = (int) (projLine.ends[1].y * height / 2 + height / 2);
 
-    bhm_line(screen, x1, y1, x2, y2);
+
+      std::cout << projLine.ends[0].x << ' '<< projLine.ends[0].y <<' '<< projLine.ends[0].z <<' '<< projLine.ends[0].w <<' '<<'\n';
+      std::cout << projLine.ends[1].x << ' '<< projLine.ends[1].y <<' '<< projLine.ends[1].z <<' '<< projLine.ends[1].w <<' '<<'\n';
+
+      bhm_line(screen, x1, y1, x2, y2);
+    }
 
     // if(x1 >= 0 && x1 < width && y1 >= 0 && y1 < height) {
     //     PutPixelSDL(screen, x1, y1, vec3(1.0f));
