@@ -13,10 +13,14 @@ namespace McRenderer {
         glm::vec3 colour;
     };
 
+    /**
+     * Abastract class where a concrete shader class should extend.
+     * Must override the run method.
+     */
     class FragmentShader {
     public:
-        virtual void run(ShaderEnvironment& env,
-                         VertexShaderOutputParams& vertexOutput,
+        virtual void run(const ShaderEnvironment& env,
+                         const VertexShaderOutputParams& vertexOutput,
                          FragmentShaderOutput& output) {};
         virtual ~FragmentShader() = default;
     };

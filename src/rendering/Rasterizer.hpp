@@ -19,6 +19,8 @@ namespace McRenderer {
     };
     struct RasterizerConfig {
         FaceRenderMode faceMode { FaceRenderMode::DoubleSide };
+        int viewportWidth{1};
+        int viewportHeight{1};
     };
     class Rasterizer : public Renderer {
     private:

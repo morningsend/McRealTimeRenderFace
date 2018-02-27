@@ -7,11 +7,11 @@
 
 #include <glm/glm.hpp>
 
-struct ShaderEnvironment {
-    glm::mat4 viewingMatrix;
-    glm::mat4 projectionMatrix;
-    glm::vec4 cameraPosition;
-    glm::vec4 cameraDirection;
-};
+namespace McRenderer {
+    struct ShaderEnvironment {
+        glm::mat4 viewingMatrix;
+        glm::mat4 projectionMatrix;
+    };
+}
 
 #endif //RENDERER_SHADERENVIRONMENT_HPP

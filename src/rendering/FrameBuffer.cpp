@@ -8,15 +8,6 @@
 namespace McRenderer {
 
     FrameBuffer::~FrameBuffer() {
-        if(colourBuffer != nullptr) {
-            delete[] colourBuffer;
-            colourBuffer = nullptr;
-        }
-
-        if(depthBuffer != nullptr) {
-            delete[] depthBuffer;
-            depthBuffer = nullptr;
-        }
     }
 
     FrameBuffer::FrameBuffer(int width, int height, vec3 clearColour, float clearDepth)

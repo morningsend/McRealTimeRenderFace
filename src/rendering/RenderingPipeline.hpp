@@ -24,9 +24,26 @@ namespace McRenderer {
         std::unique_ptr<FragmentShader> fragmentShader;
         std::unique_ptr<VertexShader> vertexShader;
         std::unique_ptr<FrameBuffer> frameBuffer;
-        Rasterizer rasterizer { RasterizerConfig {}};
+        std::unique_ptr<Rasterizer> rasterizer;
         PrimitivePreprocessor preprocessor;
         RenderingPipelineConfig pipelineConfig;
+
+
+        // variables used in shader computations;
+        // should be treated as a constant inside a shader.
+        ShaderEnvironment env;
+
+        void draw(Triangle& tri);
+        void draw(Line& line);
+        void draw(vec4 point);
+        /**
+         * In initialize, we can allocate memory or create threads.
+         */
+        void initialize() {
+
+        };
+        // helper methods.
+        void initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env);
     public:
         RenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,
@@ -37,31 +54,20 @@ namespace McRenderer {
                   fragmentShader(std::move(fragmentShader)),
                   frameBuffer(std::move(frameBuffer)),
                   pipelineConfig{pipelineConfig},
-                  rasterizer{rasterizerConfig}
+                  rasterizer(new Rasterizer(rasterizerConfig))
         {
             initialize();
         }
 
-        RenderingPipeline(const RenderingPipeline& other) {
-
-        }
-
-        RenderingPipeline(const RenderingPipeline&& other) {
-
-        }
         ~RenderingPipeline() = default;
-        /**
-         * In initialize, we can allocate memory or create threads.
-         */
-        void initialize() {
 
-        };
 
         /**
          * Submit scene will invoke the pipeline to render one frame of the scene.
          * @param scene
          */
-        void submitScene(Scene& scene){};
+        void submitScene(Scene& scene);
+
         FrameBuffer& getFrameBuffer() const {
             return *frameBuffer;
         }
@@ -107,14 +113,14 @@ namespace McRenderer {
             return *this;
         }
 
-        RenderingPipeline build(){
-            return RenderingPipeline(
+        std::unique_ptr<RenderingPipeline> build(){
+            return std::move(std::unique_ptr<RenderingPipeline>(new RenderingPipeline(
                     vertexShader,
                     fragmentShader,
                     frameBuffer,
                     pipelineConfig,
                     RasterizerConfig{}
-            );
+            )));
         }
     };
 }
