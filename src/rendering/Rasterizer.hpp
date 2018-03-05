@@ -10,6 +10,8 @@
 #include "../scene/Line.hpp"
 #include "../scene/Triangle.hpp"
 
+#include "PrimitivePreprocessor.hpp"
+
 namespace McRenderer {
 
     using namespace glm;

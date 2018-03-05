@@ -85,9 +85,6 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen, Scene& scene) {
     clipTriangle3D(scene.camera.frustum, triangle, triangles);
 
     for (size_t j = 0; j < triangles.size(); j++) {
-      std::cout << "new triangle ("<<j<<"): " << triangles[j].vertices[0].x << "," << triangles[j].vertices[0].y << "," << triangles[j].vertices[0].z << " "
-                                              << triangles[j].vertices[1].x << "," << triangles[j].vertices[1].y << "," << triangles[j].vertices[1].z << " "
-                                              << triangles[j].vertices[2].x << "," << triangles[j].vertices[2].y << "," << triangles[j].vertices[2].z << endl;
 
     for(int i = 0; i < 3; i++) {
         triangles[j].vertices[i] = projectionMatrix * triangles[j].vertices[i];
