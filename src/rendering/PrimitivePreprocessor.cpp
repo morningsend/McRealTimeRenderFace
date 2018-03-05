@@ -3,3 +3,13 @@
 //
 
 #include "PrimitivePreprocessor.hpp"
+namespace McRenderer {
+
+    bool PrimitivePreprocessor::clipTriangle(Triangle &triangle, vector<Triangle> &result) {
+        return false;
+    }
+
+    bool PrimitivePreprocessor::clipLine(Line &line) {
+        return false;
+    }
+}

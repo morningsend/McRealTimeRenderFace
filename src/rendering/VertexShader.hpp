@@ -4,15 +4,22 @@
 
 #ifndef RENDERER_VERTEXSHADER_HPP
 #define RENDERER_VERTEXSHADER_HPP
-
+#include <glm/glm.hpp>
 #include "ShaderEnvironment.hpp"
 
 namespace McRenderer {
+    using namespace glm;
     struct VertexShaderInputParams {
-
+        vec4 position;
+        vec4 normal;
+        vec4 colour;
+        vec4 textCoord;
     };
     struct VertexShaderOutputParams {
-
+        vec4 position;
+        vec4 normal;
+        vec4 colour;
+        vec4 textCoord;
     };
 
     /**

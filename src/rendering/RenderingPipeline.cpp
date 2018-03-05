@@ -12,8 +12,19 @@ namespace McRenderer {
         VertexShaderOutputParams vertexOutput;
         FragmentShaderOutput fragmentOutput;
         // this loop can be parallized.
+        vector<Triangle> triClippingbuffer(4);
+
         for(auto& tri: scene.model) {
-            draw(tri);
+            triClippingbuffer.clear();
+            Triangle copyTri = tri;
+            for(int i = 0; i < 3; i++) {
+                copyTri.vertices[i] = env.viewingMatrix * copyTri.vertices[i];
+                copyTri.normal = env.viewingMatrix * copyTri.normal;
+            }
+            preprocessor.clipTriangle(copyTri, triClippingbuffer);
+            for(auto& clipppedTri: triClippingbuffer) {
+                draw(clipppedTri);
+            }
         }
     }
 
@@ -23,7 +34,15 @@ namespace McRenderer {
     }
 
     void RenderingPipeline::draw(Triangle& tri) {
+        VertexShaderInputParams vertexInput[3];
+        VertexShaderOutputParams vertexOutput[3];
 
+        for(int i = 0; i < 3; i++) {
+            vertexInput[i].position = tri.vertices[i];
+            vertexInput[i].normal = tri.normal;
+            vertexShader->run(env, vertexInput[i], vertexOutput[i]);
+        }
+        //
     }
 
     void RenderingPipeline::draw(Line& line) {

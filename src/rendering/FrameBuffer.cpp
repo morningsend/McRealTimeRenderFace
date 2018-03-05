@@ -8,24 +8,27 @@
 namespace McRenderer {
 
     FrameBuffer::~FrameBuffer() {
+        delete[] colourBuffer;
+        delete[] depthBuffer;
     }
 
-    FrameBuffer::FrameBuffer(int width, int height, vec3 clearColour, float clearDepth)
+    FrameBuffer::FrameBuffer(int width, int height, vec4 clearColour, float clearDepth)
             : width{width}, height{height}, clearColour{clearColour}, clearDepth{clearDepth} {
 
         if (width < 1 || height < 1) {
             throw 1;
         }
-        colourBuffer = new vec3[width * height];
+        colourBuffer = new vec4[width * height];
         depthBuffer = new float[width * height];
     }
 
     void FrameBuffer::copyToScreen(screen *screen) {
         const int minWidth = screen->width < width ? screen->width : width;
         const int minHeight = screen->height < height ? screen->height : height;
+        std::cout << minWidth << ' ' << minHeight << ' ' << width << ' ' << height << std::endl;
         for(int i = 0; i < minHeight; i++) {
             for(int j = 0; j < minWidth; j++) {
-                PutPixelSDL(screen, i, j, colourBuffer[i * width + j]);
+                PutPixelSDL(screen, j, i, vec3(colourBuffer[i * width + j]));
             }
         }
     }
@@ -34,7 +37,7 @@ namespace McRenderer {
         clearDepth = depth;
     }
 
-    void FrameBuffer::setClearColour(vec3 colour) {
+    void FrameBuffer::setClearColour(vec4 colour) {
         clearColour = colour;
     }
 

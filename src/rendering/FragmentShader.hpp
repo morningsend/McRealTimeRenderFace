@@ -4,13 +4,13 @@
 
 #ifndef RENDERER_FRAGMENTSHADER_HPP
 #define RENDERER_FRAGMENTSHADER_HPP
-
-#include "VertexShader.hpp"
 #include <glm/glm.hpp>
+#include "VertexShader.hpp"
+
 namespace McRenderer {
 
     struct FragmentShaderOutput {
-        glm::vec3 colour;
+        glm::vec4 colour;
     };
 
     /**

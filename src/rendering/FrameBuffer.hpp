@@ -15,16 +15,15 @@ namespace McRenderer {
         int width;
         int height;
 
-        vec3* colourBuffer {nullptr};
-        vec3 clearColour{0};
+        vec4* colourBuffer {nullptr};
+        vec4 clearColour{0};
         float* depthBuffer {nullptr};
         float clearDepth {0};
 
     public:
-        FrameBuffer(int width, int height, vec3 clearColour = vec3(0), float clearDepth = 1.0f);
-
+        FrameBuffer(int width, int height, vec4 clearColour = vec4(0), float clearDepth = 1.0f);
         void setClearDepth(float );
-        void setClearColour(vec3 colour);
+        void setClearColour(vec4 colour);
         void copyToScreen(screen* screen);
         void clear();
         void clearColourBuffer();

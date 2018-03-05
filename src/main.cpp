@@ -1,11 +1,14 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
+#include <stdint.h>
+#include <math.h>
+#include "SDLauxiliary.h"
 #include "scene/TestModelH.h"
 #include "rendering/Rasterizer.hpp"
-#include <stdint.h>
-
-#include <math.h>
+#include "rendering/RenderingPipeline.hpp"
+#include "rendering/BasicFragmentShader.hpp"
+#include "rendering/BasicVertexShader.hpp"
 
 using namespace std;
 using namespace McRenderer;
@@ -38,11 +41,18 @@ int main( int argc, char* argv[] )
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;
     setupScene(scene);
-    Rasterizer rasterizer{SCREEN_WIDTH, SCREEN_HEIGHT};
+    PipelineBuilder builder;
+    unique_ptr<RenderingPipeline> pipeline = builder.singlethreaded()
+            .useFragmentShader(new BasicFragmentShader())
+            .useVertexShader(new BasicVertexShader())
+            .configureRasterizer(RasterizerConfig{})
+            .writeOutputTo(new FrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT))
+            .build();
     while( NoQuitMessageSDL() )
     {
         Update(scene.camera);
-        rasterizer.renderToScreen(screen, scene);
+        pipeline->submitScene(scene);
+        pipeline->getFrameBuffer().copyToScreen(screen);
         SDL_Renderframe(screen);
     }
 

@@ -149,6 +149,14 @@
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/main.cpp">
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/BasicFragmentShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/BasicVertexShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/FragmentShader.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>

@@ -26,12 +26,13 @@ namespace McRenderer {
     private:
         int width{1};
         int height{1};
-        vec3* frameBuffer {nullptr};
+        vec4* frameBuffer {nullptr};
         float* depthBuffer {nullptr};
         RasterizerConfig config {};
     public:
         void fillTriangle(Triangle& triangle, screen* screen);
         void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y);
+        void drawHorizontalLine(vec4* colourBuffer, vec3 colour, int x1, int x2, int y);
         Rasterizer(int width, int height): width{width}, height{height} {}
         Rasterizer(RasterizerConfig config) {}
         void renderToScreen(screen* screen, Scene& scene) override;
