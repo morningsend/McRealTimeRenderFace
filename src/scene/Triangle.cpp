@@ -23,6 +23,7 @@ namespace McRenderer {
 
       float dist;
       float prevDist;
+      float firstDist;
       vec4 prevPoint;
 
       for (size_t j = 0; j < 6; j++) {
@@ -32,19 +33,17 @@ namespace McRenderer {
 
         dist = glm::dot(clippedPolygon[0], plane.normal) - plane.distance;
         prevPoint = clippedPolygon[0];
-        if (dist < 0) { // first element is not inside
-          clippedPolygon.erase(clippedPolygon.begin()); //remove first element;
-          delta--;
-        }
 
+        firstDist = dist;
         for (size_t i = 1; delta + i < clippedPolygon.size(); i++) {
           prevDist = dist;
-          dist = glm::dot(clippedPolygon[i], plane.normal) - plane.distance;
+          dist = glm::dot(clippedPolygon[i+delta], plane.normal) - plane.distance;
 
           if (dist < 0) { //ith element is not inside
             if (prevDist < 0) {
-              delta--;
               prevPoint = clippedPolygon[i+delta];
+              clippedPolygon.erase(clippedPolygon.begin() + i + delta); //remove outside point
+              delta--;
             }
             else{
               //add intersection
@@ -65,7 +64,6 @@ namespace McRenderer {
           }
           else{ // ith element is inside
             if (prevDist < 0) {
-              delta++;
               //add intersection
               float s = prevDist / (prevDist - dist);
 
@@ -78,12 +76,59 @@ namespace McRenderer {
               clippedPolygon.insert(clippedPolygon.begin() + delta + i,
                                       fdp
                                     );
+              delta++;
             }
             else{
               prevPoint = clippedPolygon[i+delta];
             }
           }
         }
+
+        // at the end of the loop we have to complete the polygon between last and first points
+
+        prevDist = dist;
+        dist = firstDist;
+
+        if (dist < 0) { //1st element is not inside
+          if (prevDist < 0) {
+            clippedPolygon.erase(clippedPolygon.begin());
+            delta--;
+          }
+          else{
+            //add intersection
+            float s = prevDist / (prevDist - dist);
+
+            vec4 fdp = {prevPoint.x + s*(clippedPolygon[0].x - prevPoint.x),
+                          prevPoint.y + s*(clippedPolygon[0].y - prevPoint.y),
+                          prevPoint.z + s*(clippedPolygon[0].z - prevPoint.z),
+                          1};
+
+            clippedPolygon.erase(clippedPolygon.begin()); //remove outside point
+
+            clippedPolygon.insert(clippedPolygon.begin(),
+                                    fdp
+                                  );
+
+          }
+        }
+        else{ // 1st element is inside
+          if (prevDist < 0) {
+            //add intersection
+            float s = prevDist / (prevDist - dist);
+
+            vec4 fdp = {prevPoint.x + s*(clippedPolygon[0].x - prevPoint.x),
+                          prevPoint.y + s*(clippedPolygon[0].y - prevPoint.y),
+                          prevPoint.z + s*(clippedPolygon[0].z - prevPoint.z),
+                          1};
+
+            clippedPolygon.insert(clippedPolygon.begin(),
+                                    fdp
+                                  );
+            delta++;
+          }
+
+        }
+
 
       }
 

@@ -82,7 +82,6 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen, Scene& scene) {
     triangle.normal = viewingMatrix * triangle.normal;
 
     std::vector<Triangle> triangles;
-
     clipTriangle3D(scene.camera.frustum, triangle, triangles);
 
     for (size_t j = 0; j < triangles.size(); j++) {
