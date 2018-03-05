@@ -30,7 +30,9 @@ void setupScene(Scene& scene) {
     scene.camera.forward = vec3(0,0,-1);
     scene.camera.up = vec3(0,1,0);
     scene.camera.aspectRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
+
     //scene.model
+    scene.camera.initFrustum();
 }
 int main( int argc, char* argv[] )
 {
@@ -73,16 +75,16 @@ void Update(Camera& camera)
     uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
 
     if(keystate[SDL_SCANCODE_UP]) {
-        camera.position += camera.forward * 0.1f;
+        camera.position += camera.forward * 0.051f;
     }
     if(keystate[SDL_SCANCODE_DOWN]) {
-        camera.position -= camera.forward * 0.1f;
+        camera.position -= camera.forward * 0.051f;
     }
     if(keystate[SDL_SCANCODE_LEFT]) {
-        camera.position += camera.right * 0.1f;
+        camera.position += camera.right * 0.051f;
     }
     if(keystate[SDL_SCANCODE_RIGHT]) {
-        camera.position -= camera.right * 0.1f;
+        camera.position -= camera.right * 0.051f;
     }
     if(keystate[SDL_SCANCODE_R]) {
         camera.up.x= camera.up.x * cos(0.01) - camera.up.y*sin(0.01);

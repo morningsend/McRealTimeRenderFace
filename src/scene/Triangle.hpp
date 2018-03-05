@@ -7,6 +7,10 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "Viewport.hpp"
+#include "Plane.hpp"
+
+#include "Camera.hpp"
+
 
 namespace McRenderer {
     using namespace glm;
@@ -20,7 +24,7 @@ namespace McRenderer {
         Triangle(vec4 v0, vec4 v1, vec4 v2, vec4 normal) : vertices{ v0, v1, v2 }, normal{normal} {}
     };
     void computeTriangleNormal(Triangle& triangle);
-    void clipTriangle3D(const Triangle& triangle, vector<Triangle>& result);
+    void clipTriangle3D(const Frustum frutsum, const Triangle& triangle, vector<Triangle>& result);
 }
 
 

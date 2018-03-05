@@ -72,13 +72,32 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen, Scene& scene) {
     // }
 
     Triangle triangle(vec4(-0.2f,0,-1,1), vec4(0,.2f,-1,1), vec4(0.2f,0,-1,1), vec4(0,0,1,0));
-    for(int i = 0; i < 3; i++) {
-        triangle.vertices[i] = viewProjectionMatrix * triangle.vertices[i];
-        float w = triangle.vertices[i].w;
-        triangle.vertices[i] /= w;
+
+    mat4 projectionMatrix = scene.camera.projectionMatrix();
+    mat4 viewingMatrix = scene.camera.viewingMatrix();
+
+    for (size_t i = 0; i < 3; i++) {
+      triangle.vertices[i] = viewingMatrix * triangle.vertices[i];
     }
-    triangle.normal = viewProjectionMatrix * triangle.normal;
-    fillTriangle(triangle, screen);
+    triangle.normal = viewingMatrix * triangle.normal;
+
+    std::vector<Triangle> triangles;
+
+    clipTriangle3D(scene.camera.frustum, triangle, triangles);
+
+    for (size_t j = 0; j < triangles.size(); j++) {
+      std::cout << "new triangle ("<<j<<"): " << triangles[j].vertices[0].x << "," << triangles[j].vertices[0].y << "," << triangles[j].vertices[0].z << " "
+                                              << triangles[j].vertices[1].x << "," << triangles[j].vertices[1].y << "," << triangles[j].vertices[1].z << " "
+                                              << triangles[j].vertices[2].x << "," << triangles[j].vertices[2].y << "," << triangles[j].vertices[2].z << endl;
+
+    for(int i = 0; i < 3; i++) {
+        triangles[j].vertices[i] = projectionMatrix * triangles[j].vertices[i];
+        float w = triangles[j].vertices[i].w;
+        triangles[j].vertices[i] /= w;
+    }
+    triangles[j].normal = projectionMatrix * triangles[j].normal;
+    fillTriangle(triangles[j], screen);
+  }
 }
 
 
