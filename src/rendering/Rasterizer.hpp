@@ -11,6 +11,8 @@
 #include "../scene/Triangle.hpp"
 #include "FrameBuffer.hpp"
 
+#include "PrimitivePreprocessor.hpp"
+
 namespace McRenderer {
 
     using namespace glm;
@@ -35,11 +37,10 @@ namespace McRenderer {
     public:
         void fillTriangle(Triangle& triangle, screen* screen);
 
-        std::iterator<> drawTriangle(vec4 v0, vec4 v1, vec4 v2);
         void drawPoint(vec4 v0, float radius = 1.0f);
         void drawLine(vec4 v0, vec4 v1, float thickness);
 
-        void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y, std::function<void(float)> op);
+        void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y);
         void drawHorizontalLine(vec4* colourBuffer, vec3 colour, int x1, int x2, int y);
         Rasterizer(int width, int height): width{width}, height{height} {}
         Rasterizer(RasterizerConfig config) {}
@@ -48,10 +49,5 @@ namespace McRenderer {
     };
 
 }
-
-vec4 lineAligndPlaneIntersection(Line line, vec3 plane);
-void clipLine(Line *line);
-void drawLine(screen *screen, int x1, int y1, int x2, int y2);
-void bhm_line(screen *screen, int x1,int y1,int x2,int y2);
 
 #endif //RENDERER_RASTERIZER_HPP

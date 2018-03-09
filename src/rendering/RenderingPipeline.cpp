@@ -19,7 +19,7 @@ namespace McRenderer {
                 copyTri.vertices[i] = env.viewingMatrix * copyTri.vertices[i];
                 copyTri.normal = env.viewingMatrix * copyTri.normal;
             }
-            preprocessor.clipTriangle(copyTri, triClippingbuffer);
+            preprocessor.clipTriangle(scene.camera.frustum,copyTri, triClippingbuffer);
             for(auto& clipppedTri: triClippingbuffer) {
                 shadeTriangle(clipppedTri, vertexOutput);
             }
@@ -45,7 +45,7 @@ namespace McRenderer {
         VertexShaderOutputParams interpolatedVertexParams;
         // rasterize and interpolate
 
-        rasterizer->drawTriangle();
+        //rasterizer->drawTriangle();
 
     }
     void RenderingPipeline::draw(Line& line) {

@@ -6,6 +6,7 @@
 #define RENDERER_LINE_HPP
 
 #include <glm/glm.hpp>
+#include "Plane.hpp"
 
 #include <iostream>
 
@@ -18,6 +19,7 @@
   #define BOTTOMMASK 1 << 3
   #define FRONTMASK 1 << 4
   #define BACKMASK 1 << 5
+
 
   // struct ProjectedLine{
   //   vec4 ends[2];

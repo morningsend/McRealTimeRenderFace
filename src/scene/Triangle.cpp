@@ -12,8 +12,5 @@ namespace McRenderer {
 
         triangle.normal = glm::normalize(vec4(glm::cross(vec3(e1), vec3(e2)), 0));
     }
-    void clipTriangle3D(const Triangle& triangle, vector<Triangle>& result) {
-
-    }
 
 }

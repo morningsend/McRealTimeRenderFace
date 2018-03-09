@@ -8,9 +8,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include "Plane.hpp"
 
 namespace McRenderer {
     using namespace glm;
+
+    struct Frustum{
+      Plane sides[6]; //bottom, top, left, right, near, far
+
+      Frustum() {}
+    };
+
     struct Camera {
         vec3 position{0,0,0};
         vec3 right{-1, 0, 0};
@@ -22,9 +30,14 @@ namespace McRenderer {
         float farClippingDistance{1000};
         float fieldOfView{90};
 
+        Frustum frustum;
+
         mat4 viewingMatrix();
         mat4 projectionMatrix();
         mat4 viewProjectionMatrix();
+
+        void initFrustum();
+
 
         Camera(vec3 positionIn, vec3 directionIn, vec3 upIn): position{positionIn}, forward{directionIn}, up{upIn} {}
         Camera() {}
