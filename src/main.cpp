@@ -41,11 +41,14 @@ int main( int argc, char* argv[] )
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;
     setupScene(scene);
+    RasterizerConfig config;
+    config.viewportWidth = SCREEN_WIDTH;
+    config.viewportHeight = SCREEN_HEIGHT;
     PipelineBuilder builder;
     unique_ptr<RenderingPipeline> pipeline = builder.singlethreaded()
             .useFragmentShader(new BasicFragmentShader())
             .useVertexShader(new BasicVertexShader())
-            .configureRasterizer(RasterizerConfig{})
+            .configureRasterizer(config)
             .writeOutputTo(new FrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT))
             .build();
     while( NoQuitMessageSDL() )

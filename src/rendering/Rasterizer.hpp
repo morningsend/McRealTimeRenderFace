@@ -9,14 +9,17 @@
 #include "../scene/Scene.hpp"
 #include "../scene/Line.hpp"
 #include "../scene/Triangle.hpp"
+#include "FrameBuffer.hpp"
 
 namespace McRenderer {
 
     using namespace glm;
     enum class FaceRenderMode {
         FrontOnly,
-        DoubleSide
+        DoubleSide,
+        Edge,
     };
+
     struct RasterizerConfig {
         FaceRenderMode faceMode { FaceRenderMode::DoubleSide };
         int viewportWidth{1};
@@ -31,7 +34,12 @@ namespace McRenderer {
         RasterizerConfig config {};
     public:
         void fillTriangle(Triangle& triangle, screen* screen);
-        void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y);
+
+        std::iterator<> drawTriangle(vec4 v0, vec4 v1, vec4 v2);
+        void drawPoint(vec4 v0, float radius = 1.0f);
+        void drawLine(vec4 v0, vec4 v1, float thickness);
+
+        void drawHorizontalLine(screen* screen, vec3 colour, int x1, int x2, int y, std::function<void(float)> op);
         void drawHorizontalLine(vec4* colourBuffer, vec3 colour, int x1, int x2, int y);
         Rasterizer(int width, int height): width{width}, height{height} {}
         Rasterizer(RasterizerConfig config) {}

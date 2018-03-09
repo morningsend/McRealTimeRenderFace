@@ -33,7 +33,8 @@ namespace McRenderer {
         // should be treated as a constant inside a shader.
         ShaderEnvironment env;
 
-        void draw(Triangle& tri);
+        void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
+        void rasterizeTriangle(VertexShaderOutputParams *vertexOutput);
         void draw(Line& line);
         void draw(vec4 point);
         /**

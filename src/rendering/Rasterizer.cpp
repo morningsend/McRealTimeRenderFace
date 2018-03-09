@@ -2,7 +2,9 @@
 // Created by Zaiyang Li on 19/02/2018.
 //
 
+#include <tkDecls.h>
 #include "Rasterizer.hpp"
+#include "VertexShader.hpp"
 
 using namespace glm;
 
@@ -478,6 +480,17 @@ void McRenderer::Rasterizer::fillTriangle(McRenderer::Triangle &triangle, screen
         x1 = left.x +  t * dx1;
         x2 = right.x + t * dx2;
         drawHorizontalLine(screen, vec3(1), (int) x1, (int) x2, i);
+    }
+}
+
+void McRenderer::Rasterizer::fillTriangle(VertexShaderOutputParams* params) {
+    switch(config.faceMode) {
+        case FaceRenderMode::Edge:
+            break;
+        case FaceRenderMode::DoubleSide:
+            break;
+        case FaceRenderMode::FrontOnly:
+            break;
     }
 }
 

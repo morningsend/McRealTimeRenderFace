@@ -24,7 +24,7 @@ set(SOURCE_FILES
         src/rendering/Renderer.cpp src/rendering/Renderer.hpp src/rendering/Rasterizer.cpp src/rendering/Rasterizer.hpp src/SDLauxiliary.cpp src/scene/Viewport.cpp src/scene/Viewport.hpp src/rendering/RenderingPipeline.cpp src/rendering/RenderingPipeline.hpp src/rendering/VertexShader.hpp src/rendering/FragmentShader.hpp src/rendering/PrimitivePreprocessor.cpp src/rendering/PrimitivePreprocessor.hpp
         src/rendering/ShaderEnvironment.hpp
         src/rendering/BasicFragmentShader.hpp
-        src/rendering/BasicVertexShader.hpp)
+        src/rendering/BasicVertexShader.hpp src/rendering/Fragment.hpp)
 
 set(TESTS_SOURCE_FILES ${SOURCE_FILES} tests/catch.hpp tests/testMain.cpp )
 
