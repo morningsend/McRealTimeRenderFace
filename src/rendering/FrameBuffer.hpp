@@ -18,7 +18,7 @@ namespace McRenderer {
         vec4* colourBuffer {nullptr};
         vec4 clearColour{0};
         float* depthBuffer {nullptr};
-        float clearDepth {0};
+        float clearDepth {1};
 
     public:
         FrameBuffer(int width, int height, vec4 clearColour = vec4(0), float clearDepth = 1.0f);
@@ -28,6 +28,9 @@ namespace McRenderer {
         void clear();
         void clearColourBuffer();
         void clearDepthBuffer();
+        void setColour(int x, int y, vec4 colour);
+        void setColourAndDepthLessThan(int x, int y, vec4 colour, float d);
+        void setDepthLessThan(int x, int y, float d);
         ~FrameBuffer();
     };
 }

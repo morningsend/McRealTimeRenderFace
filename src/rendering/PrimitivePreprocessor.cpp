@@ -5,12 +5,13 @@
 #include "PrimitivePreprocessor.hpp"
 namespace McRenderer {
 
-    bool PrimitivePreprocessor::clipTriangle(const Frustum& frustum, Triangle &triangle, vector<Triangle> &result) {
-        return false;
+    void PrimitivePreprocessor::clipTriangle(const Frustum& frustum, Triangle &triangle, vector<Triangle> &result) {
+        //clipTriangle3D(frustum, triangle, result);
+        result.push_back(triangle);
     }
 
-    bool PrimitivePreprocessor::clipLine(const Frustum& frustom, Line &line) {
-        return false;
+    void PrimitivePreprocessor::clipLine(const Frustum& frustom, Line &line) {
+
     }
 
   void clipTriangle3D(const Frustum& frutsum, const Triangle& triangle, vector<Triangle>& result) {
@@ -145,5 +146,12 @@ namespace McRenderer {
 
 
   }
+
+    void clipPoint3D(const Frustum& frustum, const vec3 point) {
+
+    }
+    void clipLine(const Frustum& frustum, Line line) {
+
+    }
 
 }

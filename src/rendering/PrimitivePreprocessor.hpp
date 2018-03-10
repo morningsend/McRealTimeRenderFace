@@ -14,10 +14,12 @@
 
 namespace McRenderer {
     void clipTriangle3D(const Frustum& frutsum, const Triangle& triangle, vector<Triangle>& result);
+    void clipPoint3D(const Frustum& frustum, const vec3 point);
+    void clipLine(const Frustum& frustum, Line line);
     class PrimitivePreprocessor {
     public:
-        bool clipTriangle(const Frustum& frustum, Triangle &triangle, vector<Triangle> &result);
-        bool clipLine(const Frustum& frustom, Line &line);
+        void clipTriangle(const Frustum& frustum, Triangle &triangle, vector<Triangle> &result);
+        void clipLine(const Frustum& frustom, Line &line);
     };
 }
 

@@ -29,11 +29,15 @@ void Update(Camera& camera);
 void Draw(screen* screen);
 
 void setupScene(Scene& scene) {
-    scene.camera.position = vec3(-0.821, 0, -0.193);
+    scene.camera.position = vec3(0, 0, 5);
     scene.camera.forward = vec3(0,0,-1);
     scene.camera.up = vec3(0,1,0);
     scene.camera.aspectRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
-
+    scene.model.push_back(McRenderer::Triangle(
+            vec4(1,0,0,1),
+            vec4(1,1,0,1),
+            vec4(0,1,0,1)
+    ));
     //scene.model
     scene.camera.initFrustum();
 }

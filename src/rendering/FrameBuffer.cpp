@@ -20,6 +20,7 @@ namespace McRenderer {
         }
         colourBuffer = new vec4[width * height];
         depthBuffer = new float[width * height];
+        clear();
     }
 
     void FrameBuffer::copyToScreen(screen *screen) {
@@ -42,25 +43,46 @@ namespace McRenderer {
     }
 
     void FrameBuffer::clear() {
-        for(int i = 0; i < width; i++) {
-            for(int j = 0; j < height; i++) {
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
                 colourBuffer[i * width + j] = clearColour;
                 depthBuffer[i * width + j] = clearDepth;
             }
         }
     }
     void FrameBuffer::clearColourBuffer() {
-        for(int i = 0; i < width; i++) {
-            for(int j = 0; j < height; i++) {
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
                 colourBuffer[i * width + j] = clearColour;
             }
         }
     }
     void FrameBuffer::clearDepthBuffer() {
-        for(int i = 0; i < width; i++) {
-            for(int j = 0; j < height; i++) {
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
                 depthBuffer[i * width + j] = clearDepth;
             }
         }
+    }
+
+    void FrameBuffer::setColour(int x, int y, vec4 colour) {
+
+    }
+
+    void FrameBuffer::setColourAndDepthLessThan(int x, int y, vec4 colour, float d) {
+        if(x < 0 || x >= width || y < 0 || y >= height) {
+            std::cout<<"framebuffer set colour out side range" << std::endl;
+            return;
+        }
+        float& originalDepth = depthBuffer[x + y * width];
+        vec4& originColour = colourBuffer[x + y * width];
+        if(originalDepth > d) {
+            originalDepth = d;
+            originColour = colour;
+        }
+    }
+
+    void FrameBuffer::setDepthLessThan(int x, int y, float d) {
+
     }
 }

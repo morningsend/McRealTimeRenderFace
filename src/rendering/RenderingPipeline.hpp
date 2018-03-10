@@ -24,19 +24,23 @@ namespace McRenderer {
         std::unique_ptr<FragmentShader> fragmentShader;
         std::unique_ptr<VertexShader> vertexShader;
         std::unique_ptr<FrameBuffer> frameBuffer;
-        std::unique_ptr<Rasterizer> rasterizer;
         PrimitivePreprocessor preprocessor;
         RenderingPipelineConfig pipelineConfig;
-
+        RasterizerConfig rasterizerConfig;
 
         // variables used in shader computations;
         // should be treated as a constant inside a shader.
         ShaderEnvironment env;
 
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
-        void rasterizeTriangle(VertexShaderOutputParams *vertexOutput);
-        void draw(Line& line);
-        void draw(vec4 point);
+        void rasterizeTriangle(VertexShaderOutputParams *vertexOutput, const int size = 3);
+        void rasterizeLine(Line& line);
+        void rasterizePoint(vec4 point);
+
+        // converts a vec4:(x,y,z,1) after perspective division to screen coordinate
+        // where x: (0, width) and y(0, height)
+        vec2 convertToScreenCoordinate(vec4 clippingCoordinate);
+
         /**
          * In initialize, we can allocate memory or create threads.
          */
@@ -45,6 +49,7 @@ namespace McRenderer {
         };
         // helper methods.
         void initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env);
+
     public:
         RenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,
@@ -55,13 +60,12 @@ namespace McRenderer {
                   fragmentShader(std::move(fragmentShader)),
                   frameBuffer(std::move(frameBuffer)),
                   pipelineConfig{pipelineConfig},
-                  rasterizer(new Rasterizer(rasterizerConfig))
+                  rasterizerConfig{rasterizerConfig}
         {
             initialize();
         }
 
         ~RenderingPipeline() = default;
-
 
         /**
          * Submit scene will invoke the pipeline to render one frame of the scene.
@@ -120,7 +124,7 @@ namespace McRenderer {
                     fragmentShader,
                     frameBuffer,
                     pipelineConfig,
-                    RasterizerConfig{}
+                    rasterizerConfig
             )));
         }
     };
