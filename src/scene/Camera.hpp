@@ -23,11 +23,11 @@ namespace McRenderer {
         vec3 position{0,0,0};
         vec3 right{-1, 0, 0};
         vec3 up{0,1,0};
-        vec3 forward{0,0,1};
+        vec3 forward{0,0,-1};
 
         float aspectRatio{1};
-        float nearClippingDistance{.1};
-        float farClippingDistance{1000};
+        float nearClippingDistance{.01};
+        float farClippingDistance{100};
         float fieldOfView{90};
 
         Frustum frustum;

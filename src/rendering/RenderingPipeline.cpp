@@ -126,7 +126,7 @@ namespace McRenderer {
         float height = rasterizerConfig.viewportHeight;
 
         float x = (clippingCoordinate.x * 0.5f + 0.5f) * (width - 1.0f);
-        float y = (clippingCoordinate.y * 0.5f + 0.5f) * (height - 1.0f);
+        float y = (clippingCoordinate.y * -0.5f + 0.5f) * (height - 1.0f);
         return vec2(x, y);
     }
     void RenderingPipeline::rasterizePoint(vec4 point) {

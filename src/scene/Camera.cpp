@@ -13,7 +13,7 @@ namespace  McRenderer {
     }
 
     mat4 Camera::viewingMatrix(){
-      return  glm::lookAt(position, position-forward, up);
+      return  glm::lookAt(position, position+forward, up);
     }
 
     mat4 Camera::projectionMatrix(){
