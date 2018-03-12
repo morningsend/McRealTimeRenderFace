@@ -35,6 +35,7 @@ namespace McRenderer {
 
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangle(VertexShaderOutputParams *vertexOutput, const int size = 3);
+        void rasterizeTriangle(Triangle triangle);
         void rasterizeLine(vec4 p0, vec4 p1);
         void rasterizePoint(vec4 point);
 

@@ -33,7 +33,7 @@ namespace McRenderer {
             if(flags[i] == 0) {
                 edges[i] = Line{v1, v2};
             } else if(flags[i] < 3) {
-                // first vertex is outside, find intersection against plane.
+                // first verte/* code *//* code *//* code */ is outside, find intersection against plane.
                 vec4 direction = v2 - v1;
                 float t = (distance1) / (glm::dot(direction, plane.normal));
                 vec4 vNew= v1 + direction * t;
@@ -109,6 +109,118 @@ namespace McRenderer {
     }
 
     void PrimitivePreprocessor::clipTriangleUnitAABB(vec4 v0, vec4 v1, vec4 v2, int& edgeClippingFlags, vector<vec4> result) {
+        // bit flag for vertices clipped status
+        // bit 1 == vertex clipped
+        // bit 0 == vertex not clipped
+
+        char flags[6]={3,3,3,3,3,3};
+        Line edges[6]; // edges[i] = (vi, vi+1 % size)
+
+        int edgesCount=0;
+
+        std::vector<vec4> vertices{v0, v1, v2};
+
+        // x = -1
+        for (size_t i = 0; i < vertices.size(); i++) {
+            flags[i] = 0;
+            const vec4& v1 = vertices[i];
+            const vec4& v2 = vertices[(i+1) % vertices.size()];
+
+            flags[i] |= v1.x < -1?1:0;
+            flags[i] |= (v2.x < -1?1:0) << 1;
+
+            if (!flags[i]) {
+                edges[i]=Line{v1, v2};
+                edgesCount++;
+            }
+            else if (flags[i]==3) {
+                //reject
+            }
+            else{
+                //clip
+                vec4 vNew;
+                vNew.x=-1;
+                vNew.y=v1.y + (v2.y - v1.y) / (v2.x - v1.x) * (-1-v1.x);
+                vNew.z=v1.z + (v2.z - v1.z) / (v2.x - v1.x) * (-1-v1.x);
+
+                if(flags[i] == 1) {
+                    edges[i] = Line {vNew, v2};
+                } else {
+
+                    edges[i] = Line{v1, vNew};
+                }
+                edgesCount++;
+            }
+
+        }
+        vertices.clear();
+        for(int i = 0; i < edgesCount; i++) {
+
+            if(flags[i] == 3) {
+                continue;
+            } else {
+                char nextFlag = flags[(i + 1) % edgesCount];
+                vertices.push_back(edges[i].ends[0]);
+                if(flags[i] >> 1 == 1) {
+                    vertices.push_back(edges[i].ends[1]);
+                } else if( (nextFlag & 1) != (flags[i] >> 1)) {
+                    vertices.push_back(edges[i].ends[1]);
+                }
+            }
+        }
+
+
+        // x = 1
+        for (size_t i = 0; i < vertices.size(); i++) {
+            flags[i] = 0;
+            const vec4& v1 = vertices[i];
+            const vec4& v2 = vertices[(i+1) % vertices.size()];
+
+            flags[i] |= v1.x > 1?1:0;
+            flags[i] |= (v2.x > 1?1:0) << 1;
+
+            if (!flags[i]) {
+                edges[i]=Line{v1, v2};
+            }
+            else if (flags[i]==3) {
+                //reject
+            }
+            else{
+                //clip
+                vec4 vNew;
+                vNew.x=1;
+                vNew.y=v1.y + (v2.y - v1.y) / (v2.x - v1.x) * (1-v1.x);
+                vNew.z=v1.z + (v2.z - v1.z) / (v2.x - v1.x) * (1-v1.x);
+
+                if(flags[i] == 1) {
+                    edges[i] = Line {vNew, v2};
+                } else {
+
+                    edges[i] = Line{v1, vNew};
+                }
+
+            }
+
+        }
+
+        vertices.clear();
+        for(int i = 0; i < edgesCount; i++) {
+
+            if(flags[i] == 3) {
+                continue;
+            } else {
+                char nextFlag = flags[(i + 1) % edgesCount];
+                vertices.push_back(edges[i].ends[0]);
+                if(flags[i] >> 1 == 1) {
+                    vertices.push_back(edges[i].ends[1]);
+                } else if( (nextFlag & 1) != (flags[i] >> 1)) {
+                    vertices.push_back(edges[i].ends[1]);
+                }
+            }
+        }
+
+        vertices.swap(result);
+
 
     }
 
@@ -253,5 +365,3 @@ namespace McRenderer {
     }
 
 }
-
-

@@ -31,9 +31,13 @@ namespace McRenderer {
                     edgeClippingFlags,
                     vertexClippingBuffer
             );
-
+            std::cout << vertexClippingBuffer.size() << endl;
             if(vertexClippingBuffer.size() < 3) {
                 continue;
+            }
+            // store a list of triangles into result.
+            for(int i = 1; i < vertexClippingBuffer.size() - 1; i++) {
+                rasterizeTriangle(Triangle(vertexClippingBuffer[0], vertexClippingBuffer[i], vertexClippingBuffer[i + 1], vertexOutput[0].normal));
             }
             // render triangle by interpolating vertex shapder output.
         }
@@ -54,6 +58,25 @@ namespace McRenderer {
             vertexShader->run(env, vertexInput[i], vertexOutput[i]);
         }
     }
+
+    void RenderingPipeline::rasterizeTriangle(Triangle triangle) {
+        // rasterize and interpolate
+        cout<<"rasterize triangle" << endl;
+        for(int i = 0; i < 3; i++) {
+            float w = triangle.vertices[i].w;
+            triangle.vertices[i] /= w;
+            // map Z from [-1, 1] to [1, 0]
+            triangle.vertices[i].z = (triangle.vertices[i].z * -.5f) + 0.5f;
+        }
+        vec4 last = triangle.vertices[2];
+        vec4 current;
+        for(int i = 0; i < 3; i++) {
+            current = triangle.vertices[i];
+            rasterizeLine(last, current);
+            last = current;
+        }
+    }
+
     void RenderingPipeline::rasterizeTriangle(VertexShaderOutputParams *vertexOutput, const int size) {
         VertexShaderOutputParams interpolatedVertexParams;
         // rasterize and interpolate
