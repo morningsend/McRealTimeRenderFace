@@ -37,7 +37,7 @@ namespace McRenderer {
         mat4 viewProjectionMatrix();
 
         void initFrustum();
-
+        void initFrustumWorldSpace();
 
         Camera(vec3 positionIn, vec3 directionIn, vec3 upIn): position{positionIn}, forward{directionIn}, up{upIn} {}
         Camera() {}

@@ -11,6 +11,8 @@ namespace McRenderer {
     struct ShaderEnvironment {
         glm::mat4 viewingMatrix;
         glm::mat4 projectionMatrix;
+        glm::mat4 viewProjectionMatrix;
+        glm::mat4 normalMatrix;
     };
 }
 

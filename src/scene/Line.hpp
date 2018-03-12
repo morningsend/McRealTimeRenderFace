@@ -29,7 +29,6 @@
     vec4 ends[2];
     Line projectLine(mat4 viewProjectionMatrix);
 
-
     Line() {}
     Line(vec4 endsIn[2]): ends{endsIn[0], endsIn[1]} {}
     Line(vec4 end1, vec4 end2): ends{end1, end2} {}

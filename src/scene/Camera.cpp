@@ -70,5 +70,60 @@ namespace  McRenderer {
 
     }
 
+    void Camera::initFrustumWorldSpace() {
+        mat4 viewProjMat = viewProjectionMatrix();
+        float a, b, c, d;
 
+        // left plane.
+        a = viewProjMat[0][3] + viewProjMat[0][0];
+        b = viewProjMat[1][3] + viewProjMat[1][0];
+        c = viewProjMat[2][3] + viewProjMat[2][0];
+        d = viewProjMat[3][3] + viewProjMat[3][0];
+
+        frustum.sides[0] = Plane(vec3(a,b,c), -d);
+        frustum.sides[0].normalize();
+
+        // right plane.
+        a = viewProjMat[0][3] - viewProjMat[0][0];
+        b = viewProjMat[1][3] - viewProjMat[1][0];
+        c = viewProjMat[2][3] - viewProjMat[2][0];
+        d = viewProjMat[3][3] - viewProjMat[3][0];
+
+        frustum.sides[1] = Plane(vec3(a,b,c), -d);
+        frustum.sides[1].normalize();
+
+        // bottom plane.
+        a = viewProjMat[0][3] + viewProjMat[0][1];
+        b = viewProjMat[1][3] + viewProjMat[1][1];
+        c = viewProjMat[2][3] + viewProjMat[2][1];
+        d = viewProjMat[3][3] + viewProjMat[3][1];
+
+        frustum.sides[2] = Plane(vec3(a,b,c), -d);
+        frustum.sides[2].normalize();
+
+        // top plane.
+        a = viewProjMat[0][3] - viewProjMat[0][1];
+        b = viewProjMat[1][3] - viewProjMat[1][1];
+        c = viewProjMat[2][3] - viewProjMat[2][1];
+        d = viewProjMat[3][3] - viewProjMat[3][1];
+
+        frustum.sides[3] = Plane(vec3(a,b,c), -d);
+        frustum.sides[3].normalize();
+
+        // near
+
+        a = viewProjMat[3][0] + viewProjMat[2][0];
+        b = viewProjMat[3][1] + viewProjMat[2][1];
+        c = viewProjMat[3][2] + viewProjMat[2][2];
+        d = viewProjMat[3][3] + viewProjMat[2][3];
+        frustum.sides[4] = Plane(vec3(a,b,c), -d);
+        frustum.sides[4].normalize();
+        // far plane.
+        a = viewProjMat[0][3] - viewProjMat[0][2];
+        b = viewProjMat[1][3] - viewProjMat[1][2];
+        c = viewProjMat[2][3] - viewProjMat[2][2];
+        d = viewProjMat[3][3] - viewProjMat[3][2];
+        frustum.sides[5] = Plane(vec3(a,b,c), -d);
+        frustum.sides[5].normalize();
+    }
 }

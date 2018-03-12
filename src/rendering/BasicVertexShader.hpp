@@ -14,8 +14,8 @@ namespace McRenderer {
         virtual void run(const ShaderEnvironment& env,
                          const VertexShaderInputParams& input,
                          VertexShaderOutputParams& output) override {
-            output.position = env.projectionMatrix * input.position;
-            output.normal = env.viewingMatrix * input.normal;
+            output.position = env.viewProjectionMatrix * input.position;
+            output.normal = env.normalMatrix * input.normal;
             output.normal.w = 0;
         };
 

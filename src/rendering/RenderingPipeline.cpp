@@ -7,20 +7,18 @@
 namespace McRenderer {
 
     void RenderingPipeline::submitScene(Scene &scene) {
+        scene.camera.initFrustumWorldSpace();
         initializeShaderEnvironment(scene, env);
         // this loop can be parallized.
-        vector<Triangle> triClippingbuffer(4);
+        vector<Triangle> triClippingbuffer;
+        triClippingbuffer.reserve(4);
         VertexShaderInputParams vertexInput[3];
         VertexShaderOutputParams vertexOutput[3];
         frameBuffer->clear();
         for(auto& tri: scene.model) {
             triClippingbuffer.clear();
             Triangle copyTri = tri;
-            for(int i = 0; i < 3; i++) {
-                copyTri.vertices[i] = env.viewingMatrix * copyTri.vertices[i];
-                copyTri.normal = env.viewingMatrix * copyTri.normal;
-            }
-            preprocessor.clipTriangle(scene.camera.frustum, copyTri, triClippingbuffer);
+            preprocessor.clipTriangle(scene.camera.frustum, tri, triClippingbuffer);
             for(auto& clipppedTri: triClippingbuffer) {
                 shadeTriangle(clipppedTri, vertexOutput);
                 rasterizeTriangle(vertexOutput);
@@ -31,6 +29,8 @@ namespace McRenderer {
     void RenderingPipeline::initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env) {
         env.projectionMatrix = scene.camera.projectionMatrix();
         env.viewingMatrix = scene.camera.viewingMatrix();
+        env.viewProjectionMatrix = env.projectionMatrix * env.viewingMatrix;
+        env.normalMatrix = glm::transpose(glm::inverse(env.viewingMatrix));
     }
 
     void RenderingPipeline::shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput) {
@@ -45,24 +45,52 @@ namespace McRenderer {
         VertexShaderOutputParams interpolatedVertexParams;
         // rasterize and interpolate
         cout<<"rasterize triangle" << endl;
-        //rasterizer->drawTriangle();
         for(int i = 0; i < size; i++) {
             float w = vertexOutput[i].position.w;
             vertexOutput[i].position /= w;
             // map Z from [-1, 1] to [1, 0]
             vertexOutput[i].position.z = (vertexOutput[i].position.z * -.5f) + 0.5f;
-            rasterizePoint(vertexOutput[i].position);
+        }
+        vec4 last = vertexOutput[size - 1].position;
+        vec4 current;
+        for(int i = 0; i < size; i++) {
+            current = vertexOutput[i].position;
+            rasterizeLine(last, current);
+            last = current;
         }
     }
-    void RenderingPipeline::rasterizeLine(Line &line) {
+    void RenderingPipeline::rasterizeLine(vec4 p0, vec4 p1) {
+        vec2 screen0 = convertToScreenCoordinate(p0);
+        vec2 screen1 = convertToScreenCoordinate(p1);
 
+        float deltaX = screen1.x - screen0.x;
+        float deltaY = screen1.y - screen0.y;
+        int x0 = (int) screen0.x;
+        int x1 = (int) screen1.x;
+        int y0 = (int) screen0.y;
+        int y1 = (int) screen1.y;
+        int xIncrement = x0 > x1 ? -1 : 1;
+        int yIncrement = y0 > y1 ? -1 : 1;
+        if(abs(deltaX) > abs(deltaY)) {
+            deltaX = 1 / deltaX;
+            for(int i = x0; i != x1; i+=xIncrement) {
+                int y = static_cast<int>((i - x0) * deltaY * deltaX) + y0;
+                frameBuffer->setColour(i, y, vec4(1));
+            }
+        } else {
+            deltaY = 1/ deltaY;
+            for(int y = y0; y != y1; y += yIncrement) {
+                int x = static_cast<int>((y - y0)) * deltaX * deltaY + x0;
+                frameBuffer->setColour(x, y, vec4(1));
+            }
+        }
     }
     vec2 RenderingPipeline::convertToScreenCoordinate(vec4 clippingCoordinate) {
         float width = rasterizerConfig.viewportWidth;
         float height = rasterizerConfig.viewportHeight;
 
         float x = (clippingCoordinate.x * 0.5f + 0.5f) * (width - 1.0f);
-        float y = (clippingCoordinate.y * -0.5f + 0.5f) * (height - 1.0f);
+        float y = (clippingCoordinate.y * 0.5f + 0.5f) * (height - 1.0f);
         return vec2(x, y);
     }
     void RenderingPipeline::rasterizePoint(vec4 point) {

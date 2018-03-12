@@ -6,6 +6,7 @@
 #define RENDERER_PIPELINE_HPP
 
 #include <memory>
+#include <cmath>
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
 #include "Rasterizer.hpp"
@@ -34,7 +35,7 @@ namespace McRenderer {
 
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangle(VertexShaderOutputParams *vertexOutput, const int size = 3);
-        void rasterizeLine(Line& line);
+        void rasterizeLine(vec4 p0, vec4 p1);
         void rasterizePoint(vec4 point);
 
         // converts a vec4:(x,y,z,1) after perspective division to screen coordinate

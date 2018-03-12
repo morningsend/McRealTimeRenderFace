@@ -66,7 +66,11 @@ namespace McRenderer {
     }
 
     void FrameBuffer::setColour(int x, int y, vec4 colour) {
-
+        if(x < 0 || x >= width || y < 0 || y >= height) {
+            std::cout<<"framebuffer set colour out side range" << std::endl;
+            return;
+        }
+        colourBuffer[x + y * width] = colour;
     }
 
     void FrameBuffer::setColourAndDepthLessThan(int x, int y, vec4 colour, float d) {

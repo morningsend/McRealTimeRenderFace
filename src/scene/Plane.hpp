@@ -17,6 +17,13 @@ struct Plane {
   Plane(vec3 _normal, float _distance): normal{_normal[0], _normal[1], _normal[2], 0}, distance{_distance} {}
   Plane() {}
 
+    void normalize() {
+
+        float magnitude = glm::length(normal);
+        normal /= magnitude;
+        distance /= distance;
+    }
+
 };
 
 
