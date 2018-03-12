@@ -36,7 +36,7 @@ void setupScene(Scene& scene) {
     scene.camera.fieldOfView = 100;
     scene.model.push_back(McRenderer::Triangle(
             vec4(-1.4,-1,0,1),
-            vec4(1.4,-1,0,1),
+            vec4(1.8,-1,0,1),
             vec4(0,3,0,1)
     ));
     //scene.model

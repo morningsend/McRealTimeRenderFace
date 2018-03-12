@@ -14,15 +14,28 @@ namespace McRenderer {
         triClippingbuffer.reserve(4);
         VertexShaderInputParams vertexInput[3];
         VertexShaderOutputParams vertexOutput[3];
+        vector<vec4> vertexClippingBuffer;
+        vertexClippingBuffer.reserve(6);
+
         frameBuffer->clear();
+        int edgeClippingFlags = 0;
         for(auto& tri: scene.model) {
-            triClippingbuffer.clear();
+            edgeClippingFlags = 0;
+            vertexClippingBuffer.clear();
             Triangle copyTri = tri;
-            preprocessor.clipTriangle(scene.camera.frustum, tri, triClippingbuffer);
-            for(auto& clipppedTri: triClippingbuffer) {
-                shadeTriangle(clipppedTri, vertexOutput);
-                rasterizeTriangle(vertexOutput);
+            shadeTriangle(copyTri, vertexOutput);
+            preprocessor.clipTriangleUnitAABB(
+                    vertexOutput[0].position,
+                    vertexOutput[1].position,
+                    vertexOutput[2].position,
+                    edgeClippingFlags,
+                    vertexClippingBuffer
+            );
+
+            if(vertexClippingBuffer.size() < 3) {
+                continue;
             }
+            // render triangle by interpolating vertex shapder output.
         }
     }
 

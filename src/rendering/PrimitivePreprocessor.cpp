@@ -108,7 +108,11 @@ namespace McRenderer {
 
     }
 
-  void clipTriangle3D(const Frustum& frutsum, const Triangle& triangle, vector<Triangle>& result) {
+    void PrimitivePreprocessor::clipTriangleUnitAABB(vec4 v0, vec4 v1, vec4 v2, int& edgeClippingFlags, vector<vec4> result) {
+
+    }
+
+    void clipTriangle3D(const Frustum& frutsum, const Triangle& triangle, vector<Triangle>& result) {
     std::vector<vec4> clippedPolygon = {triangle.vertices[0], triangle.vertices[1], triangle.vertices[2]};
     //
     // std::cout << "initial Triangle: " << clippedPolygon[0].x << ","<< clippedPolygon[0].y << ","<< clippedPolygon[0].z << " "
