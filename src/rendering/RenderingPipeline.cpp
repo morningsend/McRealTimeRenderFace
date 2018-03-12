@@ -10,11 +10,9 @@ namespace McRenderer {
         scene.camera.initFrustumWorldSpace();
         initializeShaderEnvironment(scene, env);
         // this loop can be parallized.
-        vector<Triangle> triClippingbuffer;
-        triClippingbuffer.reserve(4);
         VertexShaderInputParams vertexInput[3];
         VertexShaderOutputParams vertexOutput[3];
-        vector<vec4> vertexClippingBuffer;
+        vector<VertexShaderOutputParams> vertexClippingBuffer;
         vertexClippingBuffer.reserve(6);
 
         frameBuffer->clear();
@@ -24,21 +22,15 @@ namespace McRenderer {
             vertexClippingBuffer.clear();
             Triangle copyTri = tri;
             shadeTriangle(copyTri, vertexOutput);
-            preprocessor.clipTriangleUnitAABB(
-                    vertexOutput[0].position,
-                    vertexOutput[1].position,
-                    vertexOutput[2].position,
-                    edgeClippingFlags,
+            preprocessor.clipTriangleHomogeneousCoords(
+                    vertexOutput,
                     vertexClippingBuffer
             );
             std::cout << vertexClippingBuffer.size() << endl;
             if(vertexClippingBuffer.size() < 3) {
                 continue;
             }
-            // store a list of triangles into result.
-            for(int i = 1; i < vertexClippingBuffer.size() - 1; i++) {
-                rasterizeTriangle(Triangle(vertexClippingBuffer[0], vertexClippingBuffer[i], vertexClippingBuffer[i + 1], vertexOutput[0].normal));
-            }
+            rasterizeTriangleFan(vertexClippingBuffer);
             // render triangle by interpolating vertex shapder output.
         }
     }
@@ -77,10 +69,12 @@ namespace McRenderer {
         }
     }
 
-    void RenderingPipeline::rasterizeTriangle(VertexShaderOutputParams *vertexOutput, const int size) {
+    void RenderingPipeline::rasterizeTriangleFan(vector<VertexShaderOutputParams> &vertexOutput) {
         VertexShaderOutputParams interpolatedVertexParams;
         // rasterize and interpolate
         cout<<"rasterize triangle" << endl;
+        auto size = static_cast<const int>(vertexOutput.size());
+
         for(int i = 0; i < size; i++) {
             float w = vertexOutput[i].position.w;
             vertexOutput[i].position /= w;

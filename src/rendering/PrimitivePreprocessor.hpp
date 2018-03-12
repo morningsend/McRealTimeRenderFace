@@ -9,6 +9,7 @@
 
 #include "../scene/Plane.hpp"
 #include "../scene/Camera.hpp"
+#include "VertexShader.hpp"
 
 #include <glm/glm.hpp>
 
@@ -20,9 +21,16 @@ namespace McRenderer {
     class PrimitivePreprocessor {
     public:
         void clipTriangle(const Frustum& frustum, Triangle &triangle, vector<Triangle> &result);
-        void clipTriangleUnitAABB(vec4 v0, vec4 v1, vec4 v2, int& edgeClippingFlags, vector<vec4>& result);
+
+        // expect triangle attributes to be an array of three elements.
+        void clipTriangleHomogeneousCoords(VertexShaderOutputParams triangleAttributes[3],
+                                           vector<VertexShaderOutputParams>& result);
         void clipLine(const Frustum& frustom, Line &line);
         void clipPolygon(const Plane &plane, const vector<vec4> &vertices, vector<vec4> &result, const int size);
+
+        static void interpolateTriangleAttributes(VertexShaderOutputParams triangleAttributes[3],
+                                                  vector<vec4>& vertices,
+                                                  vector<VertexShaderOutputParams>& result);
     };
 }
 

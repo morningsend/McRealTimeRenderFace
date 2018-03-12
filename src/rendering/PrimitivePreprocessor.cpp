@@ -108,13 +108,14 @@ namespace McRenderer {
 
     }
 
-    void PrimitivePreprocessor::clipTriangleUnitAABB(vec4 v0, vec4 v1, vec4 v2, int& edgeClippingFlags, vector<vec4>& result) {
+    void PrimitivePreprocessor::clipTriangleHomogeneousCoords(VertexShaderOutputParams triangleAttributes[3],
+                                                              vector<VertexShaderOutputParams>& result) {
         // bit flag for vertices clipped status
         // bit 1 == vertex clipped
         // bit 0 == vertex not clipped
 
         int flags;
-        std::vector<vec4> vertices{v0, v1, v2};
+        std::vector<vec4> vertices{triangleAttributes[0].position, triangleAttributes[1].position, triangleAttributes[2].position};
         std::vector<vec4> verticesNext;
         verticesNext.reserve(6);
 
@@ -345,9 +346,38 @@ namespace McRenderer {
 
         vertices.swap(verticesNext);
         verticesNext.clear();
+        if(vertices.size() < 3) {
+            return;
+        }
+        interpolateTriangleAttributes(triangleAttributes, vertices, result);
+    }
 
-        result.clear();
-        result.insert(result.end(), vertices.begin(), vertices.end());
+    void PrimitivePreprocessor::interpolateTriangleAttributes(VertexShaderOutputParams *triangleAttributes,
+                                                              vector<vec4>& vertices,
+                                                              vector<VertexShaderOutputParams> &result) {
+        // Barycentric coordinates.
+        vec4 v0 = triangleAttributes[0].position;
+        vec4 v1 = triangleAttributes[1].position;
+        vec4 v2 = triangleAttributes[2].position;
+        vec3 barycentric(0);
+        VertexShaderOutputParams interpolatedValue;
+        // interpolate the attributes.
+        for(int i = 0; i < vertices.size(); i++) {
+            Triangle::computeBarycentricCoord(v0, v1, v2, vertices[i], barycentric);
+
+            interpolatedValue.position = triangleAttributes[0].position * barycentric[0];
+            interpolatedValue.normal = triangleAttributes[0].normal * barycentric[0];
+            interpolatedValue.colour = triangleAttributes[0].colour * barycentric[0];
+            interpolatedValue.textCoord = triangleAttributes[0].textCoord * barycentric[0];
+            for(int j = 1; j < 3; j++) {
+                interpolatedValue.position += triangleAttributes[j].position * barycentric[j];
+                interpolatedValue.normal += triangleAttributes[j].normal * barycentric[j];
+                interpolatedValue.colour += triangleAttributes[j].colour * barycentric[j];
+                interpolatedValue.textCoord += triangleAttributes[j].textCoord * barycentric[j];
+            }
+
+            result.push_back(interpolatedValue);
+        }
     }
 
     void clipTriangle3D(const Frustum& frutsum, const Triangle& triangle, vector<Triangle>& result) {
