@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <cmath>
+#include <glm/glm.hpp>
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
 #include "Rasterizer.hpp"
@@ -15,11 +16,18 @@
 
 namespace McRenderer {
     class RenderingPipeline;
-
+    enum class FaceCullingMode {
+        None,
+        BackFace,
+        FrontFace,
+    };
     struct RenderingPipelineConfig {
         int threadCount {1};
     };
+    struct VertexProcessingConfig {
+        FaceCullingMode cullingMode {FaceCullingMode::BackFace};
 
+    };
     class RenderingPipeline {
     private:
         std::unique_ptr<FragmentShader> fragmentShader;
@@ -28,7 +36,7 @@ namespace McRenderer {
         PrimitivePreprocessor preprocessor;
         RenderingPipelineConfig pipelineConfig;
         RasterizerConfig rasterizerConfig;
-
+        VertexProcessingConfig vertexProcessingConfig;
         // variables used in shader computations;
         // should be treated as a constant inside a shader.
         ShaderEnvironment env;

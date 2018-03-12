@@ -49,10 +49,6 @@ void McRenderer::Rasterizer::renderToScreen(screen *screen, Scene& scene) {
  * @param screen
  */
 void McRenderer::Rasterizer::fillTriangle(McRenderer::Triangle &triangle, screen *screen) {
-    //ignore backfacing triangles.
-    if(config.faceMode == FaceRenderMode::FrontOnly && triangle.normal.z < 0) {
-        return;
-    }
 
     vec4* vertices = triangle.vertices;
     vec4 temp;

@@ -18,6 +18,21 @@ namespace McRenderer {
         frameBuffer->clear();
         int edgeClippingFlags = 0;
         for(auto& tri: scene.model) {
+            float facing = -glm::dot(scene.camera.forward, vec3(tri.normal));
+            switch(vertexProcessingConfig.cullingMode) {
+                case FaceCullingMode::BackFace:
+                    if(facing < 0){
+                        continue;
+                    }
+                    break;
+                case FaceCullingMode::FrontFace:
+                    if(facing > 0) {
+                        continue;
+                    }
+                    break;
+                case FaceCullingMode::None:
+                    break;
+            }
             edgeClippingFlags = 0;
             vertexClippingBuffer.clear();
             Triangle copyTri = tri;
@@ -83,10 +98,22 @@ namespace McRenderer {
         }
         vec4 last = vertexOutput[size - 1].position;
         vec4 current;
-        for(int i = 0; i < size; i++) {
-            current = vertexOutput[i].position;
-            rasterizeLine(last, current);
-            last = current;
+        switch(rasterizerConfig.faceMode) {
+            case FaceRenderMode::Vertex:
+                for(int i = 0; i < size; i++) {
+                    rasterizePoint(vertexOutput[i].position);
+                }
+                break;
+            case FaceRenderMode::Shaded:
+            case FaceRenderMode::Edge:
+                for (int i = 0; i < size; i++) {
+                    current = vertexOutput[i].position;
+                    rasterizeLine(last, current);
+                    last = current;
+                }
+                break;
+            default:
+                break;
         }
     }
     void RenderingPipeline::rasterizeLine(vec4 p0, vec4 p1) {

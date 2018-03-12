@@ -17,13 +17,15 @@ namespace McRenderer {
 
     using namespace glm;
     enum class FaceRenderMode {
-        FrontOnly,
-        DoubleSide,
+        Shaded,
         Edge,
+        Vertex,
     };
 
+
     struct RasterizerConfig {
-        FaceRenderMode faceMode { FaceRenderMode::DoubleSide };
+        FaceRenderMode faceMode { FaceRenderMode::Edge };
+
         float viewportWidth{1.0f};
         float viewportHeight{1.0f};
     };
