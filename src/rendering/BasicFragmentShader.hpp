@@ -14,6 +14,7 @@ namespace McRenderer {
                          const VertexShaderOutputParams& vertexOutput,
                          FragmentShaderOutput& output) override {
             output.colour = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+            output.depth = vertexOutput.position.z;
         } ;
 
         ~BasicFragmentShader() = default;

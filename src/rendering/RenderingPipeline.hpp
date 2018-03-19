@@ -45,6 +45,11 @@ namespace McRenderer {
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
         void rasterizeTriangle(Triangle triangle);
         void rasterizeLine(vec4 p0, vec4 p1);
+        void rasterizeHorizontalLine(VertexShaderOutputParams& v1,
+                                     VertexShaderOutputParams& v2);
+        void rasterizeTriangle(VertexShaderOutputParams& v1,
+                               VertexShaderOutputParams& v2,
+                               VertexShaderOutputParams& v3);
         void rasterizePoint(vec4 point);
 
         // converts a vec4:(x,y,z,1) after perspective division to screen coordinate

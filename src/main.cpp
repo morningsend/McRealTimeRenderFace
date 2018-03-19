@@ -33,8 +33,9 @@ void setupScene(Scene& scene) {
     scene.camera.forward = vec3(0,0,-1);
     scene.camera.up = vec3(0,1,0);
     scene.camera.aspectRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
-    scene.camera.fieldOfView = 100;
-    scene.camera.farClippingDistance = 10.0f;
+    scene.camera.fieldOfView = 70;
+    scene.camera.farClippingDistance = 1000.0f;
+    scene.camera.nearClippingDistance = 0.4f;
     scene.model.push_back(McRenderer::Triangle(
             vec4(-1.4,-1,4,1),
             vec4(1.8,-1,0,1),
@@ -51,6 +52,7 @@ int main( int argc, char* argv[] )
     RasterizerConfig config;
     config.viewportWidth = SCREEN_WIDTH;
     config.viewportHeight = SCREEN_HEIGHT;
+    config.faceMode = FaceRenderMode::Shaded;
     PipelineBuilder builder;
     unique_ptr<RenderingPipeline> pipeline = builder.singlethreaded()
             .useFragmentShader(new BasicFragmentShader())

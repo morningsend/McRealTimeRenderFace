@@ -27,7 +27,7 @@ namespace McRenderer {
 
         float aspectRatio{1};
         float nearClippingDistance{.01};
-        float farClippingDistance{100};
+        float farClippingDistance{5};
         float fieldOfView{90};
 
         Frustum frustum;

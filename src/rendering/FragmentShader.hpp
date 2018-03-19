@@ -11,6 +11,7 @@ namespace McRenderer {
 
     struct FragmentShaderOutput {
         glm::vec4 colour;
+        float depth;
     };
 
     /**

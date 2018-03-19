@@ -19,7 +19,13 @@ namespace McRenderer {
     void clipLine(const Frustum& frustum, Line line);
 
     class PrimitivePreprocessor {
+        std::vector<vec4> vertices;
+        std::vector<vec4> verticesNext;
     public:
+        PrimitivePreprocessor(): vertices{}, verticesNext{} {
+            vertices.reserve(6);
+            verticesNext.reserve(6);
+        }
         void clipTriangle(const Frustum& frustum, Triangle &triangle, vector<Triangle> &result);
 
         // expect triangle attributes to be an array of three elements.

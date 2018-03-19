@@ -30,7 +30,9 @@ namespace McRenderer {
         void clearDepthBuffer();
         void setColour(int x, int y, vec4 colour);
         void setColourAndDepthLessThan(int x, int y, vec4 colour, float d);
+        void setColourAndDepth(int x, int y, vec4 colour, float d);
         void setDepthLessThan(int x, int y, float d);
+        bool testDepthLessThan(int x, int y, float d);
         ~FrameBuffer();
     };
 }

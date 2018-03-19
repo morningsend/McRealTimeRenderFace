@@ -87,6 +87,21 @@ namespace McRenderer {
     }
 
     void FrameBuffer::setDepthLessThan(int x, int y, float d) {
+        if(d <= depthBuffer[x + y * width]) {
+            depthBuffer[x + y * width] = d;
+        }
+    }
 
+    bool FrameBuffer::testDepthLessThan(int x, int y, float d) {
+        return d <= depthBuffer[x + y * width];
+    }
+
+    void FrameBuffer::setColourAndDepth(int x, int y, vec4 colour, float d) {
+        if(x < 0 || x >= width || y < 0 || y >= height) {
+            std::cout<<"framebuffer set colour out side range" << std::endl;
+            return;
+        }
+        depthBuffer[x + y * width] = d;
+        colourBuffer[x + y * width] = colour;
     }
 }

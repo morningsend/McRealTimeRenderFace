@@ -23,6 +23,32 @@ namespace McRenderer {
     };
 
     /**
+     * result = v1 * t + v2 * (1-t)
+     * @param v1
+     * @param v2
+     * @param t
+     * @param result
+     */
+    void Interpolate(const VertexShaderOutputParams& v1,
+                     const VertexShaderOutputParams& v2,
+                     float t,
+                     VertexShaderOutputParams& result);
+
+    /**
+     * result = v1 * t1 + v2 * t2
+     * @param v1
+     * @param v2
+     * @param t1
+     * @param t2
+     * @param result
+     */
+    void Interpolate(const VertexShaderOutputParams& v1,
+                     const VertexShaderOutputParams& v2,
+                     float t1, float t2,
+                     VertexShaderOutputParams& result);
+
+
+    /**
      * Abstract class of a vertex shader.
      * Class to provide concrete vertex shader implementation
      * should override the run method.

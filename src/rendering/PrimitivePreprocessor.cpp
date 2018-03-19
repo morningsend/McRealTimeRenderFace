@@ -115,9 +115,11 @@ namespace McRenderer {
         // bit 0 == vertex not clipped
 
         int flags;
-        std::vector<vec4> vertices{triangleAttributes[0].position, triangleAttributes[1].position, triangleAttributes[2].position};
-        std::vector<vec4> verticesNext;
-        verticesNext.reserve(6);
+        verticesNext.clear();
+        vertices.clear();
+        vertices.push_back(triangleAttributes[0].position);
+        vertices.push_back(triangleAttributes[1].position);
+        vertices.push_back(triangleAttributes[2].position);
 
         vec4 vNew;
         float t = 0.0f;

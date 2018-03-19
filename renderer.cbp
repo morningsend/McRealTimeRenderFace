@@ -217,6 +217,10 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/VertexShader.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/VertexShader.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
