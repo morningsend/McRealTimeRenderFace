@@ -17,6 +17,7 @@ namespace McRenderer {
     };
     struct VertexShaderOutputParams {
         vec4 position;
+        vec4 viewPosition;
         vec4 normal;
         vec4 colour;
         vec4 textCoord;
@@ -47,7 +48,9 @@ namespace McRenderer {
                      float t1, float t2,
                      VertexShaderOutputParams& result);
 
-
+    void Interpolate(const VertexShaderOutputParams triangle[3],
+                     vec3 barycentricCoords,
+                     VertexShaderOutputParams& result);
     /**
      * Abstract class of a vertex shader.
      * Class to provide concrete vertex shader implementation

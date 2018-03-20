@@ -25,7 +25,7 @@ namespace McRenderer {
         int threadCount {1};
     };
     struct VertexProcessingConfig {
-        FaceCullingMode cullingMode {FaceCullingMode::BackFace};
+        FaceCullingMode cullingMode {FaceCullingMode::None};
 
     };
     class RenderingPipeline {
@@ -43,7 +43,6 @@ namespace McRenderer {
 
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
-        void rasterizeTriangle(Triangle triangle);
         void rasterizeLine(vec4 p0, vec4 p1);
         void rasterizeHorizontalLine(VertexShaderOutputParams& v1,
                                      VertexShaderOutputParams& v2);

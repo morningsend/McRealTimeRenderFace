@@ -15,8 +15,10 @@ namespace McRenderer {
                          const VertexShaderInputParams& input,
                          VertexShaderOutputParams& output) override {
             output.position = env.viewProjectionMatrix * input.position;
+            output.viewPosition = env.viewingMatrix * input.position;
             output.normal = env.normalMatrix * input.normal;
-            output.normal.w = 0;
+            output.colour = input.colour;
+            //output.colour = (output.viewPosition * 0.5f) + vec4(0.5f);
         };
 
         ~BasicVertexShader() = default;

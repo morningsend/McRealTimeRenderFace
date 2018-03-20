@@ -42,7 +42,6 @@ namespace McRenderer {
                     vertexOutput,
                     vertexClippingBuffer
             );
-            std::cout << vertexClippingBuffer.size() << endl;
             if(vertexClippingBuffer.size() < 3) {
                 continue;
             }
@@ -51,15 +50,25 @@ namespace McRenderer {
                 vertexClippingBuffer[i].position /= w;
             }
             rasterizeTriangleFan(vertexClippingBuffer);
-            // render triangle by interpolating vertex shapder output.
         }
+#if defined(GRAPHICS_DEBUG)
+        /* render position of light on screen as a dot */
+        vec4 point = env.viewProjectionMatrix * scene.lights[0].position;
+        point /= point.w;
+        rasterizePoint(point);
+#endif
     }
 
     void RenderingPipeline::initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env) {
         env.projectionMatrix = scene.camera.projectionMatrix();
         env.viewingMatrix = scene.camera.viewingMatrix();
         env.viewProjectionMatrix = env.projectionMatrix * env.viewingMatrix;
-        env.normalMatrix = glm::transpose(glm::inverse(env.viewingMatrix));
+        env.normalMatrix = glm::inverse(glm::transpose(env.viewingMatrix));
+        if(!scene.lights.empty()) {
+            env.light1 = scene.lights[0];
+            env.light1.position = env.viewingMatrix * env.light1.position;
+        }
+        env.ambient = vec4(0.05);
     }
 
     void RenderingPipeline::shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput) {
@@ -67,32 +76,14 @@ namespace McRenderer {
         for(int i = 0; i < 3; i++) {
             vertexInput[i].position = tri.vertices[i];
             vertexInput[i].normal = tri.normal;
+            vertexInput[i].colour = tri.colour;
             vertexShader->run(env, vertexInput[i], vertexOutput[i]);
-        }
-    }
-
-    void RenderingPipeline::rasterizeTriangle(Triangle triangle) {
-        // rasterize and interpolate
-        cout<<"rasterize triangle" << endl;
-        for(int i = 0; i < 3; i++) {
-            float w = triangle.vertices[i].w;
-            triangle.vertices[i] /= w;
-            // map Z from [-1, 1] to [1, 0]
-            triangle.vertices[i].z = (triangle.vertices[i].z * -.5f) + 0.5f;
-        }
-        vec4 last = triangle.vertices[2];
-        vec4 current;
-        for(int i = 0; i < 3; i++) {
-            current = triangle.vertices[i];
-            rasterizeLine(last, current);
-            last = current;
         }
     }
 
     void RenderingPipeline::rasterizeTriangleFan(vector<VertexShaderOutputParams> &vertexOutput) {
         VertexShaderOutputParams interpolatedVertexParams;
         // rasterize and interpolate
-        cout<<"rasterize triangle" << endl;
         auto size = static_cast<const int>(vertexOutput.size());
         vec4 last = vertexOutput[size - 1].position;
         vec4 current;
@@ -116,11 +107,19 @@ namespace McRenderer {
 
                 break;
         }
+#if defined(GRAPHICS_DEBUG)
+        /* visualize vertex normal vectors */
+        for(int i = 0; i < size; i++) {
+            rasterizePoint(vertexOutput[i].position);
+            rasterizeLine(vertexOutput[i].position,
+                          vertexOutput[i].position + vertexOutput[i].normal * 0.14f);
+        }
+#endif
     }
     void RenderingPipeline::rasterizeLine(vec4 p0, vec4 p1) {
         vec2 screen0 = convertToScreenCoordinate(p0);
         vec2 screen1 = convertToScreenCoordinate(p1);
-        vec4 colour(0.2,0.8,0.3,1);
+        vec4 colour(0.97,0.2,0.3,1);
         float deltaX = screen1.x - screen0.x;
         float deltaY = screen1.y - screen0.y;
         int x0 = (int) screen0.x;
@@ -222,11 +221,13 @@ namespace McRenderer {
             attributePointers[2] = attributePointers[1];
             attributePointers[1] = temp;
         }
+        /*
         cout << "vertices by position.z"
             << attributePointers[0]->position.z << ' '
             << attributePointers[1]->position.z << ' '
             << attributePointers[2]->position.z
             << endl;
+            */
 
         vec2 screenCoords[3];
         screenCoords[0] = convertToScreenCoordinate(attributePointers[0]->position);
@@ -246,6 +247,7 @@ namespace McRenderer {
             Interpolate(*attributePointers[0], leftDividerAttributes, t, leftAttributes);
             Interpolate(*attributePointers[0], *attributePointers[1], t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
+
         }
         dy = floor(screenCoords[2].y - screenCoords[1].y + 0.5f);
         for(int i = 0; i < (int) dy; i++) {

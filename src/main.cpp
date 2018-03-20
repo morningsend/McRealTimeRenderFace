@@ -1,3 +1,5 @@
+//#define GRAPHICS_DEBUG
+
 #include <iostream>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
@@ -5,6 +7,7 @@
 #include <math.h>
 #include "SDLauxiliary.h"
 #include "scene/TestModelH.h"
+#include "scene/Light.hpp"
 #include "rendering/Rasterizer.hpp"
 #include "rendering/RenderingPipeline.hpp"
 #include "rendering/BasicFragmentShader.hpp"
@@ -29,19 +32,37 @@ void Update(Camera& camera);
 void Draw(screen* screen);
 
 void setupScene(Scene& scene) {
-    scene.camera.position = vec3(0, 0, 5);
-    scene.camera.forward = vec3(0,0,-1);
+    vector<::Triangle> triangles;
+    LoadTestModel(triangles);
+    scene.camera.position = vec3(0, 0, -2);
+    scene.camera.forward = vec3(0, 0, 1);
     scene.camera.up = vec3(0,1,0);
     scene.camera.aspectRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
     scene.camera.fieldOfView = 70;
     scene.camera.farClippingDistance = 1000.0f;
     scene.camera.nearClippingDistance = 0.4f;
+    for(::Triangle& tri: triangles) {
+        scene.model.push_back(McRenderer::Triangle(
+                tri.v0, tri.v1, tri.v2, tri.normal, vec4(tri.color, 1)
+        ));
+    }
+    /*
     scene.model.push_back(McRenderer::Triangle(
-            vec4(-1.4,-1,4,1),
-            vec4(1.8,-1,0,1),
-            vec4(0,3,0,1)
+            vec4(-1,-1,-1,1), vec4(-1,-1,1,1), vec4(-1, 1, -1, 1),
+            vec4(1, 0, 0, 0),
+            vec4(1)
     ));
-    //scene.model
+    scene.model.push_back(McRenderer::Triangle(
+            vec4(-1, 1,-1,1), vec4(-1,-1,1,1), vec4(-1, 1, 1, 1),
+            vec4(1, 0, 0, 0),
+            vec4(1)
+    ));*/
+    PointLightSource light;
+    light.intensity = 5.0f;
+    light.colour = vec4(1.0f);
+    light.position = vec4(0, 0.9, -.4, 1);
+    scene.lights.push_back(light);
+
 }
 int main( int argc, char* argv[] )
 {

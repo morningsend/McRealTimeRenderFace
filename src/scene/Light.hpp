@@ -11,18 +11,10 @@
 namespace McRenderer {
     using namespace glm;
 
-    enum class AttenuationType {
-        InverseSquare,
-        Linear,
-        InverseExponential
-    };
-
     struct Light {
-        float intensity;
-        vec3 color;
-        AttenuationType type;
-        vec4 position;
-
+        float intensity{1};
+        vec4 colour{1};
+        vec4 position{1};
     };
 
     struct AmbientLight : Light {

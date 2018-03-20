@@ -26,7 +26,6 @@ namespace McRenderer {
             float distance1 = -glm::dot(v1, plane.normal) + plane.distance;
             float distance2 = -glm::dot(v2, plane.normal) + plane.distance;
 
-            cout << distance1 <<' ' << distance2 << endl;
             flags[i] |= distance1 > 0 ? 0 : 1;
             flags[i] |= distance2 > 0 ? 0 : 1 << 1;
 
@@ -92,7 +91,7 @@ namespace McRenderer {
             verticesNext.clear();
             clipPolygon(p, vertices, verticesNext, static_cast<const int>(vertices.size()));
             vertices.swap(verticesNext);
-            cout<<"clipped size:" << vertices.size() << endl;
+            //cout<<"clipped size:" << vertices.size() << endl;
         }
 
         if(vertices.size() < 3) {
@@ -366,18 +365,8 @@ namespace McRenderer {
         // interpolate the attributes.
         for(int i = 0; i < vertices.size(); i++) {
             Triangle::computeBarycentricCoord(v0, v1, v2, vertices[i], barycentric);
-
-            interpolatedValue.position = triangleAttributes[0].position * barycentric[0];
-            interpolatedValue.normal = triangleAttributes[0].normal * barycentric[0];
-            interpolatedValue.colour = triangleAttributes[0].colour * barycentric[0];
-            interpolatedValue.textCoord = triangleAttributes[0].textCoord * barycentric[0];
-            for(int j = 1; j < 3; j++) {
-                interpolatedValue.position += triangleAttributes[j].position * barycentric[j];
-                interpolatedValue.normal += triangleAttributes[j].normal * barycentric[j];
-                interpolatedValue.colour += triangleAttributes[j].colour * barycentric[j];
-                interpolatedValue.textCoord += triangleAttributes[j].textCoord * barycentric[j];
-            }
-
+            cout << barycentric[0] << ' ' << barycentric[1] <<  ' ' << barycentric[2] << endl;
+            Interpolate(triangleAttributes, barycentric, interpolatedValue);
             result.push_back(interpolatedValue);
         }
     }

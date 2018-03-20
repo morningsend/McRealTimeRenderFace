@@ -19,6 +19,8 @@ namespace McRenderer {
         Triangle() {}
         Triangle(vec4 v0, vec4 v1, vec4 v2) : vertices{ v0, v1, v2 } {}
         Triangle(vec4 v0, vec4 v1, vec4 v2, vec4 normal) : vertices{ v0, v1, v2 }, normal{normal} {}
+        Triangle(vec4 v0, vec4 v1, vec4 v2, vec4 normal, vec4 colour)
+                : vertices{ v0, v1, v2 }, normal{normal}, colour{colour} {}
 
         static inline void computeBarycentricCoord(vec4 v0,
                                                    vec4 v1,

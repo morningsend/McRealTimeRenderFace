@@ -170,13 +170,9 @@ void LoadTestModel( std::vector<Triangle>& triangles )
 		triangles[i].v1 -= vec4(1,1,1,1);
 		triangles[i].v2 -= vec4(1,1,1,1);
 
-		triangles[i].v0.x *= -1;
-		triangles[i].v1.x *= -1;
-		triangles[i].v2.x *= -1;
-
-		triangles[i].v0.y *= -1;
-		triangles[i].v1.y *= -1;
-		triangles[i].v2.y *= -1;
+		triangles[i].v0.z *= 1.0;
+		triangles[i].v1.z *= 1.0;
+		triangles[i].v2.z *= 1.0;
 
 		triangles[i].v0.w = 1.0;
 		triangles[i].v1.w = 1.0;
