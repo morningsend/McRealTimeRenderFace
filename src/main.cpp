@@ -1,10 +1,12 @@
-//#define GRAPHICS_DEBUG
+#define GRAPHICS_DEBUG
 
 #include <iostream>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #include <stdint.h>
-#include <math.h>
+#include <cmath>
+#include <Magick++.h>
+
 #include "SDLauxiliary.h"
 #include "scene/TestModelH.h"
 #include "scene/Light.hpp"
@@ -15,11 +17,11 @@
 
 using namespace std;
 using namespace McRenderer;
+
 using glm::vec3;
 using glm::mat3;
 using glm::vec4;
 using glm::mat4;
-
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 256
@@ -57,15 +59,25 @@ void setupScene(Scene& scene) {
             vec4(1, 0, 0, 0),
             vec4(1)
     ));*/
+
     PointLightSource light;
     light.intensity = 5.0f;
     light.colour = vec4(1.0f);
     light.position = vec4(0, 0.9, -.4, 1);
     scene.lights.push_back(light);
 
+    MaterialSpec materialSpec;
+    materialSpec.diffuseMap = "textures/redbricks2b.png";
+    materialSpec.specularColor = vec3(0.7f);
+    materialSpec.normalMap = "textures/redbricks2b-normal.png";
+
+    scene.materialSpecs.push_back(materialSpec);
+
+    scene.initialize();
 }
 int main( int argc, char* argv[] )
 {
+    Magick::InitializeMagick(argv[0]);
 
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;

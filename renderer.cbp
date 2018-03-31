@@ -5,7 +5,7 @@
 		<Option title="renderer"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="clang"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\;CMake Files\cmake\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime"/>
@@ -39,12 +39,17 @@
 			</Target>
 			<Target title="renderer_tests">
 				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/renderer_tests" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime"/>
+				<Option working_dir=""/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
+					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
+					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
+					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
+					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
@@ -62,12 +67,17 @@
 			</Target>
 			<Target title="renderer_tests/fast">
 				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/renderer_tests" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime"/>
+				<Option working_dir=""/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
+					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
+					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
+					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
+					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
@@ -85,12 +95,17 @@
 			</Target>
 			<Target title="renderer">
 				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/renderer" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime"/>
+				<Option working_dir=""/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
+					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
+					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
+					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
+					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
@@ -108,12 +123,17 @@
 			</Target>
 			<Target title="renderer/fast">
 				<Option output="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/renderer" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime"/>
+				<Option working_dir=""/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
+					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
+					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
+					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
+					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
@@ -241,6 +261,14 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/ColourSampler.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/ColourSampler.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Light.cpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
@@ -257,11 +285,11 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Material.cpp">
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/MaterialSpec.cpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Material.hpp">
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/MaterialSpec.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -357,6 +385,14 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/textures/Texture2D.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/textures/Texture2D.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/tests/catch.hpp">
 			<Option target="renderer_tests"/>
 		</Unit>
@@ -372,6 +408,9 @@
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/../../../../../../usr/local/lib/cmake/SDL2/sdl2-config.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/cmake/FindSDL2_image.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

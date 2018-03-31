@@ -20,20 +20,20 @@ namespace McRenderer {
         vec4 viewPosition;
         vec4 normal;
         vec4 colour;
-        vec4 textCoord;
+        vec2 textCoord;
     };
 
     /**
-     * result = v1 * t + v2 * (1-t)
+     * result = v1 * (1 - t) + v2 * (t)
      * @param v1
      * @param v2
      * @param t
      * @param result
      */
-    void Interpolate(const VertexShaderOutputParams& v1,
-                     const VertexShaderOutputParams& v2,
+    void interpolate(const VertexShaderOutputParams &v1,
+                     const VertexShaderOutputParams &v2,
                      float t,
-                     VertexShaderOutputParams& result);
+                     VertexShaderOutputParams &result);
 
     /**
      * result = v1 * t1 + v2 * t2
@@ -48,9 +48,36 @@ namespace McRenderer {
                      float t1, float t2,
                      VertexShaderOutputParams& result);
 
-    void Interpolate(const VertexShaderOutputParams triangle[3],
-                     vec3 barycentricCoords,
+    void interpolateBarycentric(const VertexShaderOutputParams *triangle,
+                                vec3 barycentricCoords,
+                                VertexShaderOutputParams &result);
+
+    /**
+     * Perspective correct interpolation:
+     * C = Z [C0/Z0*(1-t) + C1/Z1*t]
+     * @param v1
+     * @param v2
+     * @param t
+     * @param result
+     */
+    void perspectiveInterpolate(const VertexShaderOutputParams& v1,
+                     const VertexShaderOutputParams& v2,
+                     float t,
                      VertexShaderOutputParams& result);
+    /**
+     * Perspective correct barycentric interpolation of a point on triangle.
+     * Barycentric coordinates a1, a2, a3 and attribute f1, f2, f3
+     * the non-perspective interpolation is simply f = f1*a1 + f2 * a2 + f3 * a3
+     * To avoid perspective distortion we take into account the depth value.
+     * f = a1 * f1 / z1 + a2 * f2 / z2 + a3 * f3 / z3 / (a1 / z1 + a2 / z2 + a3 / z3)
+     * @param triangle
+     * @param barycentricCoords
+     * @param result
+     */
+    void perspectiveInterpolateBarycentric(const VertexShaderOutputParams *triangle,
+                     vec3 barycentricCoords,
+                     VertexShaderOutputParams &result);
+
     /**
      * Abstract class of a vertex shader.
      * Class to provide concrete vertex shader implementation

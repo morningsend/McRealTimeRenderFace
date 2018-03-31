@@ -40,7 +40,8 @@ namespace McRenderer {
         // variables used in shader computations;
         // should be treated as a constant inside a shader.
         ShaderEnvironment env;
-
+        Material* currentMaterial;
+        Material defaultMaterial;
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
         void rasterizeLine(vec4 p0, vec4 p1);

@@ -3,6 +3,7 @@ project(renderer CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L/usr/local/lib -lSDL2_image -lSDL2 -std=c++11 -lm -lstdc++ -g")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(SOURCE_FILES
         src/scene/Transform.cpp src/scene/Transform.hpp
@@ -19,22 +20,33 @@ set(SOURCE_FILES
         src/rendering/RayTracer.cpp src/rendering/RayTracer.hpp
         src/scene/Scene.cpp src/scene/Scene.hpp
         src/scene/BoundingBox.cpp src/scene/BoundingBox.hpp
-        src/rendering/FrameBuffer.cpp src/rendering/FrameBuffer.hpp src/scene/Material.cpp src/scene/Material.hpp src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/scene/TextureMap.cpp src/scene/TextureMap.hpp tests/scene/RayTests.hpp  src/Exception.cpp src/Exception.hpp
+        src/rendering/FrameBuffer.cpp src/rendering/FrameBuffer.hpp src/scene/MaterialSpec.cpp src/scene/MaterialSpec.hpp src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/scene/TextureMap.cpp src/scene/TextureMap.hpp tests/scene/RayTests.hpp  src/Exception.cpp src/Exception.hpp
         src/SDLauxiliary.h
         src/rendering/Renderer.cpp src/rendering/Renderer.hpp src/rendering/Rasterizer.cpp src/rendering/Rasterizer.hpp src/SDLauxiliary.cpp src/scene/Viewport.cpp src/scene/Viewport.hpp src/rendering/RenderingPipeline.cpp src/rendering/RenderingPipeline.hpp src/rendering/VertexShader.hpp src/rendering/FragmentShader.hpp src/rendering/PrimitivePreprocessor.cpp src/rendering/PrimitivePreprocessor.hpp
         src/rendering/ShaderEnvironment.hpp
         src/rendering/BasicFragmentShader.hpp
-        src/rendering/BasicVertexShader.hpp src/rendering/Fragment.hpp src/rendering/VertexShader.cpp)
+        src/textures/Texture2D.cpp src/textures/Texture2D.hpp
+        src/rendering/BasicVertexShader.hpp src/rendering/Fragment.hpp
+        src/rendering/VertexShader.cpp
+        src/scene/ColourSampler.cpp src/scene/ColourSampler.hpp)
 
 set(TESTS_SOURCE_FILES ${SOURCE_FILES} tests/catch.hpp tests/testMain.cpp )
 
-include_directories(${SDL2_INCLUDE_DIRS})
-include_directories("${PROJECT_SOURCE_DIR}/lib/glm/")
 
+
+find_package(ImageMagick COMPONENTS Magick++)
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+
+add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
+add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
+
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories("${PROJECT_SOURCE_DIR}/lib/glm/")
+include_directories(${ImageMagick_INCLUDE_DIRS})
 
 add_executable(renderer ${SOURCE_FILES} src/main.cpp)
 add_executable(renderer_tests ${TESTS_SOURCE_FILES})
 
-target_link_libraries(renderer ${SDL2_LIBRARIES})
-target_link_libraries(renderer_tests ${SDL2_LIBRARIES})
+target_link_libraries(renderer ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${ImageMagick_LIBRARIES})
+target_link_libraries(renderer_tests ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${ImageMagick_LIBRARIES})

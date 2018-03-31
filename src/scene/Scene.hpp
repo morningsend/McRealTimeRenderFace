@@ -6,9 +6,11 @@
 #define RENDERER_SCENE_HPP
 
 #include <vector>
+#include <memory>
 #include "Light.hpp"
 #include "Triangle.hpp"
 #include "Camera.hpp"
+#include "MaterialSpec.hpp"
 
 namespace McRenderer {
     using namespace std;
@@ -17,7 +19,10 @@ namespace McRenderer {
         vector <Light> lights{};
         vector <Triangle> model{};
         Camera camera{};
+        vector <MaterialSpec> materialSpecs;
+        vector <shared_ptr<Material>> materials;
         Scene() {}
+        void initialize();
     };
 }
 

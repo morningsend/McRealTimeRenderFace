@@ -14,7 +14,7 @@ namespace McRenderer {
         VertexShaderOutputParams vertexOutput[3];
         vector<VertexShaderOutputParams> vertexClippingBuffer;
         vertexClippingBuffer.reserve(6);
-
+        currentMaterial = scene.materials.empty() ? nullptr : scene.materials[0].get();
         frameBuffer->clear();
         int edgeClippingFlags = 0;
         for(auto& tri: scene.model) {
@@ -170,10 +170,16 @@ namespace McRenderer {
             int y = static_cast<int>(screen1.y);
             for(int i = 0; i < static_cast<int>(deltaX); i++) {
                 float t = (i) / deltaX;
-                Interpolate(v2, v1, t, interpolatedAttributes);
+                perspectiveInterpolate(v1, v2, t, interpolatedAttributes);
                 float z = interpolatedAttributes.position.z * 0.5f + 0.5f;
+
                 if(frameBuffer->testDepthLessThan(x+i, y, z)) {
-                    fragmentShader->run(env, interpolatedAttributes, fragOutput);
+                    fragmentShader->run(
+                            env,
+                            interpolatedAttributes,
+                            currentMaterial != nullptr ? *currentMaterial : defaultMaterial,
+                            fragOutput
+                    );
                     frameBuffer->setColourAndDepth(x+i, y, fragOutput.colour, z);
                 }
             }
@@ -183,13 +189,12 @@ namespace McRenderer {
             int y = static_cast<int>(screen2.y);
             for(int i = 0; i < static_cast<int>(deltaX); i++) {
                 float t = (i) / deltaX;
-                Interpolate(v1, v2, t, interpolatedAttributes);
+                perspectiveInterpolate(v2, v1, t, interpolatedAttributes);
                 float z = interpolatedAttributes.position.z * 0.5f + 0.5f;
                 if(frameBuffer->testDepthLessThan(x+i, y, z)) {
-                    fragmentShader->run(env, interpolatedAttributes, fragOutput);
+                    fragmentShader->run(env, interpolatedAttributes, *currentMaterial, fragOutput);
                     frameBuffer->setColourAndDepth(x + i, y, fragOutput.colour, z);
                 }
-
             }
         }
     }
@@ -239,21 +244,21 @@ namespace McRenderer {
         VertexShaderOutputParams leftDividerAttributes;
 
         float t = (screenCoords[1].y - screenCoords[0].y) / (screenCoords[2].y - screenCoords[0].y);
-        Interpolate(*attributePointers[2], *attributePointers[0], t, leftDividerAttributes);
+        perspectiveInterpolate(*attributePointers[0], *attributePointers[2], t, leftDividerAttributes);
 
         float dy = floor(screenCoords[1].y - screenCoords[0].y + 0.5f);
         for(int i = 0; i <= (int) dy; i++) {
             t = (i) / dy;
-            Interpolate(*attributePointers[0], leftDividerAttributes, t, leftAttributes);
-            Interpolate(*attributePointers[0], *attributePointers[1], t, rightAttributes);
+            perspectiveInterpolate(leftDividerAttributes, *attributePointers[0],  t, leftAttributes);
+            perspectiveInterpolate(*attributePointers[1], *attributePointers[0],  t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
 
         }
         dy = floor(screenCoords[2].y - screenCoords[1].y + 0.5f);
         for(int i = 0; i < (int) dy; i++) {
             t = (i) / dy;
-            Interpolate(leftDividerAttributes, *attributePointers[2], t, leftAttributes);
-            Interpolate(*attributePointers[1], *attributePointers[2], t, rightAttributes);
+            perspectiveInterpolate(*attributePointers[2], leftDividerAttributes, t, leftAttributes);
+            perspectiveInterpolate( *attributePointers[2], *attributePointers[1], t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
         }
     }

@@ -6,7 +6,7 @@
 #define RENDERER_FRAGMENTSHADER_HPP
 #include <glm/glm.hpp>
 #include "VertexShader.hpp"
-
+#include "../scene/MaterialSpec.hpp"
 namespace McRenderer {
 
     struct FragmentShaderOutput {
@@ -22,6 +22,7 @@ namespace McRenderer {
     public:
         virtual void run(const ShaderEnvironment& env,
                          const VertexShaderOutputParams& vertexOutput,
+                         const Material& material,
                          FragmentShaderOutput& output) {};
         virtual ~FragmentShader() = default;
     };

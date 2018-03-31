@@ -365,8 +365,8 @@ namespace McRenderer {
         // interpolate the attributes.
         for(int i = 0; i < vertices.size(); i++) {
             Triangle::computeBarycentricCoord(v0, v1, v2, vertices[i], barycentric);
-            cout << barycentric[0] << ' ' << barycentric[1] <<  ' ' << barycentric[2] << endl;
-            Interpolate(triangleAttributes, barycentric, interpolatedValue);
+            //cout << barycentric[0] << ' ' << barycentric[1] <<  ' ' << barycentric[2] << endl;
+            interpolateBarycentric(triangleAttributes, barycentric, interpolatedValue);
             result.push_back(interpolatedValue);
         }
     }
