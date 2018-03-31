@@ -29,7 +29,7 @@ namespace McRenderer {
         result.textCoord = v1.textCoord * t1 + v2.textCoord * t2;
     }
 
-    void McRenderer::interpolateBarycentric(const VertexShaderOutputParams *triangleAttributes, vec3 barycentric,
+    void interpolateBarycentric(const VertexShaderOutputParams *triangleAttributes, vec3 barycentric,
                                             VertexShaderOutputParams &result) {
 
         result.position = triangleAttributes[0].position * barycentric[0];

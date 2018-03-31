@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 #include <stdint.h>
 #include <cmath>
-#include <Magick++.h>
 
 #include "SDLauxiliary.h"
 #include "scene/TestModelH.h"
@@ -77,8 +76,6 @@ void setupScene(Scene& scene) {
 }
 int main( int argc, char* argv[] )
 {
-    Magick::InitializeMagick(argv[0]);
-
     screen *screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN_MODE );
     Scene scene;
     setupScene(scene);

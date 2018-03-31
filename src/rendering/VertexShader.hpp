@@ -13,7 +13,7 @@ namespace McRenderer {
         vec4 position;
         vec4 normal;
         vec4 colour;
-        vec4 textCoord;
+        vec2 textCoord;
     };
     struct VertexShaderOutputParams {
         vec4 position;

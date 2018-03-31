@@ -7,7 +7,6 @@
 #include <string>
 #include <glm/glm.hpp>
 #include "TextureSampler2D.hpp"
-#include "ColourSampler.hpp"
 
 namespace McRenderer {
     using namespace glm;
@@ -28,24 +27,15 @@ namespace McRenderer {
     };
 
     struct Material {
-        Sampler2D<vec3> diffuseColourSampler;
-        Sampler2D<float> diffuseRoughnessSampler;
-        Sampler2D<vec3> specularColourSampler;
-        Sampler2D<float> specularRoughnessSampler;
-        Sampler2D<vec3> normalSampler;
+        TextureSampler2D diffuseColourSampler;
+        GrayScaleTextureSampler2D diffuseRoughnessSampler;
+        TextureSampler2D specularColourSampler;
+        GrayScaleTextureSampler2D specularRoughnessSampler;
+
+        TextureSampler2D normalSampler;
     };
 
     void buildMaterial(const MaterialSpec& spec, Material& material);
-
-    template<class T> Sampler2D<T> buildSampler(const std::string path, T defaultValue) {
-        return Sampler2D<T>{};
-    }
-
-    template<>
-    Sampler2D<vec3> buildSampler<vec3>(const std::string path, vec3 defaultColour);
-
-    template<>
-    Sampler2D<float> buildSampler<float>(const std::string path, float defaultValue);
 }
 
 

@@ -7,31 +7,50 @@
 
 #include <iostream>
 #include <glm/glm.hpp>
-#include <ImageMagick-7/Magick++.h>
+#include <opencv2/opencv.hpp>
 
 namespace McRenderer {
     enum FilteringMethod {
         Nearest,
         Anisotropic,
-        Trilinear,
         Bilinear,
     };
+
     class Texture2D {
     private:
-        Magick::Image image;
+        bool imageLoaded { false };
+        cv::Mat image;
         void loadImage(std::string path);
+        int columns;
+        int rows;
     public:
         Texture2D(std::string path,
-                FilteringMethod filtering = FilteringMethod::Nearest,
-                bool generateMipMaps = false){
-            loadImage(path);
+                  FilteringMethod filtering = FilteringMethod::Nearest,
+                  bool generateMipMaps = false){
+            if(!path.empty())
+                loadImage(path);
+        }
+
+        bool isLoaded() const {
+            return imageLoaded;
         }
 
         Texture2D(const Texture2D& other) {
             this->image = other.image;
         }
+
         ~Texture2D() { }
-        glm::vec3 sample(float u, float v, FilteringMethod filter = FilteringMethod::Nearest);
+        glm::vec3 sample(glm::vec2 uvCoord, FilteringMethod filter = FilteringMethod::Nearest) const;
+
+        static Texture2D* load(std::string path) {
+            Texture2D* texture = new Texture2D(path);
+            if(texture->isLoaded()) {
+                return texture;
+            } else {
+                delete texture;
+                return nullptr;
+            }
+        }
     };
 }
 

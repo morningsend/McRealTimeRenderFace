@@ -18,6 +18,7 @@ namespace McRenderer {
             output.viewPosition = env.viewingMatrix * input.position;
             output.normal = env.normalMatrix * input.normal;
             output.colour = input.colour;
+            output.textCoord = input.textCoord;
             //output.colour = (output.viewPosition * 0.5f) + vec4(0.5f);
         };
 

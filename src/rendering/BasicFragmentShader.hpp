@@ -22,10 +22,11 @@ namespace McRenderer {
                          const Material& material,
                          FragmentShaderOutput& output) override {
 #ifdef GRAPHICS_DEBUG
+            //cout << "sampling texture:" << endl;
+            //cout << vertexOutput.textCoord.x << ' ' << vertexOutput.textCoord.y << endl;
             output.colour = vec4(material
-                    .specularColourSampler
+                    .diffuseColourSampler
                     .sample(vec2(vertexOutput.textCoord.x, vertexOutput.textCoord.y)) , 1);
-            cout << output.colour.x <<' ' << output.colour.y << endl;
             return;
 #else
             // diffuse shading:

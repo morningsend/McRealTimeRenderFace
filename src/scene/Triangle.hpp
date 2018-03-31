@@ -16,6 +16,10 @@ namespace McRenderer {
         vec4 vertices[3] { vec4(0), vec4(0), vec4(0) };
         vec4 normal {0,0,1,0};
         vec4 colour {1.0f};
+        vec2 uvCoords[3] = { vec2(0,0), vec2(1,0), vec2(1,1) };
+
+        int materialId{-1};
+
         Triangle() {}
         Triangle(vec4 v0, vec4 v1, vec4 v2) : vertices{ v0, v1, v2 } {}
         Triangle(vec4 v0, vec4 v1, vec4 v2, vec4 normal) : vertices{ v0, v1, v2 }, normal{normal} {}

@@ -5,7 +5,7 @@
 		<Option title="renderer"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="clang"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\;CMake Files\cmake\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\;CMake Files\..\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\;CMake Files\cmake\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime"/>
@@ -44,14 +44,12 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
-					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
 					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
 					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
-					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
-					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -72,14 +70,12 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
-					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
 					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
 					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
-					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
-					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -100,14 +96,12 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
-					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
 					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
 					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
-					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
-					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -128,14 +122,12 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add option="-DMAGICKCORE_QUANTUM_DEPTH=16"/>
-					<Add option="-DMAGICKCORE_HDRI_ENABLE=0"/>
 					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
 					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
-					<Add directory="/usr/local/Cellar/imagemagick/7.0.7-28/include/ImageMagick-7"/>
-					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -258,14 +250,6 @@
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Camera.hpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/ColourSampler.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/ColourSampler.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -408,6 +392,18 @@
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/../../../../../../usr/local/lib/cmake/SDL2/sdl2-config.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\SDL2\"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/cmake/FindSDL2_image.cmake">
 			<Option virtualFolder="CMake Files\cmake\"/>

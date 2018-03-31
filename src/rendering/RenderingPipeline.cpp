@@ -14,10 +14,11 @@ namespace McRenderer {
         VertexShaderOutputParams vertexOutput[3];
         vector<VertexShaderOutputParams> vertexClippingBuffer;
         vertexClippingBuffer.reserve(6);
-        currentMaterial = scene.materials.empty() ? nullptr : scene.materials[0].get();
+
         frameBuffer->clear();
         int edgeClippingFlags = 0;
         for(auto& tri: scene.model) {
+            currentMaterial = scene.materials.empty() ? nullptr : scene.materials[0].get();
             float facing = glm::dot(scene.camera.position, vec3(tri.normal));
             float cullPoint = glm::dot(tri.normal, tri.vertices[0]);
             switch(vertexProcessingConfig.cullingMode) {
@@ -77,12 +78,12 @@ namespace McRenderer {
             vertexInput[i].position = tri.vertices[i];
             vertexInput[i].normal = tri.normal;
             vertexInput[i].colour = tri.colour;
+            vertexInput[i].textCoord = tri.uvCoords[i];
             vertexShader->run(env, vertexInput[i], vertexOutput[i]);
         }
     }
 
     void RenderingPipeline::rasterizeTriangleFan(vector<VertexShaderOutputParams> &vertexOutput) {
-        VertexShaderOutputParams interpolatedVertexParams;
         // rasterize and interpolate
         auto size = static_cast<const int>(vertexOutput.size());
         vec4 last = vertexOutput[size - 1].position;
