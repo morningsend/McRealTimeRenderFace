@@ -77,6 +77,8 @@ namespace McRenderer {
         for(int i = 0; i < 3; i++) {
             vertexInput[i].position = tri.vertices[i];
             vertexInput[i].normal = tri.normal;
+            vertexInput[i].tangent = tri.tangent;
+            vertexInput[i].bitangent = tri.bitangent;
             vertexInput[i].colour = tri.colour;
             vertexInput[i].textCoord = tri.uvCoords[i];
             vertexShader->run(env, vertexInput[i], vertexOutput[i]);
@@ -253,7 +255,6 @@ namespace McRenderer {
             perspectiveInterpolate(leftDividerAttributes, *attributePointers[0],  t, leftAttributes);
             perspectiveInterpolate(*attributePointers[1], *attributePointers[0],  t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
-
         }
         dy = floor(screenCoords[2].y - screenCoords[1].y + 0.5f);
         for(int i = 0; i < (int) dy; i++) {

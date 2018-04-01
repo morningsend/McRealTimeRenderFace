@@ -12,6 +12,8 @@ namespace McRenderer {
     struct VertexShaderInputParams {
         vec4 position;
         vec4 normal;
+        vec4 tangent;
+        vec4 bitangent;
         vec4 colour;
         vec2 textCoord;
     };
@@ -19,6 +21,8 @@ namespace McRenderer {
         vec4 position;
         vec4 viewPosition;
         vec4 normal;
+        vec4 tangent;
+        vec4 bitangent;
         vec4 colour;
         vec2 textCoord;
     };

@@ -22,23 +22,25 @@ namespace McRenderer {
                          const Material& material,
                          FragmentShaderOutput& output) override {
 #ifdef GRAPHICS_DEBUG
-            //cout << "sampling texture:" << endl;
-            //cout << vertexOutput.textCoord.x << ' ' << vertexOutput.textCoord.y << endl;
-            output.colour = vec4(material
-                    .diffuseColourSampler
-                    .sample(vec2(vertexOutput.textCoord.x, vertexOutput.textCoord.y)) , 1);
-            return;
+
+            output.colour = vertexOutput.tangent * 0.5f + vec4(0.5f);
 #else
+            mat3 tangentToWorld(vertexOutput.tangent, vertexOutput.bitangent, vertexOutput.normal);
+
             // diffuse shading:
             // colour = materialColour * dot(lightDir, normal) * lightIntensity / attenuationFactor;
+            vec4 diffuseTextureColour = vec4(
+                    material.diffuseColourSampler.sample(vec2(vertexOutput.textCoord.x, vertexOutput.textCoord.y)) , 1);
+            vec3 normal = normalize(material.normalSampler.sample(vertexOutput.textCoord) * 2.0f - vec3(1));
+            normal = tangentToWorld * normal;
             vec3 lightDirection = vec3(env.light1.position) - vec3(vertexOutput.viewPosition);
             float distanceLight = glm::length(lightDirection);
+
             lightDirection /= distanceLight;
-            float cosTheta = max(glm::dot(lightDirection, vec3(vertexOutput.normal)), 0.01f);
+            float cosTheta = max(glm::dot(lightDirection, normal), 0.0f);
             float attenuationFactor = 1.0f / (distanceLight * distanceLight * 2 * F_PI);
-            vec4 ambient = env.ambient * vertexOutput.colour;
-            vec4 diffuse = (vec4(1) - env.ambient) * vertexOutput.colour * env.light1.colour * cosTheta * (attenuationFactor * env.light1.intensity);
-            output.colour = ambient + diffuse;
+            vec4 diffuse = diffuseTextureColour * env.light1.colour * cosTheta * (attenuationFactor * env.light1.intensity);
+            output.colour = diffuse;
             output.depth = vertexOutput.position.z;
 #endif
         };

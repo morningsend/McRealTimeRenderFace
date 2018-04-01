@@ -1,4 +1,4 @@
-#define GRAPHICS_DEBUG
+//#define GRAPHICS_DEBUG
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -22,14 +22,15 @@ using glm::mat3;
 using glm::vec4;
 using glm::mat4;
 
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 256
+#define SCREEN_WIDTH 500
+#define SCREEN_HEIGHT 500
 #define FULLSCREEN_MODE false
 
 /* ----------------------------------------------------------------------------*/
 /* FUNCTIONS                                                                   */
 
 void Update(Camera& camera);
+void Update(Light& light);
 void Draw(screen* screen);
 
 void setupScene(Scene& scene) {
@@ -43,9 +44,11 @@ void setupScene(Scene& scene) {
     scene.camera.farClippingDistance = 1000.0f;
     scene.camera.nearClippingDistance = 0.4f;
     for(::Triangle& tri: triangles) {
-        scene.model.push_back(McRenderer::Triangle(
+        McRenderer::Triangle triangle(
                 tri.v0, tri.v1, tri.v2, tri.normal, vec4(tri.color, 1)
-        ));
+        );
+        computeTangentBasis(triangle);
+        scene.model.push_back(triangle);
     }
     /*
     scene.model.push_back(McRenderer::Triangle(
@@ -93,6 +96,7 @@ int main( int argc, char* argv[] )
     while( NoQuitMessageSDL() )
     {
         Update(scene.camera);
+        Update(scene.lights[0]);
         pipeline->submitScene(scene);
         pipeline->getFrameBuffer().copyToScreen(screen);
         SDL_Renderframe(screen);
@@ -119,6 +123,24 @@ void Draw(screen* screen)
     }
 }
 
+void Update(Light& light) {
+    uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
+
+    if(keystate[SDL_SCANCODE_W]) {
+        light.position += vec4(0,1,0,0) * 0.051f;
+    }
+    if(keystate[SDL_SCANCODE_S]) {
+        light.position -= vec4(0,1,0,0) * 0.051f;
+    }
+
+    if(keystate[SDL_SCANCODE_A]) {
+        light.position += vec4(1,0,0,0) * 0.051f;
+    }
+    if(keystate[SDL_SCANCODE_D]) {
+        light.position -= vec4(1,0,0,0) * 0.051f;
+    }
+
+}
 /*Place updates of parameters here*/
 void Update(Camera& camera)
 {
