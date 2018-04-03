@@ -18,12 +18,12 @@ namespace McRenderer {
         vec4 basecolour = vec4(material.basecolourSampler.sample(vertexOutput.textCoord), 1);
         vec3 normal = material.normalSampler.sample(vertexOutput.textCoord) * 2.0f - vec3(1);
 
-
         float metalness = material.metalnessSampler.sample(vertexOutput.textCoord);
         float roughness = max(material.roughnessSampler.sample(vertexOutput.textCoord), 0.001f);
 
+        //roughness = (1 - roughness) *(1 -roughness);
         vec4 diffuse = basecolour * (1 - metalness);
-        vec4 specular = basecolour * metalness;
+        vec4 specular = vec4(.25f);//basecolour * metalness;
 
         // cook-torrance specular BRDF
         // Fr(l, v, n) = F G D / 4 * (n.l)(n.v)
@@ -38,21 +38,21 @@ namespace McRenderer {
         normal = normalize(tangentToWorld * normal);
         vec3 halfVector = normalize(normal + viewDirection);
         float attenuationFactor = max(0.01, 1 / (lightDistance * lightDistance * 2 * F_PI));
-        float nDotL = dot(normal, lightDirection);
-        float nDotV = dot(normal, viewDirection);
-        float lDotH = dot(halfVector, lightDirection);
-        float nDotH = dot(normal, halfVector);
+        float nDotL = max(dot(normal, lightDirection), 0);
+        float nDotV = max(dot(normal, viewDirection), 0);
+        float lDotH = max(dot(halfVector, lightDirection), 0);
+        float nDotH = max(dot(normal, halfVector), 0);
 
+        float fresnel = (shlickFresnel(lDotH, 0.04f));
         // evaluate specular BRDF;
         float specularLight =
                 ggxDistribution(nDotH, roughness) *
-                schlickGGXGeometricShadowMaskingFunc(nDotL, nDotV, roughness) *
-                (shlickFresnel(lDotH, 0.04))
-                / (4 * nDotL * nDotV);
+                schlickGGXGeometricShadowMaskingFunc(nDotL, nDotV, roughness) * fresnel
+                / max(0.001, (4 * nDotL * nDotV));
 
-        specular *= vec4(1) * env.light1.colour * specularLight * env.light1.intensity * attenuationFactor;
+        specular *= vec4(1) * env.light1.colour * specularLight * env.light1.intensity * attenuationFactor * nDotL;
         // evaluate diffuse BRDF;
-        diffuse = env.light1.colour * diffuse * (env.light1.intensity * nDotL * attenuationFactor);
+        diffuse = env.light1.colour * diffuse * (env.light1.intensity * nDotL * attenuationFactor) * (1- fresnel);
 
         output.depth = vertexOutput.position.z;
         switch (env.shaderPassDebugging) {
@@ -60,7 +60,7 @@ namespace McRenderer {
                 output.colour = diffuse;
                 break;
             case Specular:
-                output.colour = vec4(0.8f) * specularLight * env.light1.intensity * attenuationFactor;
+                output.colour = specular;
                 break;
             case Normal:
                 output.colour = vec4(
@@ -80,9 +80,6 @@ namespace McRenderer {
                 break;
             case All:
                 output.colour = specular + diffuse;
-
-
-
         }
         output.depth = vertexOutput.position.z;
     }

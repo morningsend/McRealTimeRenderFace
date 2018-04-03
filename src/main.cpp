@@ -71,10 +71,10 @@ void setupScene(Scene& scene) {
     MaterialSpec materialSpec;
 
     materialSpec.basecolourMap = "textures/New_Graph_basecolor.png";
-    materialSpec.metalness = 0.f;
+    materialSpec.metalness = 0.0f;
     materialSpec.normalMap = "textures/New_Graph_normal.png";
-    materialSpec.roughnessMap = "textures/New_Graph_roughness.png";
-    materialSpec.roughness = 0.2f;
+    //materialSpec.roughnessMap = "textures/New_Graph_roughness.png";
+    materialSpec.roughness = 0.3f;
     scene.materialSpecs.push_back(materialSpec);
 
     scene.initialize();
