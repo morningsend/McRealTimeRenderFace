@@ -7,6 +7,8 @@
 #include <glm/glm.hpp>
 #include "VertexShader.hpp"
 #include "../scene/MaterialSpec.hpp"
+#define F_PI 3.1415926f
+
 namespace McRenderer {
 
     struct FragmentShaderOutput {
@@ -25,6 +27,13 @@ namespace McRenderer {
                          const Material& material,
                          FragmentShaderOutput& output) {};
         virtual ~FragmentShader() = default;
+
+        inline float max(float a, float b) {
+            return a > b ? a : b;
+        }
+        inline float min(float a, float b) {
+            return a < b ? a : b;
+        }
     };
 }
 

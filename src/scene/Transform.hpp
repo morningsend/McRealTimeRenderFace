@@ -18,5 +18,4 @@ namespace McRenderer {
     };
 }
 
-
 #endif //RENDERER_TRANSFORM_HPP

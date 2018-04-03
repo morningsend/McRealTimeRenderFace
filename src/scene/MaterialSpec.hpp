@@ -11,13 +11,17 @@
 namespace McRenderer {
     using namespace glm;
     struct MaterialSpec {
-        vec3 diffuseColor{0.8f};
-        std::string diffuseMap{};
-        float diffuseRoughness;
+        vec3 basecolour{0.8f};
+        std::string basecolourMap{};
+
+        float metalness{0.05};
+        std::string metalnessMap;
 
         vec3 specularColor{0.2f};
         std::string specularMap{};
-        float specularRoughness;
+
+        float roughness;
+        std::string roughnessMap{};
 
         vec3 refraction{0};
         std::string refractionMap{};
@@ -27,11 +31,10 @@ namespace McRenderer {
     };
 
     struct Material {
-        TextureSampler2D diffuseColourSampler;
-        GrayScaleTextureSampler2D diffuseRoughnessSampler;
+        TextureSampler2D basecolourSampler;
+        GrayScaleTextureSampler2D roughnessSampler;
+        GrayScaleTextureSampler2D metalnessSampler;
         TextureSampler2D specularColourSampler;
-        GrayScaleTextureSampler2D specularRoughnessSampler;
-
         TextureSampler2D normalSampler;
     };
 

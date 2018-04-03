@@ -67,9 +67,9 @@ namespace McRenderer {
         env.normalMatrix = glm::inverse(glm::transpose(env.viewingMatrix));
         if(!scene.lights.empty()) {
             env.light1 = scene.lights[0];
-            env.light1.position = env.viewingMatrix * env.light1.position;
         }
-        env.ambient = vec4(0.05);
+        env.cameraPosition = vec4(scene.camera.position, 1);
+        env.shaderPassDebugging = debuggingPass;
     }
 
     void RenderingPipeline::shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput) {
@@ -173,7 +173,7 @@ namespace McRenderer {
             int y = static_cast<int>(screen1.y);
             for(int i = 0; i < static_cast<int>(deltaX); i++) {
                 float t = (i) / deltaX;
-                perspectiveInterpolate(v1, v2, t, interpolatedAttributes);
+                interpolate(v1, v2, t, interpolatedAttributes);
                 float z = interpolatedAttributes.position.z * 0.5f + 0.5f;
 
                 if(frameBuffer->testDepthLessThan(x+i, y, z)) {
@@ -192,7 +192,7 @@ namespace McRenderer {
             int y = static_cast<int>(screen2.y);
             for(int i = 0; i < static_cast<int>(deltaX); i++) {
                 float t = (i) / deltaX;
-                perspectiveInterpolate(v2, v1, t, interpolatedAttributes);
+                interpolate(v2, v1, t, interpolatedAttributes);
                 float z = interpolatedAttributes.position.z * 0.5f + 0.5f;
                 if(frameBuffer->testDepthLessThan(x+i, y, z)) {
                     fragmentShader->run(env, interpolatedAttributes, *currentMaterial, fragOutput);
@@ -247,20 +247,20 @@ namespace McRenderer {
         VertexShaderOutputParams leftDividerAttributes;
 
         float t = (screenCoords[1].y - screenCoords[0].y) / (screenCoords[2].y - screenCoords[0].y);
-        perspectiveInterpolate(*attributePointers[0], *attributePointers[2], t, leftDividerAttributes);
+        interpolate(*attributePointers[0], *attributePointers[2], t, leftDividerAttributes);
 
         float dy = floor(screenCoords[1].y - screenCoords[0].y + 0.5f);
         for(int i = 0; i <= (int) dy; i++) {
             t = (i) / dy;
-            perspectiveInterpolate(leftDividerAttributes, *attributePointers[0],  t, leftAttributes);
-            perspectiveInterpolate(*attributePointers[1], *attributePointers[0],  t, rightAttributes);
+            interpolate(leftDividerAttributes, *attributePointers[0],  t, leftAttributes);
+            interpolate(*attributePointers[1], *attributePointers[0],  t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
         }
         dy = floor(screenCoords[2].y - screenCoords[1].y + 0.5f);
         for(int i = 0; i < (int) dy; i++) {
             t = (i) / dy;
-            perspectiveInterpolate(*attributePointers[2], leftDividerAttributes, t, leftAttributes);
-            perspectiveInterpolate( *attributePointers[2], *attributePointers[1], t, rightAttributes);
+            interpolate(*attributePointers[2], leftDividerAttributes, t, leftAttributes);
+            interpolate( *attributePointers[2], *attributePointers[1], t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
         }
     }

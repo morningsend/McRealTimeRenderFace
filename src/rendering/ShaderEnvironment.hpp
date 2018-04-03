@@ -7,7 +7,19 @@
 
 #include <glm/glm.hpp>
 #include "../scene/Light.hpp"
+
 namespace McRenderer {
+    enum ShaderPass {
+        All,
+        Diffuse,
+        Specular,
+        Normal,
+        VertexNormal,
+        Tangent,
+        Depth,
+        AmbientOcclusion,
+    };
+
     struct ShaderEnvironment {
         glm::mat4 viewingMatrix;
         glm::mat4 projectionMatrix;
@@ -15,7 +27,8 @@ namespace McRenderer {
         glm::mat4 normalMatrix;
         Light light1;
         Light light2;
-        vec4 ambient;
+        glm::vec4 cameraPosition;
+        ShaderPass shaderPassDebugging;
     };
 }
 

@@ -12,10 +12,10 @@ namespace McRenderer {
                      VertexShaderOutputParams &result) {
         float oneMinusT = 1 - t;
         result.position = v1.position * oneMinusT + v2.position * t;
-        result.viewPosition = v1.viewPosition * oneMinusT + v2.viewPosition * t;
+        result.worldPosition = v1.worldPosition * oneMinusT + v2.worldPosition * t;
         result.normal = v1.normal * oneMinusT + v2.normal * t;
-        result.tangent = v1.tangent * oneMinusT + v2.normal * t;
-        result.bitangent = v1.bitangent * oneMinusT + v2.normal * t;
+        result.tangent = v1.tangent * oneMinusT + v2.tangent * t;
+        result.bitangent = v1.bitangent * oneMinusT + v2.bitangent * t;
         result.colour = v1.colour * oneMinusT + v2.colour * t;
         result.textCoord = v1.textCoord * oneMinusT + v2.textCoord * t;
     }
@@ -25,19 +25,20 @@ namespace McRenderer {
                             float t1, float t2,
                             VertexShaderOutputParams &result) {
         result.position = v1.position * t1 + v2.position * t2;
-        result.viewPosition = v1.viewPosition * t1 + v2.viewPosition * t2;
+        result.worldPosition = v1.worldPosition * t1 + v2.worldPosition * t2;
         result.normal = v1.normal * t1 + v2.normal * t2;
         result.tangent = v1.tangent * t1 + v2.tangent * t2;
         result.bitangent = v1.bitangent * t1 + v2.bitangent * t2;
         result.colour = v1.colour * t1 + v2.colour * t2;
         result.textCoord = v1.textCoord * t1 + v2.textCoord * t2;
+
     }
 
     void interpolateBarycentric(const VertexShaderOutputParams *triangleAttributes, vec3 barycentric,
                                             VertexShaderOutputParams &result) {
 
         result.position = triangleAttributes[0].position * barycentric[0];
-        result.viewPosition = triangleAttributes[0].viewPosition * barycentric[0];
+        result.worldPosition = triangleAttributes[0].worldPosition * barycentric[0];
         result.normal = triangleAttributes[0].normal * barycentric[0];
         result.tangent = triangleAttributes[0].tangent * barycentric[0];
         result.bitangent = triangleAttributes[0].bitangent * barycentric[0];
@@ -45,7 +46,7 @@ namespace McRenderer {
         result.textCoord = triangleAttributes[0].textCoord * barycentric[0];
         for(int j = 1; j < 3; j++) {
             result.position += triangleAttributes[j].position * barycentric[j];
-            result.viewPosition += triangleAttributes[j].viewPosition * barycentric[j];
+            result.worldPosition += triangleAttributes[j].worldPosition * barycentric[j];
             result.normal += triangleAttributes[j].normal * barycentric[j];
             result.tangent += triangleAttributes[j].tangent * barycentric[j];
             result.bitangent += triangleAttributes[j].bitangent * barycentric[j];
@@ -72,7 +73,7 @@ namespace McRenderer {
         float A = result.position.z / v1.position.z * (1-t);
         float B = result.position.z / v2.position.z * t;
 
-        result.viewPosition = v1.viewPosition * A + v2.viewPosition * B;
+        result.worldPosition = v1.worldPosition * A + v2.worldPosition * B;
         result.normal = v1.normal * A + v2.normal * B;
         result.tangent = v1.tangent * A + v2.tangent * B;
         result.bitangent = v1.bitangent * A + v2.bitangent * B;
@@ -93,7 +94,7 @@ namespace McRenderer {
         float sum = perspetiveCorrectBarycentricCoords[0];
 
         result.position = triangleAttributes[0].position * barycentricCoords[0];
-        result.viewPosition = triangleAttributes[0].viewPosition * perspetiveCorrectBarycentricCoords[0];
+        result.worldPosition = triangleAttributes[0].worldPosition * perspetiveCorrectBarycentricCoords[0];
         result.normal = triangleAttributes[0].normal * perspetiveCorrectBarycentricCoords[0];
         result.tangent = triangleAttributes[0].tangent * perspetiveCorrectBarycentricCoords[0];
         result.bitangent = triangleAttributes[0].bitangent * perspetiveCorrectBarycentricCoords[0];
@@ -102,7 +103,7 @@ namespace McRenderer {
 
         for(int j = 1; j < 3; j++) {
             result.position += triangleAttributes[j].position * barycentricCoords[j];
-            result.viewPosition += triangleAttributes[j].viewPosition * perspetiveCorrectBarycentricCoords[j];
+            result.worldPosition += triangleAttributes[j].worldPosition * perspetiveCorrectBarycentricCoords[j];
             result.normal += triangleAttributes[j].normal * perspetiveCorrectBarycentricCoords[j];
             result.tangent += triangleAttributes[j].tangent * perspetiveCorrectBarycentricCoords[j];
             result.bitangent += triangleAttributes[j].bitangent * perspetiveCorrectBarycentricCoords[j];
@@ -112,7 +113,7 @@ namespace McRenderer {
         }
         sum = 1 / sum;
 
-        result.viewPosition = result.viewPosition * sum;
+        result.worldPosition = result.worldPosition * sum;
         result.normal = result.normal * sum;
         result.tangent = result.tangent * sum;
         result.bitangent = result.bitangent * sum;

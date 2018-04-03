@@ -1,4 +1,4 @@
-//#define GRAPHICS_DEBUG
+#define GRAPHICS_DEBUG
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -11,8 +11,8 @@
 #include "scene/Light.hpp"
 #include "rendering/Rasterizer.hpp"
 #include "rendering/RenderingPipeline.hpp"
-#include "rendering/BasicFragmentShader.hpp"
 #include "rendering/BasicVertexShader.hpp"
+#include "rendering/PhysicallyBasedFragmentShader.hpp"
 
 using namespace std;
 using namespace McRenderer;
@@ -31,7 +31,7 @@ using glm::mat4;
 
 void Update(Camera& camera);
 void Update(Light& light);
-void Draw(screen* screen);
+void Update(RenderingPipeline& pipeline);
 
 void setupScene(Scene& scene) {
     vector<::Triangle> triangles;
@@ -63,16 +63,18 @@ void setupScene(Scene& scene) {
     ));*/
 
     PointLightSource light;
-    light.intensity = 5.0f;
+    light.intensity = 20.0f;
     light.colour = vec4(1.0f);
-    light.position = vec4(0, 0.9, -.4, 1);
+    light.position = vec4(0, 0.9, 0, 1);
     scene.lights.push_back(light);
 
     MaterialSpec materialSpec;
-    materialSpec.diffuseMap = "textures/redbricks2b.png";
-    materialSpec.specularColor = vec3(0.7f);
-    materialSpec.normalMap = "textures/redbricks2b-normal.png";
 
+    materialSpec.basecolourMap = "textures/New_Graph_basecolor.png";
+    materialSpec.metalness = 0.f;
+    materialSpec.normalMap = "textures/New_Graph_normal.png";
+    materialSpec.roughnessMap = "textures/New_Graph_roughness.png";
+    materialSpec.roughness = 0.2f;
     scene.materialSpecs.push_back(materialSpec);
 
     scene.initialize();
@@ -88,7 +90,7 @@ int main( int argc, char* argv[] )
     config.faceMode = FaceRenderMode::Shaded;
     PipelineBuilder builder;
     unique_ptr<RenderingPipeline> pipeline = builder.singlethreaded()
-            .useFragmentShader(new BasicFragmentShader())
+            .useFragmentShader(new PhysicallyBasedFragmentShader())
             .useVertexShader(new BasicVertexShader())
             .configureRasterizer(config)
             .writeOutputTo(new FrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -97,6 +99,7 @@ int main( int argc, char* argv[] )
     {
         Update(scene.camera);
         Update(scene.lights[0]);
+        Update(*pipeline);
         pipeline->submitScene(scene);
         pipeline->getFrameBuffer().copyToScreen(screen);
         SDL_Renderframe(screen);
@@ -108,21 +111,36 @@ int main( int argc, char* argv[] )
     return 0;
 }
 
-/*Place your drawing here*/
-void Draw(screen* screen)
-{
-    /* Clear buffer */
-    memset(screen->buffer, 0, screen->height*screen->width*sizeof(uint32_t));
+void Update(RenderingPipeline& pipeline) {
+    uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
 
-    vec3 colour(1.0,0.0,0.0);
-    for(int i=0; i<1000; i++)
-    {
-        uint32_t x = rand() % screen->width;
-        uint32_t y = rand() % screen->height;
-        PutPixelSDL(screen, x, y, colour);
+#ifdef  GRAPHICS_DEBUG
+    if(keystate[SDL_SCANCODE_1]) {
+        pipeline.setDebuggingPass(ShaderPass::Diffuse);
     }
+    if(keystate[SDL_SCANCODE_2]) {
+        pipeline.setDebuggingPass(ShaderPass::Specular);
+    }
+    if(keystate[SDL_SCANCODE_3]) {
+        pipeline.setDebuggingPass(ShaderPass::Normal);
+    }
+    if(keystate[SDL_SCANCODE_4]) {
+        pipeline.setDebuggingPass(ShaderPass::VertexNormal);
+    }
+    if(keystate[SDL_SCANCODE_5]) {
+        pipeline.setDebuggingPass(ShaderPass::Tangent);
+    }
+    if(keystate[SDL_SCANCODE_6]) {
+        pipeline.setDebuggingPass(ShaderPass::Depth);
+    }
+    if(keystate[SDL_SCANCODE_7]) {
+        pipeline.setDebuggingPass(ShaderPass::AmbientOcclusion);
+    }
+    if(keystate[SDL_SCANCODE_0]) {
+        pipeline.setDebuggingPass(ShaderPass::All);
+    }
+#endif
 }
-
 void Update(Light& light) {
     uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
 
@@ -139,7 +157,6 @@ void Update(Light& light) {
     if(keystate[SDL_SCANCODE_D]) {
         light.position -= vec4(1,0,0,0) * 0.051f;
     }
-
 }
 /*Place updates of parameters here*/
 void Update(Camera& camera)
@@ -159,8 +176,16 @@ void Update(Camera& camera)
         camera.position -= camera.right * 0.051f;
     }
     if(keystate[SDL_SCANCODE_R]) {
-        camera.up.x= camera.up.x * cos(0.01) - camera.up.y*sin(0.01);
-        camera.up.y= camera.up.y*cos(0.01) + sin(0.01) * camera.up.x;
+        camera.up.x= camera.up.x * cos(0.01f) - camera.up.y*sin(0.01f);
+        camera.up.y= camera.up.y*cos(0.01f) + sin(0.01f) * camera.up.x;
+    }
+    if(keystate[SDL_SCANCODE_N]) {
+        camera.forward = vec3(glm::rotate(0.1f, vec3(0,1,0)) * vec4(camera.forward, 0));
+        camera.right = vec3(glm::rotate(0.1f, vec3(0,1,0)) * vec4(camera.right, 0));
+    }
+    if(keystate[SDL_SCANCODE_M]) {
+        camera.forward = vec3(glm::rotate(-0.1f, vec3(0,1,0)) * vec4(camera.forward, 0));
+        camera.forward = vec3(glm::rotate(-0.1f, vec3(0,1,0)) * vec4(camera.right, 0));
     }
     static int t = SDL_GetTicks();
     /* Compute frame time */
@@ -169,13 +194,5 @@ void Update(Camera& camera)
     t = t2;
     /*Good idea to remove this*/
     std::cout << "Render time: " << dt << " ms." << std::endl;
-    std::cout << "Camera position:"
-              << camera.position.x << ' '
-              << camera.position.y << ' '
-              << camera.position.z << endl;
-    std::cout << "Camera forward" << ' '
-              << camera.forward.x << ' '
-              << camera.forward.y << ' '
-              << camera.forward.z << ' '<<endl;
     /* Update variables*/
 }

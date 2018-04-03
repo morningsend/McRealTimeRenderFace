@@ -42,6 +42,8 @@ namespace McRenderer {
         ShaderEnvironment env;
         Material* currentMaterial;
         Material defaultMaterial;
+        ShaderPass debuggingPass{ShaderPass::All};
+
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
         void rasterizeLine(vec4 p0, vec4 p1);
@@ -91,7 +93,9 @@ namespace McRenderer {
         FrameBuffer& getFrameBuffer() const {
             return *frameBuffer;
         }
-
+        void setDebuggingPass(ShaderPass pass) {
+            debuggingPass = pass;
+        }
     };
 
     class PipelineBuilder {

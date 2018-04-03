@@ -25,7 +25,6 @@ namespace McRenderer {
         int rows;
     public:
         Texture2D(std::string path,
-                  FilteringMethod filtering = FilteringMethod::Nearest,
                   bool generateMipMaps = false){
             if(!path.empty())
                 loadImage(path);
@@ -41,7 +40,7 @@ namespace McRenderer {
 
         ~Texture2D() { }
         glm::vec3 sample(glm::vec2 uvCoord, FilteringMethod filter = FilteringMethod::Nearest) const;
-
+        inline glm::vec3 sampleBilinear(glm::vec2 uvCoord) const;
         static Texture2D* load(std::string path) {
             Texture2D* texture = new Texture2D(path);
             if(texture->isLoaded()) {

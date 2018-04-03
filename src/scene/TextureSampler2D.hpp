@@ -17,7 +17,15 @@ namespace McRenderer {
         virtual ValueType sample(glm::vec2 uvCoord) const { return ValueType{}; }
         virtual ~Sampler2D(){}
     };
+    template <typename ValueType> class Sampler3D {
+    public:
+        Sampler3D() {};
 
+        virtual ValueType sample(glm::vec3 coord) const {
+            return ValueType{};
+        }
+        virtual ~Sampler3D(){}
+    };
     class TextureSampler2D : public Sampler2D<glm::vec3> {
     private:
         std::unique_ptr<Texture2D> texture;
@@ -33,7 +41,7 @@ namespace McRenderer {
         }
         glm::vec3 sample(glm::vec2 uvCoord) const override {
             if(texture) {
-                return texture->sample(uvCoord);
+                return texture->sample(uvCoord, FilteringMethod::Bilinear);
             }
             return defaultColour;
         }
