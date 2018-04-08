@@ -52,6 +52,7 @@ namespace McRenderer {
             }
             rasterizeTriangleFan(vertexClippingBuffer);
         }
+        ssaoPass(frameBuffer->getDepthBuffer(), frameBuffer->getColourBuffer());
 #if defined(GRAPHICS_DEBUG)
         /* render position of light on screen as a dot */
         vec4 point = env.viewProjectionMatrix * scene.lights[0].position;
@@ -262,6 +263,17 @@ namespace McRenderer {
             interpolate(*attributePointers[2], leftDividerAttributes, t, leftAttributes);
             interpolate( *attributePointers[2], *attributePointers[1], t, rightAttributes);
             rasterizeHorizontalLine(leftAttributes, rightAttributes);
+        }
+    }
+
+    void RenderingPipeline::ssaoPass(float *depthBuffer, vec4* colourBuffer) {
+        const int width = frameBuffer->getWidth();
+        const int height = frameBuffer->getHeight();
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                int index = j + i * width;
+
+            }
         }
     }
 }

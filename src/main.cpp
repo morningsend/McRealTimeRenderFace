@@ -63,18 +63,18 @@ void setupScene(Scene& scene) {
     ));*/
 
     PointLightSource light;
-    light.intensity = 20.0f;
-    light.colour = vec4(1.0f);
+    light.intensity = 10.0f;
+    light.colour = vec4(1,.95f,1,1);
     light.position = vec4(0, 0.9, 0, 1);
     scene.lights.push_back(light);
 
     MaterialSpec materialSpec;
 
     materialSpec.basecolourMap = "textures/New_Graph_basecolor.png";
-    materialSpec.metalness = 0.0f;
+    materialSpec.metalness = 0.f;
     materialSpec.normalMap = "textures/New_Graph_normal.png";
     //materialSpec.roughnessMap = "textures/New_Graph_roughness.png";
-    materialSpec.roughness = 0.3f;
+    materialSpec.roughness = 0.1f;
     scene.materialSpecs.push_back(materialSpec);
 
     scene.initialize();

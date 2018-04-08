@@ -33,7 +33,15 @@ namespace McRenderer {
         void setColourAndDepth(int x, int y, vec4 colour, float d);
         void setDepthLessThan(int x, int y, float d);
         bool testDepthLessThan(int x, int y, float d);
+        float* getDepthBuffer() { return depthBuffer; }
+        vec4* getColourBuffer() { return colourBuffer; };
         ~FrameBuffer();
+        int getWidth() const {
+            return width;
+        }
+        int getHeight() const {
+            return height;
+        }
     };
 }
 

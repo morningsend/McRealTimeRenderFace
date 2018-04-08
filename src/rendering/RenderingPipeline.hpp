@@ -66,7 +66,7 @@ namespace McRenderer {
         };
         // helper methods.
         void initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env);
-
+        void ssaoPass(float *depthBuffer, vec4* colourBuffer);
     public:
         RenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,
