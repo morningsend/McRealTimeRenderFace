@@ -7,7 +7,7 @@
 namespace McRenderer {
 
     void buildMaterial(const McRenderer::MaterialSpec &spec, McRenderer::Material &material) {
-        // if texture map is not available, fall back to default colour
+        // if texture map is not available, fall back to default diffuse
 
         material.basecolourSampler = TextureSampler2D(
                 Texture2D::load(spec.basecolourMap),

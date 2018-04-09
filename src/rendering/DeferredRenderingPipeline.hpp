@@ -13,9 +13,10 @@
 #include "Rasterizer.hpp"
 #include "PrimitivePreprocessor.hpp"
 #include "FrameBuffer.hpp"
+#include "DeferredRenderingBuffers.hpp"
 
 namespace McRenderer {
-    class RenderingPipeline;
+    class DeferredRenderingPipeline;
     enum class FaceCullingMode {
         None,
         BackFace,
@@ -28,11 +29,11 @@ namespace McRenderer {
         FaceCullingMode cullingMode {FaceCullingMode::None};
 
     };
-    class RenderingPipeline {
+    class DeferredRenderingPipeline {
     private:
         std::unique_ptr<FragmentShader> fragmentShader;
         std::unique_ptr<VertexShader> vertexShader;
-        std::unique_ptr<FrameBuffer> frameBuffer;
+        std::unique_ptr<FrameBuffer> outputFrameBuffer;
         PrimitivePreprocessor preprocessor;
         RenderingPipelineConfig pipelineConfig;
         RasterizerConfig rasterizerConfig;
@@ -43,6 +44,7 @@ namespace McRenderer {
         Material* currentMaterial;
         Material defaultMaterial;
         ShaderPass debuggingPass{ShaderPass::All};
+        DeferredRenderingBuffers geometryBuffers{0,0};
 
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
@@ -62,36 +64,45 @@ namespace McRenderer {
          * In initialize, we can allocate memory or create threads.
          */
         void initialize() {
-
+            geometryBuffers
+                    .resize(
+                            rasterizerConfig.viewportWidth,
+                            rasterizerConfig.viewportHeight
+                    );
         };
         // helper methods.
         void initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env);
         void ssaoPass(float *depthBuffer, vec4* colourBuffer);
+        void lightingPass(Scene& scene);
+        void geometryPass(Scene& scene);
+        void ambientOcclusionPass();
+        void compositionPass();
+        void postProcessingAntiAliasing();
+        void postProcessingToneMapping();
     public:
-        RenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
+        DeferredRenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,
                           std::unique_ptr<FrameBuffer>& frameBuffer,
                           RenderingPipelineConfig pipelineConfig,
                           RasterizerConfig rasterizerConfig)
                 : vertexShader(std::move(vertexShader)),
                   fragmentShader(std::move(fragmentShader)),
-                  frameBuffer(std::move(frameBuffer)),
+                  outputFrameBuffer(std::move(frameBuffer)),
                   pipelineConfig{pipelineConfig},
                   rasterizerConfig{rasterizerConfig}
         {
             initialize();
         }
 
-        ~RenderingPipeline() = default;
+        ~DeferredRenderingPipeline() = default;
 
         /**
          * Submit scene will invoke the pipeline to render one frame of the scene.
          * @param scene
          */
         void submitScene(Scene& scene);
-
-        FrameBuffer& getFrameBuffer() const {
-            return *frameBuffer;
+        FrameBuffer& getOutputFrameBuffer() const {
+            return *outputFrameBuffer;
         }
         void setDebuggingPass(ShaderPass pass) {
             debuggingPass = pass;
@@ -137,8 +148,8 @@ namespace McRenderer {
             return *this;
         }
 
-        std::unique_ptr<RenderingPipeline> build(){
-            return std::move(std::unique_ptr<RenderingPipeline>(new RenderingPipeline(
+        std::unique_ptr<DeferredRenderingPipeline> build(){
+            return std::move(std::unique_ptr<DeferredRenderingPipeline>(new DeferredRenderingPipeline(
                     vertexShader,
                     fragmentShader,
                     frameBuffer,

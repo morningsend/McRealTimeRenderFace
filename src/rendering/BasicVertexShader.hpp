@@ -15,13 +15,14 @@ namespace McRenderer {
                          const VertexShaderInputParams& input,
                          VertexShaderOutputParams& output) override {
             output.position = env.viewProjectionMatrix * input.position;
+            output.viewPosition = env.viewingMatrix * input.position;
             output.worldPosition = input.position;
             output.normal = normalize(input.normal);
             output.tangent = normalize(input.tangent);
             output.bitangent = vec4(normalize(cross(vec3(input.normal), vec3(input.tangent))), 0);
             output.colour = input.colour;
             output.textCoord = input.textCoord;
-            //output.colour = (output.viewPosition * 0.5f) + vec4(0.5f);
+            //output.diffuse = (output.viewPosition * 0.5f) + vec4(0.5f);
         };
 
         ~BasicVertexShader() = default;

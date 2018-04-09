@@ -22,20 +22,20 @@ namespace McRenderer {
         float roughness = max(material.roughnessSampler.sample(vertexOutput.textCoord), 0.001f);
 
         //roughness = (1 - roughness) *(1 -roughness);
-        vec4 diffuse = basecolour * (1 - metalness);
-        vec4 specular = vec4(.25f);//basecolour * metalness;
-
+        vec4 diffuse = basecolour;
+        vec4 specular = vec4(0.4f, 0.4f, 0.4f, 1.0f);
+        output.specular = specular;
         // cook-torrance specular BRDF
         // Fr(l, v, n) = F G D / 4 * (n.l)(n.v)
         // diffuse: Lambert
         // Fr(l, v, n) = n * l
 
-        vec3 lightDirection = vec3(env.light1.position - vertexOutput.worldPosition);
+        vec3 lightDirection = vec3(env.light1.position - vertexOutput.viewPosition);
         float lightDistance = length(lightDirection);
-        vec3 viewDirection = normalize(env.cameraPosition - vertexOutput.worldPosition);
+        vec3 viewDirection = normalize(- vertexOutput.viewPosition);
         lightDirection /= lightDistance;
         lightDistance += 1;
-        normal = normalize(tangentToWorld * normal);
+        normal = vec3(env.viewingMatrix * vec4(normalize(tangentToWorld * normal), 0.0f));
         vec3 halfVector = normalize(normal + viewDirection);
         float attenuationFactor = max(0.01, 1 / (lightDistance * lightDistance * 2 * F_PI));
         float nDotL = max(dot(normal, lightDirection), 0);
@@ -63,11 +63,10 @@ namespace McRenderer {
                 output.colour = specular;
                 break;
             case Normal:
-                output.colour = vec4(
-                        tangentToWorld * material.normalSampler.sample(vertexOutput.textCoord) * 0.5f + vec3(0.5f), 1);
+                output.colour = vec4(normal * 0.5f + vec3(0.5f), 1);
                 break;
             case VertexNormal:
-                output.colour = vertexOutput.normal * 0.5f + vec4(0.5f);
+                output.colour = vertexOutput.normal;
                 break;
             case Tangent:
                 output.colour = vertexOutput.tangent * 0.5f + vec4(0.5f);
@@ -82,6 +81,8 @@ namespace McRenderer {
                 output.colour = specular + diffuse;
         }
         output.depth = vertexOutput.position.z;
+        output.normal = normal;
+        output.diffuse = basecolour;
     }
 
 }

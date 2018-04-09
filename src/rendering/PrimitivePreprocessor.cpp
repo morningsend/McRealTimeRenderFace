@@ -499,13 +499,4 @@ namespace McRenderer {
 
 
     }
-
-    void clipPoint3D(const Frustum &frustum, const vec3 point) {
-
-    }
-
-    void clipLine(const Frustum &frustum, Line line) {
-
-    }
-
 }

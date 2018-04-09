@@ -10,7 +10,7 @@
 #include "scene/TestModelH.h"
 #include "scene/Light.hpp"
 #include "rendering/Rasterizer.hpp"
-#include "rendering/RenderingPipeline.hpp"
+#include "rendering/DeferredRenderingPipeline.hpp"
 #include "rendering/BasicVertexShader.hpp"
 #include "rendering/PhysicallyBasedFragmentShader.hpp"
 
@@ -31,7 +31,7 @@ using glm::mat4;
 
 void Update(Camera& camera);
 void Update(Light& light);
-void Update(RenderingPipeline& pipeline);
+void Update(DeferredRenderingPipeline& pipeline);
 
 void setupScene(Scene& scene) {
     vector<::Triangle> triangles;
@@ -89,7 +89,7 @@ int main( int argc, char* argv[] )
     config.viewportHeight = SCREEN_HEIGHT;
     config.faceMode = FaceRenderMode::Shaded;
     PipelineBuilder builder;
-    unique_ptr<RenderingPipeline> pipeline = builder.singlethreaded()
+    unique_ptr<DeferredRenderingPipeline> pipeline = builder.singlethreaded()
             .useFragmentShader(new PhysicallyBasedFragmentShader())
             .useVertexShader(new BasicVertexShader())
             .configureRasterizer(config)
@@ -101,7 +101,7 @@ int main( int argc, char* argv[] )
         Update(scene.lights[0]);
         Update(*pipeline);
         pipeline->submitScene(scene);
-        pipeline->getFrameBuffer().copyToScreen(screen);
+        pipeline->getOutputFrameBuffer().copyToScreen(screen);
         SDL_Renderframe(screen);
     }
 
@@ -111,7 +111,7 @@ int main( int argc, char* argv[] )
     return 0;
 }
 
-void Update(RenderingPipeline& pipeline) {
+void Update(DeferredRenderingPipeline& pipeline) {
     uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
 
 #ifdef  GRAPHICS_DEBUG

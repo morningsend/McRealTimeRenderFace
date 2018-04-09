@@ -26,8 +26,8 @@ namespace McRenderer {
     struct RasterizerConfig {
         FaceRenderMode faceMode { FaceRenderMode::Edge };
 
-        float viewportWidth{1.0f};
-        float viewportHeight{1.0f};
+        int viewportWidth{1};
+        int viewportHeight{1};
     };
 
     class Rasterizer : public Renderer {

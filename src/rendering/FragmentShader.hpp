@@ -13,7 +13,11 @@ namespace McRenderer {
 
     struct FragmentShaderOutput {
         glm::vec4 colour;
+        glm::vec4 diffuse;
+        glm::vec4 specular;
+        glm::vec3 normal;
         float depth;
+        glm::vec4 position;
     };
 
     /**

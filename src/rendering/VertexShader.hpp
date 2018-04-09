@@ -20,6 +20,7 @@ namespace McRenderer {
     struct VertexShaderOutputParams {
         vec4 position;
         vec4 worldPosition;
+        vec4 viewPosition;
         vec4 normal;
         vec4 tangent;
         vec4 bitangent;

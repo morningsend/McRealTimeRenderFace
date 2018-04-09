@@ -67,7 +67,7 @@ namespace McRenderer {
 
     void FrameBuffer::setColour(int x, int y, vec4 colour) {
         if(x < 0 || x >= width || y < 0 || y >= height) {
-            std::cout<<"framebuffer set colour out side range" << std::endl;
+            std::cout<<"framebuffer set diffuse out side range" << std::endl;
             return;
         }
         colourBuffer[x + y * width] = colour;
@@ -75,7 +75,7 @@ namespace McRenderer {
 
     void FrameBuffer::setColourAndDepthLessThan(int x, int y, vec4 colour, float d) {
         if(x < 0 || x >= width || y < 0 || y >= height) {
-            std::cout<<"framebuffer set colour out side range" << std::endl;
+            std::cout<<"framebuffer set diffuse out side range" << std::endl;
             return;
         }
         float& originalDepth = depthBuffer[x + y * width];
@@ -98,7 +98,7 @@ namespace McRenderer {
 
     void FrameBuffer::setColourAndDepth(int x, int y, vec4 colour, float d) {
         if(x < 0 || x >= width || y < 0 || y >= height) {
-            std::cout<<"framebuffer set colour out side range" << std::endl;
+            std::cout<<"framebuffer set diffuse out side range" << std::endl;
             return;
         }
         depthBuffer[x + y * width] = d;

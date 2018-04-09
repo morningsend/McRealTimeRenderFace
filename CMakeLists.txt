@@ -22,13 +22,13 @@ set(SOURCE_FILES
         src/scene/BoundingBox.cpp src/scene/BoundingBox.hpp
         src/rendering/FrameBuffer.cpp src/rendering/FrameBuffer.hpp src/scene/MaterialSpec.cpp src/scene/MaterialSpec.hpp tests/scene/RayTests.hpp  src/Exception.cpp src/Exception.hpp
         src/SDLauxiliary.h
-        src/rendering/Renderer.cpp src/rendering/Renderer.hpp src/rendering/Rasterizer.cpp src/rendering/Rasterizer.hpp src/SDLauxiliary.cpp src/scene/Viewport.cpp src/scene/Viewport.hpp src/rendering/RenderingPipeline.cpp src/rendering/RenderingPipeline.hpp src/rendering/VertexShader.hpp src/rendering/FragmentShader.hpp src/rendering/PrimitivePreprocessor.cpp src/rendering/PrimitivePreprocessor.hpp
+        src/rendering/Renderer.cpp src/rendering/Renderer.hpp src/rendering/Rasterizer.cpp src/rendering/Rasterizer.hpp src/SDLauxiliary.cpp src/scene/Viewport.cpp src/scene/Viewport.hpp src/rendering/DeferredRenderingPipeline.cpp src/rendering/DeferredRenderingPipeline.hpp src/rendering/VertexShader.hpp src/rendering/FragmentShader.hpp src/rendering/PrimitivePreprocessor.cpp src/rendering/PrimitivePreprocessor.hpp
         src/rendering/ShaderEnvironment.hpp
         src/rendering/BasicFragmentShader.hpp
         src/textures/Texture2D.cpp src/textures/Texture2D.hpp
         src/rendering/BasicVertexShader.hpp src/rendering/Fragment.hpp
         src/rendering/VertexShader.cpp
-        src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/rendering/PhysicallyBasedFragmentShader.cpp src/rendering/PhysicallyBasedFragmentShader.hpp src/shader/Microfacet.hpp src/scene/CubeMapSampler.cpp src/scene/CubeMapSampler.hpp)
+        src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/rendering/PhysicallyBasedFragmentShader.cpp src/rendering/PhysicallyBasedFragmentShader.hpp src/shader/Microfacet.hpp src/scene/CubeMapSampler.cpp src/scene/CubeMapSampler.hpp src/rendering/AntiAliasingPostProcessing.cpp src/rendering/AntiAliasingPostProcessing.hpp src/rendering/DeferredRenderingBuffers.hpp src/rendering/DeferredRenderingBuffers.cpp)
 
 set(TESTS_SOURCE_FILES ${SOURCE_FILES} tests/catch.hpp tests/testMain.cpp )
 

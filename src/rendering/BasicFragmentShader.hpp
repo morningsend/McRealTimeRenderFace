@@ -20,23 +20,23 @@ namespace McRenderer {
 #ifdef GRAPHICS_DEBUG
             switch(env.shaderPassDebugging) {
                 case Diffuse:
-                    output.colour = vec4(material.basecolourSampler.sample(vec2(vertexOutput.textCoord.x, vertexOutput.textCoord.y)) , 1);
+                    output.diffuse = vec4(material.basecolourSampler.sample(vec2(vertexOutput.textCoord.x, vertexOutput.textCoord.y)) , 1);
                     break;
                 case Specular:
-                    output.colour = vec4(1);
+                    output.diffuse = vec4(1);
                     break;
                 case Normal:
-                    output.colour = vec4(material.normalSampler.sample(vertexOutput.textCoord), 1);
+                    output.diffuse = vec4(material.normalSampler.sample(vertexOutput.textCoord), 1);
                     break;
                 case VertexNormal:
-                    output.colour = vertexOutput.normal * 0.5f + vec4(0.5f);
+                    output.diffuse = vertexOutput.normal * 0.5f + vec4(0.5f);
                     break;
                 case Tangent:
-                    output.colour = vertexOutput.tangent * 0.5f + vec4(0.5f);
+                    output.diffuse = vertexOutput.tangent * 0.5f + vec4(0.5f);
                     break;
                     break;
                 case AmbientOcclusion:
-                    output.colour = vec4(1);
+                    output.diffuse = vec4(1);
                     break;
                 case All:
 #endif
@@ -50,7 +50,7 @@ namespace McRenderer {
                     float cosTheta = max(glm::dot(lightDirection, normal), 0.0f);
                     float attenuationFactor = 1.0f / (distanceLight * distanceLight * 2 * F_PI);
                     vec4 diffuse = diffuseTextureColour * env.light1.colour * cosTheta * (attenuationFactor * env.light1.intensity);
-                    output.colour = diffuse;
+                    output.diffuse = diffuse;
                     output.depth = vertexOutput.position.z;
 #ifdef GRAPHICS_DEBUG
                     break;
