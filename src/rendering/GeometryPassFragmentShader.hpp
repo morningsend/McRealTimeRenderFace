@@ -1,15 +1,17 @@
 //
-// Created by Zaiyang Li on 02/04/2018.
+// Created by Zaiyang Li on 09/04/2018.
 //
 
-#ifndef RENDERER_PHYSICALLYBASEDSHADER_HPP
-#define RENDERER_PHYSICALLYBASEDSHADER_HPP
+#ifndef RENDERER_GEOMETRYPASSFRAGMENTSHADER_HPP
+#define RENDERER_GEOMETRYPASSFRAGMENTSHADER_HPP
+
+
 #include "FragmentShader.hpp"
 
 namespace McRenderer {
-    class PhysicallyBasedFragmentShader : public FragmentShader {
+    class GeometryPassFragmentShader : public FragmentShader {
     public:
-        ~PhysicallyBasedFragmentShader() = default;
+        ~GeometryPassFragmentShader() = default;
         virtual void run(const ShaderEnvironment& env,
                          const VertexShaderOutputParams& vertexOutput,
                          const Material& material,
@@ -17,5 +19,4 @@ namespace McRenderer {
     };
 }
 
-
-#endif //RENDERER_PHYSICALLYBASEDSHADER_HPP
+#endif //RENDERER_GEOMETRYPASSFRAGMENTSHADER_HPP

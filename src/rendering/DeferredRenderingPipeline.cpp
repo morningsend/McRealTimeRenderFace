@@ -296,7 +296,9 @@ namespace McRenderer {
     }
 
     void DeferredRenderingPipeline::lightingPass(Scene &scene) {
+        for(Light& light: scene.lights) {
 
+        }
     }
 
     void DeferredRenderingPipeline::compositionPass() {

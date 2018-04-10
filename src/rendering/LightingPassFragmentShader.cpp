@@ -2,14 +2,14 @@
 // Created by Zaiyang Li on 02/04/2018.
 //
 
-#include "PhysicallyBasedFragmentShader.hpp"
+#include "LightingPassFragmentShader.hpp"
 #include "../shader/Microfacet.hpp"
 
 namespace McRenderer {
     using namespace glm;
     using namespace std;
 
-    void PhysicallyBasedFragmentShader::run(const McRenderer::ShaderEnvironment &env,
+    void run(const McRenderer::ShaderEnvironment &env,
                                             const McRenderer::VertexShaderOutputParams &vertexOutput,
                                             const McRenderer::Material &material,
                                             McRenderer::FragmentShaderOutput &output) {
@@ -83,6 +83,37 @@ namespace McRenderer {
         output.depth = vertexOutput.position.z;
         output.normal = normal;
         output.diffuse = basecolour;
+        output.position = vertexOutput.viewPosition;
     }
 
+    void LightingPassFragmentShader::run(const ShaderEnvironment &env,
+                                         const LightingPassFragmentShaderParams &lightingParams,
+                                         LightingPassFragmentShaderOutput &output) {
+        float roughness = 0.2f;
+        vec3 diffuse = lightingParams.diffuseColour;
+        vec3 specular = vec3(0.4f, 0.4f, 0.4f);
+        vec3 normal = lightingParams.normal;
+        vec3 lightDirection = vec3(lightingParams.lightPosition - lightingParams.position);
+        float lightDistance = length(lightDirection);
+        vec3 viewDirection = normalize(- lightingParams.position);
+        lightDirection /= lightDistance;
+        lightDistance += 1;
+        vec3 halfVector = normalize( + viewDirection);
+        float attenuationFactor = max(0.01, 1 / (lightDistance * lightDistance * 2 * F_PI));
+        float nDotL = max(dot(normal, lightDirection), 0);
+        float nDotV = max(dot(normal, viewDirection), 0);
+        float lDotH = max(dot(halfVector, lightDirection), 0);
+        float nDotH = max(dot(normal, halfVector), 0);
+
+        float fresnel = (shlickFresnel(lDotH, 0.04f));
+        // evaluate specular BRDF;
+        float specularLight =
+                ggxDistribution(nDotH, roughness) *
+                schlickGGXGeometricShadowMaskingFunc(nDotL, nDotV, roughness) * fresnel
+                / max(0.001, (4 * nDotL * nDotV));
+
+        specular *= vec4(1) * env.light1.colour * specularLight * env.light1.intensity * attenuationFactor * nDotL;
+        // evaluate diffuse BRDF;
+        diffuse = (lightingParams.lightIntensity * nDotL * attenuationFactor) * (1- fresnel);
+    }
 }

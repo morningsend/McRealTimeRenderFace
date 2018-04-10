@@ -12,7 +12,7 @@
 #include "rendering/Rasterizer.hpp"
 #include "rendering/DeferredRenderingPipeline.hpp"
 #include "rendering/BasicVertexShader.hpp"
-#include "rendering/PhysicallyBasedFragmentShader.hpp"
+#include "rendering/LightingPassFragmentShader.hpp"
 
 using namespace std;
 using namespace McRenderer;
@@ -90,7 +90,7 @@ int main( int argc, char* argv[] )
     config.faceMode = FaceRenderMode::Shaded;
     PipelineBuilder builder;
     unique_ptr<DeferredRenderingPipeline> pipeline = builder.singlethreaded()
-            .useFragmentShader(new PhysicallyBasedFragmentShader())
+            .useFragmentShader(new LightingPassFragmentShader())
             .useVertexShader(new BasicVertexShader())
             .configureRasterizer(config)
             .writeOutputTo(new FrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT))
