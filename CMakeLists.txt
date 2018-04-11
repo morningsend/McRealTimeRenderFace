@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(renderer CXX)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L/usr/local/lib -lSDL2_image -lSDL2 -std=c++11 -O3 -ffast-math")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++11 -ffast-math")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(SOURCE_FILES
@@ -28,7 +28,7 @@ set(SOURCE_FILES
         src/textures/Texture2D.cpp src/textures/Texture2D.hpp
         src/rendering/BasicVertexShader.hpp src/rendering/Fragment.hpp
         src/rendering/VertexShader.cpp
-        src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/rendering/PhysicallyBasedFragmentShader.cpp src/rendering/PhysicallyBasedFragmentShader.hpp src/shader/Microfacet.hpp src/scene/CubeMapSampler.cpp src/scene/CubeMapSampler.hpp src/rendering/AntiAliasingPostProcessing.cpp src/rendering/AntiAliasingPostProcessing.hpp src/rendering/DeferredRenderingBuffers.hpp src/rendering/DeferredRenderingBuffers.cpp)
+        src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/rendering/LightingPassFragmentShader.cpp src/rendering/LightingPassFragmentShader.hpp src/shader/Microfacet.hpp src/scene/CubeMapSampler.cpp src/scene/CubeMapSampler.hpp src/rendering/AntiAliasingPostProcessing.cpp src/rendering/AntiAliasingPostProcessing.hpp src/rendering/DeferredRenderingBuffers.hpp src/rendering/DeferredRenderingBuffers.cpp src/rendering/GeometryPassFragmentShader.cpp src/rendering/GeometryPassFragmentShader.hpp)
 
 set(TESTS_SOURCE_FILES ${SOURCE_FILES} tests/catch.hpp tests/testMain.cpp )
 
@@ -36,12 +36,11 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(OpenCV REQUIRED)
 
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories("${PROJECT_SOURCE_DIR}/lib/glm/")
 
 
 add_executable(renderer ${SOURCE_FILES} src/main.cpp)
 add_executable(renderer_tests ${TESTS_SOURCE_FILES})
 
-target_link_libraries(renderer ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${OpenCV_LIBS} )
-target_link_libraries(renderer_tests ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${OpenCV_LIBS} )
+target_link_libraries(renderer ${SDL2_LIBRARIES} ${OpenCV_LIBS} )
+target_link_libraries(renderer_tests ${SDL2_LIBRARIES} ${OpenCV_LIBS} )

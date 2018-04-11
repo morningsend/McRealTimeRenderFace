@@ -3,6 +3,7 @@
 //
 
 #include "DeferredRenderingPipeline.hpp"
+#include "LightingPassFragmentShader.hpp"
 
 namespace McRenderer {
 
@@ -94,7 +95,7 @@ namespace McRenderer {
         } else {
             deltaY = 1/ deltaY;
             for(int y = y0; y != y1; y += yIncrement) {
-                int x = static_cast<int>((y - y0)) * deltaX * deltaY + x0;
+                int x = (int) (y - y0) * deltaX * deltaY + x0;
                 outputFrameBuffer->setColour(x, y, colour);
             }
         }
@@ -140,9 +141,10 @@ namespace McRenderer {
                     outputFrameBuffer->setColourAndDepth(x+i, y, fragOutput.colour, z);
                     geometryBuffers.diffuseAt(x + i, y) = fragOutput.diffuse;
                     geometryBuffers.specularAt(x + i, y) = fragOutput.specular;
-                    geometryBuffers.depthAt(x + i, y)  = fragOutput.depth;
+                    geometryBuffers.depthAt(x + i, y)  = z;
                     geometryBuffers.normalAt(x + i, y) = fragOutput.normal;
                     geometryBuffers.positionAt(x + i, y) = fragOutput.position;
+                    geometryBuffers.roughnessAt(x + i, y) = fragOutput.roughness;
                 }
             }
         } else {
@@ -156,12 +158,12 @@ namespace McRenderer {
                 if(outputFrameBuffer->testDepthLessThan(x+i, y, z)) {
                     fragmentShader->run(env, interpolatedAttributes, *currentMaterial, fragOutput);
                     outputFrameBuffer->setColourAndDepth(x + i, y, fragOutput.colour, z);
-
                     geometryBuffers.diffuseAt(x + i, y) = fragOutput.diffuse;
                     geometryBuffers.specularAt(x + i, y) = fragOutput.specular;
-                    geometryBuffers.depthAt(x + i, y)  = fragOutput.depth;
+                    geometryBuffers.depthAt(x + i, y)  = z;
                     geometryBuffers.normalAt(x + i, y) = fragOutput.normal;
                     geometryBuffers.positionAt(x + i, y) = fragOutput.position;
+                    geometryBuffers.roughnessAt(x + i, y) = fragOutput.roughness;
                 }
             }
         }
@@ -231,6 +233,7 @@ namespace McRenderer {
     }
 
     void DeferredRenderingPipeline::ssaoPass(float *depthBuffer, vec4* colourBuffer) {
+        return;
         const int width = outputFrameBuffer->getWidth();
         const int height = outputFrameBuffer->getHeight();
         for(int i = 0; i < height; i++) {
@@ -296,13 +299,62 @@ namespace McRenderer {
     }
 
     void DeferredRenderingPipeline::lightingPass(Scene &scene) {
-        for(Light& light: scene.lights) {
-
+        const int width = rasterizerConfig.viewportWidth;
+        const int height = rasterizerConfig.viewportHeight;
+        LightingPassFragmentShaderParams lightingPassParams;
+        LightingPassFragmentShaderOutput output;
+        LightingPassFragmentShader lightingShader;
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                lightingPassParams.normal = geometryBuffers.normalAt(j, i);
+                lightingPassParams.diffuseColour = geometryBuffers.diffuseAt(j, i);
+                lightingPassParams.viewDirection = normalize(geometryBuffers.positionAt(j, i) * -1.0f);
+                lightingPassParams.specularColour = geometryBuffers.specularAt(j, i);
+                lightingPassParams.position = geometryBuffers.positionAt(j, i);
+                lightingPassParams.specularRoughness = geometryBuffers.roughnessAt(j, i);
+                geometryBuffers.lightAccumAt(j, i) = vec3(0);
+                for(Light& light: scene.lights) {
+                    lightingPassParams.lightPosition = env.viewingMatrix * light.position;
+                    lightingPassParams.lightIntensity = light.intensity;
+                    lightingPassParams.lightColour = light.colour;
+                    lightingShader.run(env, lightingPassParams, output);
+                    geometryBuffers.lightAccumAt(j, i) += output.lightContribution;
+                }
+            }
         }
     }
 
     void DeferredRenderingPipeline::compositionPass() {
-
+        const int width = rasterizerConfig.viewportWidth;
+        const int height = rasterizerConfig.viewportHeight;
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                vec3 output;
+                switch (env.shaderPassDebugging) {
+                    case Diffuse:
+                        output = geometryBuffers.diffuseAt(j, i);
+                        break;
+                    case Specular:
+                        output = geometryBuffers.specularAt(j, i);
+                        break;
+                    case Normal:
+                        output= geometryBuffers.normalAt(j, i) * 0.5f + vec3(0.5f);
+                        break;
+                    case AmbientOcclusion:
+                        output = vec3(geometryBuffers.ambientOcclusionAt(j, i));
+                        break;
+                    case Lighting:
+                        output = geometryBuffers.lightAccumAt(j, i);
+                        break;
+                    case Depth:
+                        output = vec3(1) * geometryBuffers.depthAt(j, i);
+                        break;
+                    default:
+                        output = geometryBuffers.lightAccumAt(j, i);
+                }
+                outputFrameBuffer->setColour(j, i, vec4(output, 1));
+            }
+        }
     }
 
     void DeferredRenderingPipeline::ambientOcclusionPass() {

@@ -14,7 +14,7 @@ namespace McRenderer {
         Diffuse,
         Specular,
         Normal,
-        VertexNormal,
+        Lighting,
         Tangent,
         Depth,
         AmbientOcclusion,

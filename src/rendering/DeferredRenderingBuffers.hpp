@@ -17,8 +17,8 @@ namespace McRenderer {
         std::unique_ptr<float[]> depth{nullptr};
         std::unique_ptr<glm::vec3[]> normal{nullptr};
         std::unique_ptr<glm::vec4[]> position{nullptr};
-
-        std::unique_ptr<glm::vec4[]> lightAccumulation{nullptr};
+        std::unique_ptr<float[]> roughness{nullptr};
+        std::unique_ptr<glm::vec3[]> lightAccumulation{nullptr};
         std::unique_ptr<float[]> ambientOcclusion{nullptr};
 
         int width{0};
@@ -57,12 +57,15 @@ namespace McRenderer {
             return position[y * width + x];
         }
 
-        inline glm::vec4& lightAccumAt(int x, int y) {
+        inline glm::vec3& lightAccumAt(int x, int y) {
             return lightAccumulation[y * width + x];
         }
 
         inline float& ambientOcclusionAt(int x, int y) {
             return ambientOcclusion[y * width + x];
+        }
+        inline float& roughnessAt(int x, int y) {
+            return roughness[y * width + x];
         }
 
         inline void clearAll() {
@@ -87,6 +90,7 @@ namespace McRenderer {
                 }
             }
         }
+
     };
 
 }

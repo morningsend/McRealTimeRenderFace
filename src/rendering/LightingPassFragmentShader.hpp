@@ -14,14 +14,14 @@ namespace McRenderer {
         vec3 normal;
         vec3 diffuseColour;
         vec3 specularColour;
-
+        float specularRoughness;
         vec3 lightPosition;
         float lightIntensity;
         vec3 lightColour;
     };
 
     struct LightingPassFragmentShaderOutput {
-        glm::vec4 lightContribution;
+        glm::vec3 lightContribution;
     };
     class LightingPassFragmentShader {
     public:

@@ -9,6 +9,9 @@ namespace McRenderer {
     using namespace glm;
     using namespace std;
 
+    inline float max(float a, float b) {
+        return a > b ? a : b;
+    }
     void run(const McRenderer::ShaderEnvironment &env,
                                             const McRenderer::VertexShaderOutputParams &vertexOutput,
                                             const McRenderer::Material &material,
@@ -53,8 +56,6 @@ namespace McRenderer {
         specular *= vec4(1) * env.light1.colour * specularLight * env.light1.intensity * attenuationFactor * nDotL;
         // evaluate diffuse BRDF;
         diffuse = env.light1.colour * diffuse * (env.light1.intensity * nDotL * attenuationFactor) * (1- fresnel);
-
-        output.depth = vertexOutput.position.z;
         switch (env.shaderPassDebugging) {
             case Diffuse:
                 output.colour = diffuse;
@@ -65,7 +66,7 @@ namespace McRenderer {
             case Normal:
                 output.colour = vec4(normal * 0.5f + vec3(0.5f), 1);
                 break;
-            case VertexNormal:
+            case Lighting:
                 output.colour = vertexOutput.normal;
                 break;
             case Tangent:
@@ -80,7 +81,6 @@ namespace McRenderer {
             case All:
                 output.colour = specular + diffuse;
         }
-        output.depth = vertexOutput.position.z;
         output.normal = normal;
         output.diffuse = basecolour;
         output.position = vertexOutput.viewPosition;
@@ -89,31 +89,32 @@ namespace McRenderer {
     void LightingPassFragmentShader::run(const ShaderEnvironment &env,
                                          const LightingPassFragmentShaderParams &lightingParams,
                                          LightingPassFragmentShaderOutput &output) {
-        float roughness = 0.2f;
+        float roughness = lightingParams.specularRoughness;
         vec3 diffuse = lightingParams.diffuseColour;
-        vec3 specular = vec3(0.4f, 0.4f, 0.4f);
+        vec3 specular = vec3(10);//lightingParams.specularColour;
         vec3 normal = lightingParams.normal;
+
         vec3 lightDirection = vec3(lightingParams.lightPosition - lightingParams.position);
         float lightDistance = length(lightDirection);
-        vec3 viewDirection = normalize(- lightingParams.position);
+        vec3 viewDirection = normalize(lightingParams.viewDirection);
         lightDirection /= lightDistance;
         lightDistance += 1;
-        vec3 halfVector = normalize( + viewDirection);
+        vec3 halfVector = normalize(normal + viewDirection);
         float attenuationFactor = max(0.01, 1 / (lightDistance * lightDistance * 2 * F_PI));
         float nDotL = max(dot(normal, lightDirection), 0);
         float nDotV = max(dot(normal, viewDirection), 0);
         float lDotH = max(dot(halfVector, lightDirection), 0);
         float nDotH = max(dot(normal, halfVector), 0);
 
-        float fresnel = (shlickFresnel(lDotH, 0.04f));
+        float fresnel = .5f;//(shlickFresnel(lDotH, 0.04f));
         // evaluate specular BRDF;
-        float specularLight =
+        float specularBRDF =
                 ggxDistribution(nDotH, roughness) *
                 schlickGGXGeometricShadowMaskingFunc(nDotL, nDotV, roughness) * fresnel
                 / max(0.001, (4 * nDotL * nDotV));
-
-        specular *= vec4(1) * env.light1.colour * specularLight * env.light1.intensity * attenuationFactor * nDotL;
+        specular = specular * lightingParams.lightColour * (specularBRDF * lightingParams.lightIntensity* attenuationFactor * nDotL);
         // evaluate diffuse BRDF;
-        diffuse = (lightingParams.lightIntensity * nDotL * attenuationFactor) * (1- fresnel);
+        diffuse = lightingParams.diffuseColour * lightingParams.lightColour * (lightingParams.lightIntensity * nDotL * attenuationFactor) * (1- fresnel);
+        output.lightContribution = specular + diffuse;
     }
 }

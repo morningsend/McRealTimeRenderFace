@@ -51,12 +51,10 @@ namespace McRenderer {
                     float attenuationFactor = 1.0f / (distanceLight * distanceLight * 2 * F_PI);
                     vec4 diffuse = diffuseTextureColour * env.light1.colour * cosTheta * (attenuationFactor * env.light1.intensity);
                     output.diffuse = diffuse;
-                    output.depth = vertexOutput.position.z;
 #ifdef GRAPHICS_DEBUG
                     break;
             }
 #endif
-            output.depth = vertexOutput.position.z;
         };
 
         ~BasicFragmentShader() = default;

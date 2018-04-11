@@ -12,7 +12,7 @@
 #include "rendering/Rasterizer.hpp"
 #include "rendering/DeferredRenderingPipeline.hpp"
 #include "rendering/BasicVertexShader.hpp"
-#include "rendering/LightingPassFragmentShader.hpp"
+#include "rendering/GeometryPassFragmentShader.hpp"
 
 using namespace std;
 using namespace McRenderer;
@@ -64,8 +64,16 @@ void setupScene(Scene& scene) {
 
     PointLightSource light;
     light.intensity = 10.0f;
-    light.colour = vec4(1,.95f,1,1);
-    light.position = vec4(0, 0.9, 0, 1);
+    light.colour = vec4(.5,.5,1,1);
+    light.position = vec4(-0.4, 0.9, 0, 1);
+    scene.lights.push_back(light);
+
+    light.colour = vec4(1, .5, .5, 1);
+    light.position = vec4(0.4, 0.9, 0, 1);
+    scene.lights.push_back(light);
+
+    light.colour = vec4(.5, 1.0f, .5, 1);
+    light.position = vec4(0, 0.9, .8, 1);
     scene.lights.push_back(light);
 
     MaterialSpec materialSpec;
@@ -73,8 +81,7 @@ void setupScene(Scene& scene) {
     materialSpec.basecolourMap = "textures/New_Graph_basecolor.png";
     materialSpec.metalness = 0.f;
     materialSpec.normalMap = "textures/New_Graph_normal.png";
-    //materialSpec.roughnessMap = "textures/New_Graph_roughness.png";
-    materialSpec.roughness = 0.1f;
+    materialSpec.roughnessMap = "textures/New_Graph_roughness.png";
     scene.materialSpecs.push_back(materialSpec);
 
     scene.initialize();
@@ -90,7 +97,7 @@ int main( int argc, char* argv[] )
     config.faceMode = FaceRenderMode::Shaded;
     PipelineBuilder builder;
     unique_ptr<DeferredRenderingPipeline> pipeline = builder.singlethreaded()
-            .useFragmentShader(new LightingPassFragmentShader())
+            .useFragmentShader(new GeometryPassFragmentShader())
             .useVertexShader(new BasicVertexShader())
             .configureRasterizer(config)
             .writeOutputTo(new FrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -125,7 +132,7 @@ void Update(DeferredRenderingPipeline& pipeline) {
         pipeline.setDebuggingPass(ShaderPass::Normal);
     }
     if(keystate[SDL_SCANCODE_4]) {
-        pipeline.setDebuggingPass(ShaderPass::VertexNormal);
+        pipeline.setDebuggingPass(ShaderPass::Lighting);
     }
     if(keystate[SDL_SCANCODE_5]) {
         pipeline.setDebuggingPass(ShaderPass::Tangent);
