@@ -11,7 +11,7 @@ namespace McRenderer {
 
     void DeferredRenderingPipeline::submitScene(Scene &scene) {
         geometryPass(scene);
-        //ambientOcclusionPass();
+        ambientOcclusionPass();
         lightingPass(scene);
         postProcessingPass();
     }
@@ -306,7 +306,7 @@ namespace McRenderer {
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 lightingPassParams.normal = geometryBuffers.normalAt(j, i);
-                lightingPassParams.diffuseColour = geometryBuffers.diffuseAt(j, i);
+                lightingPassParams.diffuseColour = geometryBuffers.diffuseAt(j, i) * geometryBuffers.ambientOcclusionAt(j, i);
                 lightingPassParams.viewDirection = normalize(geometryBuffers.positionAt(j, i) * -1.0f);
                 lightingPassParams.specularColour = geometryBuffers.specularAt(j, i);
                 lightingPassParams.position = geometryBuffers.positionAt(j, i);
@@ -360,12 +360,19 @@ namespace McRenderer {
     void DeferredRenderingPipeline::ambientOcclusionPass() {
         const int width = rasterizerConfig.viewportWidth;
         const int height = rasterizerConfig.viewportHeight;
+        BufferSampler2D positionSampler(width, height, geometryBuffers.getPositionBuffer());
 
+        AOShaderParams params;
+        AOPassOutput output;
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
-
+                params.position = vec3(geometryBuffers.positionAt(j, i));
+                params.normal = geometryBuffers.normalAt(j, i);
+                aoShader.run(env, positionSampler, params, output);
+                geometryBuffers.ambientOcclusionAt(j, i) = output.occlusion;
             }
         }
+        //ambientOcclusionApplyBoxBlur();
     }
 
     void DeferredRenderingPipeline::postProcessingAntiAliasing() {
@@ -376,23 +383,22 @@ namespace McRenderer {
 
     }
 
-    void DeferredRenderingPipeline::generateKernels() {
-        const int size = 64;
-        ambientOcclusionkernels.reserve(size);
-        uniform_real_distribution<float> dist(0, 1);
-        default_random_engine engine{};
-        float scale;
-        for(int i = 0; i < size; i++) {
-            // genereate points on a hemisphere.
-            vec3 kernel(
-                    dist(engine) * 2 - 1, dist(engine) * 2 - 1, dist(engine)
-            );
-            kernel = normalize(kernel);
-            //scale the kernel to be inside the hemisphere.
-            kernel *= dist(engine);
-            scale = (float) i / size;
-            kernel *= scale * scale + 0.1f * (1 - scale * scale);
-            ambientOcclusionkernels.push_back(kernel);
+    void DeferredRenderingPipeline::ambientOcclusionApplyBoxBlur() {
+        const int width = rasterizerConfig.viewportWidth;
+        const int height = rasterizerConfig.viewportHeight;
+        const float weight = 1.0f / 9.0f;
+
+        for(int i = 1; i < height - 1; i++) {
+            for(int j = 1; j < width - 1; j++) {
+                float accum = 0.0f;
+                for(int ki = i - 1; ki < i + 1; ki++ ) {
+                    for(int kj = j - 1; kj <  j + 1; kj++) {
+                        accum += geometryBuffers.ambientOcclusionAt(kj, ki);
+                    }
+                }
+                geometryBuffers.floatTempAt(j, i) = accum;
+            }
         }
+        geometryBuffers.swapTempWithAmbientOcclusion();
     }
 }

@@ -20,7 +20,7 @@ namespace McRenderer {
         std::unique_ptr<float[]> roughness{nullptr};
         std::unique_ptr<glm::vec3[]> lightAccumulation{nullptr};
         std::unique_ptr<float[]> ambientOcclusion{nullptr};
-
+        std::unique_ptr<float[]> floatTempBuffer{nullptr};
         int width{0};
         int height{0};
     public:
@@ -38,11 +38,18 @@ namespace McRenderer {
         bool inRange(int x, int y) const {
             return x >= 0 && x < width && y >=0 && y < height;
         }
-
+        float* getDepthBuffer() {
+            return depth.get();
+        }
+        glm::vec4* getPositionBuffer() {
+            return position.get();
+        }
         inline float& depthAt(int x, int y) {
             return depth[y * width + x];
         }
-
+        inline float& floatTempAt(int x, int y) {
+            return floatTempBuffer[y * width + x];
+        }
         inline glm::vec4& specularAt(int x, int y) {
             return specular[y * width + x];
         }
@@ -67,7 +74,9 @@ namespace McRenderer {
         inline float& roughnessAt(int x, int y) {
             return roughness[y * width + x];
         }
-
+        inline void swapTempWithAmbientOcclusion() {
+            ambientOcclusion.swap(floatTempBuffer);
+        }
         inline void clearAll() {
             for(int i = 0; i < height; i++) {
                 for(int j = 0; j < width; j++) {

@@ -13,6 +13,7 @@
 #include "DeferredRenderingBuffers.hpp"
 #include "RasterizerConfig.hpp"
 #include "../scene/Scene.hpp"
+#include "AOFragmentShader.hpp"
 namespace McRenderer {
     class DeferredRenderingPipeline;
     enum class FaceCullingMode {
@@ -44,7 +45,7 @@ namespace McRenderer {
         Material defaultMaterial;
         ShaderPass debuggingPass{ShaderPass::All};
         DeferredRenderingBuffers geometryBuffers{0,0};
-
+        AOFragmentShader aoShader{.225f, 0.04, 16};
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
         void rasterizeLine(vec4 p0, vec4 p1);
@@ -68,7 +69,7 @@ namespace McRenderer {
                             rasterizerConfig.viewportWidth,
                             rasterizerConfig.viewportHeight
                     );
-            generateKernels();
+            aoShader.generateKernelAndNoise();
         };
         // helper methods.
         void initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env);
@@ -79,9 +80,7 @@ namespace McRenderer {
         void postProcessingPass();
         void postProcessingAntiAliasing();
         void postProcessingToneMapping();
-
-        std::vector<vec3> ambientOcclusionkernels;
-        void generateKernels();
+        void ambientOcclusionApplyBoxBlur();
     public:
         DeferredRenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,

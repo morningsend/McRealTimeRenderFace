@@ -30,15 +30,18 @@ namespace McRenderer {
     };
     class BufferSampler2D : public Sampler2D<glm::vec3> {
     private:
-        glm::vec3* buffer;
+        glm::vec4* buffer;
         int width;
         int height;
     public:
-        BufferSampler2D(int width, int height, glm::vec3* bufferIn): width{width}, height{height}, buffer{bufferIn} {}
+        BufferSampler2D(int width, int height, glm::vec4* bufferIn): width{width}, height{height}, buffer{bufferIn} {}
         virtual ~BufferSampler2D() = default;
 
-        glm::vec3 sample(glm::vec2 uvCoord) const override {
-
+        inline glm::vec3 sample(glm::vec2 uvCoord) const override {
+            uvCoord = clamp(uvCoord, glm::vec2(0), glm::vec2(1));
+            int x = (int) (uvCoord.x * (width-1) + 0.5f);
+            int y = (int) ((1 - uvCoord.y) * (height - 1) + 0.5f);
+            return glm::vec3(buffer[y * width + x]);
         }
     };
     class TextureSampler2D : public Sampler2D<glm::vec3> {

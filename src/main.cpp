@@ -64,13 +64,13 @@ void setupScene(Scene& scene) {
     scene.lights.push_back(light);
 
     light.intensity = 10.0f;
-    light.colour = vec4(1, .5, .5, 1);
+    light.colour = vec4(1, .8f, .5, 1);
     light.position = vec4(0.4, 0.9, 0, 1);
-    //scene.lights.push_back(light);
+    scene.lights.push_back(light);
 
     light.colour = vec4(.5, 1.0f, .5, 1);
     light.position = vec4(0, 0.9, .8, 1);
-    //scene.lights.push_back(light);
+    scene.lights.push_back(light);
 
     MaterialSpec materialSpec;
 
