@@ -21,10 +21,6 @@ namespace McRenderer {
         env.viewingMatrix = scene.camera.viewingMatrix();
         env.viewProjectionMatrix = env.projectionMatrix * env.viewingMatrix;
         env.normalMatrix = glm::inverse(glm::transpose(env.viewingMatrix));
-        if(!scene.lights.empty()) {
-            env.light1 = scene.lights[0];
-            env.light1.position = env.viewingMatrix * env.light1.position;
-        }
         env.cameraPosition = vec4(scene.camera.position, 1);
         env.shaderPassDebugging = debuggingPass;
     }
@@ -306,7 +302,7 @@ namespace McRenderer {
         LightingPassFragmentShaderParams lightingPassParams;
         LightingPassFragmentShaderOutput output;
         LightingPassFragmentShader lightingShader;
-        #pragma omp parallel for private (lightingPassParams, output), shared(geometryBuffers, lightingShader)
+        //#pragma omp parallel for private (lightingPassParams, output), shared(geometryBuffers, lightingShader)
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 lightingPassParams.normal = geometryBuffers.normalAt(j, i);

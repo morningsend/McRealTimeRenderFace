@@ -25,8 +25,6 @@ namespace McRenderer {
         glm::mat4 projectionMatrix;
         glm::mat4 viewProjectionMatrix;
         glm::mat4 normalMatrix;
-        Light light1;
-        Light light2;
         glm::vec4 cameraPosition;
         ShaderPass shaderPassDebugging;
     };

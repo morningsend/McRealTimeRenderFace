@@ -23,7 +23,7 @@ void McRenderer::GeometryPassFragmentShader::run(const McRenderer::ShaderEnviron
     vec4 diffuse = basecolour;
     vec4 specular = vec4(0.4f, 0.4f, 0.4f, 1.0f);
     output.specular = specular;
-    output.normal = vec3(env.viewingMatrix * vec4((tangentToWorld * normal), 0));
+    output.normal = vec3(normalize(env.normalMatrix * vec4((tangentToWorld * normal), 0)));
     output.diffuse = basecolour;
     output.position = vertexOutput.viewPosition;
     output.roughness = roughness;
