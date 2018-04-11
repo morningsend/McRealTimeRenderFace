@@ -5,7 +5,7 @@
 #ifndef RENDERER_PLANE_HPP
 #define RENDERER_PLANE_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 
 using namespace glm;
 

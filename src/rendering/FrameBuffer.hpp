@@ -5,7 +5,7 @@
 #ifndef RENDERER_RENDERTARGET_HPP
 #define RENDERER_RENDERTARGET_HPP
 
-#include <glm/vec3.hpp>
+#include "../common.h"
 #include "../SDLauxiliary.h"
 
 namespace McRenderer {

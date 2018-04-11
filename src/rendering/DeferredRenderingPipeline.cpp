@@ -1,17 +1,19 @@
 //
 // Created by Zaiyang Li on 26/02/2018.
 //
-
+#include <random>
 #include "DeferredRenderingPipeline.hpp"
 #include "LightingPassFragmentShader.hpp"
 
 namespace McRenderer {
+    using namespace std;
+    using namespace glm;
 
     void DeferredRenderingPipeline::submitScene(Scene &scene) {
         geometryPass(scene);
+        //ambientOcclusionPass();
         lightingPass(scene);
-        ambientOcclusionPass();
-        compositionPass();
+        postProcessingPass();
     }
 
     void DeferredRenderingPipeline::initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env) {
@@ -304,6 +306,7 @@ namespace McRenderer {
         LightingPassFragmentShaderParams lightingPassParams;
         LightingPassFragmentShaderOutput output;
         LightingPassFragmentShader lightingShader;
+        #pragma omp parallel for private (lightingPassParams, output), shared(geometryBuffers, lightingShader)
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 lightingPassParams.normal = geometryBuffers.normalAt(j, i);
@@ -324,9 +327,10 @@ namespace McRenderer {
         }
     }
 
-    void DeferredRenderingPipeline::compositionPass() {
+    void DeferredRenderingPipeline::postProcessingPass() {
         const int width = rasterizerConfig.viewportWidth;
         const int height = rasterizerConfig.viewportHeight;
+        #pragma omp parallel for
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 vec3 output;
@@ -358,7 +362,14 @@ namespace McRenderer {
     }
 
     void DeferredRenderingPipeline::ambientOcclusionPass() {
+        const int width = rasterizerConfig.viewportWidth;
+        const int height = rasterizerConfig.viewportHeight;
 
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+
+            }
+        }
     }
 
     void DeferredRenderingPipeline::postProcessingAntiAliasing() {
@@ -367,5 +378,25 @@ namespace McRenderer {
 
     void DeferredRenderingPipeline::postProcessingToneMapping() {
 
+    }
+
+    void DeferredRenderingPipeline::generateKernels() {
+        const int size = 64;
+        ambientOcclusionkernels.reserve(size);
+        uniform_real_distribution<float> dist(0, 1);
+        default_random_engine engine{};
+        float scale;
+        for(int i = 0; i < size; i++) {
+            // genereate points on a hemisphere.
+            vec3 kernel(
+                    dist(engine) * 2 - 1, dist(engine) * 2 - 1, dist(engine)
+            );
+            kernel = normalize(kernel);
+            //scale the kernel to be inside the hemisphere.
+            kernel *= dist(engine);
+            scale = (float) i / size;
+            kernel *= scale * scale + 0.1f * (1 - scale * scale);
+            ambientOcclusionkernels.push_back(kernel);
+        }
     }
 }

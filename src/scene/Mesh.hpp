@@ -5,7 +5,7 @@
 #ifndef RENDERER_MESH_HPP
 #define RENDERER_MESH_HPP
 
-#include <vector>
+#include "../common.h"
 #include "Transform.hpp"
 #include "Vertex.hpp"
 #include "BoundingBox.hpp"

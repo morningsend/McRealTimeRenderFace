@@ -5,7 +5,7 @@
 #ifndef RENDERER_CAMERA_HPP
 #define RENDERER_CAMERA_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include "Plane.hpp"

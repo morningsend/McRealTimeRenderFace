@@ -4,7 +4,7 @@
 
 #ifndef RENDERER_VERTEXSHADER_HPP
 #define RENDERER_VERTEXSHADER_HPP
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "ShaderEnvironment.hpp"
 
 namespace McRenderer {

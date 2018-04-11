@@ -5,8 +5,7 @@
 #ifndef RENDERER_SCENE_HPP
 #define RENDERER_SCENE_HPP
 
-#include <vector>
-#include <memory>
+#include "../common.h"
 #include "Light.hpp"
 #include "Triangle.hpp"
 #include "Camera.hpp"

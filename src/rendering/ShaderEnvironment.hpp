@@ -5,7 +5,7 @@
 #ifndef RENDERER_SHADERENVIRONMENT_HPP
 #define RENDERER_SHADERENVIRONMENT_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "../scene/Light.hpp"
 
 namespace McRenderer {

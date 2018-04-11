@@ -1,15 +1,10 @@
 #define GRAPHICS_DEBUG
 
-#include <iostream>
-#include <glm/glm.hpp>
+#include "common.h"
 #include <SDL2/SDL.h>
-#include <stdint.h>
-#include <cmath>
-
 #include "SDLauxiliary.h"
 #include "scene/TestModelH.h"
 #include "scene/Light.hpp"
-#include "rendering/Rasterizer.hpp"
 #include "rendering/DeferredRenderingPipeline.hpp"
 #include "rendering/BasicVertexShader.hpp"
 #include "rendering/GeometryPassFragmentShader.hpp"
@@ -68,13 +63,14 @@ void setupScene(Scene& scene) {
     light.position = vec4(-0.4, 0.9, 0, 1);
     scene.lights.push_back(light);
 
+    light.intensity = 10.0f;
     light.colour = vec4(1, .5, .5, 1);
     light.position = vec4(0.4, 0.9, 0, 1);
     scene.lights.push_back(light);
 
     light.colour = vec4(.5, 1.0f, .5, 1);
     light.position = vec4(0, 0.9, .8, 1);
-    scene.lights.push_back(light);
+    //scene.lights.push_back(light);
 
     MaterialSpec materialSpec;
 

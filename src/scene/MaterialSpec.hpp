@@ -4,8 +4,8 @@
 
 #ifndef RENDERER_MATERIAL_HPP
 #define RENDERER_MATERIAL_HPP
-#include <string>
-#include <glm/glm.hpp>
+
+#include "../common.h"
 #include "TextureSampler2D.hpp"
 
 namespace McRenderer {

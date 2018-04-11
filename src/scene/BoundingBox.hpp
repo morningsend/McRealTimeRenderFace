@@ -5,6 +5,7 @@
 #ifndef RENDERER_BOUNDINGBOX_HPP
 #define RENDERER_BOUNDINGBOX_HPP
 
+
 namespace McRenderer {
     struct BoundingBox {
         float top;

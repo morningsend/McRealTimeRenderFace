@@ -4,8 +4,6 @@
 
 #include "Line.hpp"
 
-
-
 Line Line::projectLine(mat4 viewProjectionMatrix){
   Line transformedEnds;
 

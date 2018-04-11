@@ -4,6 +4,7 @@
 
 #ifndef RENDERER_PRIMITIVEPREPROCESSOR_HPP
 #define RENDERER_PRIMITIVEPREPROCESSOR_HPP
+#include "../common.h"
 #include "../scene/Triangle.hpp"
 #include "../scene/Line.hpp"
 
@@ -11,7 +12,6 @@
 #include "../scene/Camera.hpp"
 #include "VertexShader.hpp"
 
-#include <glm/glm.hpp>
 
 namespace McRenderer {
     void clipTriangle3D(const Frustum& frutsum, const Triangle& triangle, vector<Triangle>& result);

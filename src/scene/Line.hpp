@@ -5,10 +5,9 @@
 #ifndef RENDERER_LINE_HPP
 #define RENDERER_LINE_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "Plane.hpp"
 
-#include <iostream>
 
   using namespace glm;
 

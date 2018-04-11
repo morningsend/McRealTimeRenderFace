@@ -4,8 +4,8 @@
 
 #ifndef RENDERER_SPHERICALMAPSAMPLER_HPP
 #define RENDERER_SPHERICALMAPSAMPLER_HPP
-#include <memory>
-#include <glm/glm.hpp>
+
+#include "../common.h"
 #include "TextureSampler2D.hpp"
 
 namespace McRenderer {

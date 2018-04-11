@@ -94,9 +94,9 @@ namespace McRenderer {
         vec3 specular = vec3(10);//lightingParams.specularColour;
         vec3 normal = lightingParams.normal;
 
-        vec3 lightDirection = vec3(lightingParams.lightPosition - lightingParams.position);
+        vec3 lightDirection = lightingParams.lightPosition - lightingParams.position;
         float lightDistance = length(lightDirection);
-        vec3 viewDirection = normalize(lightingParams.viewDirection);
+        vec3 viewDirection = lightingParams.viewDirection;
         lightDirection /= lightDistance;
         lightDistance += 1;
         vec3 halfVector = normalize(normal + viewDirection);

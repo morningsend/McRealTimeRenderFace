@@ -4,7 +4,7 @@
 
 #ifndef RENDERER_FRAGMENTSHADER_HPP
 #define RENDERER_FRAGMENTSHADER_HPP
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "VertexShader.hpp"
 #include "../scene/MaterialSpec.hpp"
 #define F_PI 3.1415926f

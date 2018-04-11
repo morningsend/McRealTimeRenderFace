@@ -5,7 +5,7 @@
 #ifndef RENDERER_LIGHTSOURCE_HPP
 #define RENDERER_LIGHTSOURCE_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 
 // si
 namespace McRenderer {

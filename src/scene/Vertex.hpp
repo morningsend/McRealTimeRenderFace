@@ -5,7 +5,7 @@
 #ifndef RENDERER_VERTEX_HPP
 #define RENDERER_VERTEX_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 namespace McRenderer {
     using namespace glm;
     struct Vertex {

@@ -5,7 +5,7 @@
 #ifndef RENDERER_TRANSFORM_HPP
 #define RENDERER_TRANSFORM_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 
 namespace McRenderer {
     using namespace glm;

@@ -4,8 +4,8 @@
 
 #ifndef RENDERER_TRIANGLE_HPP
 #define RENDERER_TRIANGLE_HPP
-#include <vector>
-#include <glm/glm.hpp>
+
+#include "../common.h"
 #include "Viewport.hpp"
 
 

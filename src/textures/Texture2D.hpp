@@ -5,8 +5,7 @@
 #ifndef RENDERER_TEXTURE_HPP
 #define RENDERER_TEXTURE_HPP
 
-#include <iostream>
-#include <glm/glm.hpp>
+#include "../common.h"
 #include <opencv2/opencv.hpp>
 
 namespace McRenderer {

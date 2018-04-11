@@ -3,16 +3,16 @@ from conans import ConanFile
 
 class GlmConan(ConanFile):
     name = "glm"
-    version = "0.9.8"
+    version = "master"
     generators = "txt"
     url="https://github.com/g-truc/glm"
     description="OpenGL Mathematics (GLM)"
     license = "https://github.com/g-truc/glm/blob/manual/copying.txt"
-    exports = ["FindGLM.cmake", "lib_licenses/*", os.sep.join([".", "..", "..", "*"])]
+    exports_sources = ["FindGLM.cmake", os.sep.join(["..", "..", "glm*"])]
+    exports = "lib_licenses/*"
 
     def build(self):
-        self.output.warn("No compilation necessary for GLM")
-        self.output.warn(os.sep.join([".", "..", "..", "*"]))
+        self.output.info("No compilation necessary for GLM")
 
     def package(self):
         self.copy("FindGLM.cmake", ".", ".")

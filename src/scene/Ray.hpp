@@ -5,7 +5,7 @@
 #ifndef RENDERER_RAY_HPP
 #define RENDERER_RAY_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "Triangle.hpp"
 #include "Sphere.hpp"
 

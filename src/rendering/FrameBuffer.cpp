@@ -3,7 +3,6 @@
 //
 
 #include "FrameBuffer.hpp"
-#include "../SDLauxiliary.h"
 
 namespace McRenderer {
 
@@ -26,7 +25,8 @@ namespace McRenderer {
     void FrameBuffer::copyToScreen(screen *screen) {
         const int minWidth = screen->width < width ? screen->width : width;
         const int minHeight = screen->height < height ? screen->height : height;
-        std::cout << minWidth << ' ' << minHeight << ' ' << width << ' ' << height << std::endl;
+        //std::cout << minWidth << ' ' << minHeight << ' ' << width << ' ' << height << std::endl;
+        #pragma omp parallel for
         for(int i = 0; i < minHeight; i++) {
             for(int j = 0; j < minWidth; j++) {
                 PutPixelSDL(screen, j, i, vec3(colourBuffer[i * width + j]));
@@ -43,6 +43,7 @@ namespace McRenderer {
     }
 
     void FrameBuffer::clear() {
+        #pragma omp parallel for
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 colourBuffer[i * width + j] = clearColour;
@@ -51,6 +52,7 @@ namespace McRenderer {
         }
     }
     void FrameBuffer::clearColourBuffer() {
+        #pragma omp parallel for
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 colourBuffer[i * width + j] = clearColour;
@@ -58,6 +60,7 @@ namespace McRenderer {
         }
     }
     void FrameBuffer::clearDepthBuffer() {
+        #pragma omp parallel for
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 depthBuffer[i * width + j] = clearDepth;

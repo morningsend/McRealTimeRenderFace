@@ -4,7 +4,9 @@
 
 #ifndef RENDERER_COLOURSAMPLER_HPP
 #define RENDERER_COLOURSAMPLER_HPP
-#include <glm/glm.hpp>
+
+#include "../common.h"
+
 #include "../textures/Texture2D.hpp"
 
 namespace McRenderer {
@@ -25,6 +27,19 @@ namespace McRenderer {
             return ValueType{};
         }
         virtual ~Sampler3D(){}
+    };
+    class BufferSampler2D : public Sampler2D<glm::vec3> {
+    private:
+        glm::vec3* buffer;
+        int width;
+        int height;
+    public:
+        BufferSampler2D(int width, int height, glm::vec3* bufferIn): width{width}, height{height}, buffer{bufferIn} {}
+        virtual ~BufferSampler2D() = default;
+
+        glm::vec3 sample(glm::vec2 uvCoord) const override {
+
+        }
     };
     class TextureSampler2D : public Sampler2D<glm::vec3> {
     private:

@@ -3,9 +3,7 @@
 
 // Defines a simple test model: The Cornel Box
 
-#include <glm/glm.hpp>
-#include <vector>
-
+#include "../common.h"
 // Used to describe a triangular surface:
 class Triangle
 {

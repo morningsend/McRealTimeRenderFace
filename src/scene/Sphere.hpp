@@ -5,7 +5,7 @@
 #ifndef RENDERER_SPHERE_HPP
 #define RENDERER_SPHERE_HPP
 
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "Transform.hpp"
 #include "Mesh.hpp"
 

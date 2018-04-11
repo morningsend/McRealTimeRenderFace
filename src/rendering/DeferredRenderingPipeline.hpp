@@ -5,16 +5,14 @@
 #ifndef RENDERER_PIPELINE_HPP
 #define RENDERER_PIPELINE_HPP
 
-#include <memory>
-#include <cmath>
-#include <glm/glm.hpp>
+#include "../common.h"
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
-#include "Rasterizer.hpp"
 #include "PrimitivePreprocessor.hpp"
 #include "FrameBuffer.hpp"
 #include "DeferredRenderingBuffers.hpp"
-
+#include "RasterizerConfig.hpp"
+#include "../scene/Scene.hpp"
 namespace McRenderer {
     class DeferredRenderingPipeline;
     enum class FaceCullingMode {
@@ -29,6 +27,7 @@ namespace McRenderer {
         FaceCullingMode cullingMode {FaceCullingMode::None};
 
     };
+
     class DeferredRenderingPipeline {
     private:
         std::unique_ptr<FragmentShader> fragmentShader;
@@ -69,6 +68,7 @@ namespace McRenderer {
                             rasterizerConfig.viewportWidth,
                             rasterizerConfig.viewportHeight
                     );
+            generateKernels();
         };
         // helper methods.
         void initializeShaderEnvironment(Scene &scene, ShaderEnvironment &env);
@@ -76,9 +76,12 @@ namespace McRenderer {
         void lightingPass(Scene& scene);
         void geometryPass(Scene& scene);
         void ambientOcclusionPass();
-        void compositionPass();
+        void postProcessingPass();
         void postProcessingAntiAliasing();
         void postProcessingToneMapping();
+
+        std::vector<vec3> ambientOcclusionkernels;
+        void generateKernels();
     public:
         DeferredRenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,
