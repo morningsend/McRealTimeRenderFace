@@ -10,8 +10,9 @@
 namespace McRenderer {
     class AntiAliasingPostProcessing {
     public:
-        void run(FrameBuffer frameBuffer);
+        static inline float luminance(vec3& colour);
     };
+
 }
 
 

@@ -21,6 +21,7 @@ namespace McRenderer {
         std::unique_ptr<glm::vec3[]> lightAccumulation{nullptr};
         std::unique_ptr<float[]> ambientOcclusion{nullptr};
         std::unique_ptr<float[]> floatTempBuffer{nullptr};
+        std::unique_ptr<glm::vec3[]> aaBuffer{nullptr};
         int width{0};
         int height{0};
     public:
@@ -41,8 +42,16 @@ namespace McRenderer {
         float* getDepthBuffer() {
             return depth.get();
         }
+
+        inline glm::vec3& aaBufferAt(int x, int y){
+            const int index = y * width + x;
+            return aaBuffer[index];
+        }
         glm::vec4* getPositionBuffer() {
             return position.get();
+        }
+        glm::vec3* getAABuffer() {
+            return aaBuffer.get();
         }
         inline float& depthAt(int x, int y) {
             return depth[y * width + x];
@@ -96,6 +105,15 @@ namespace McRenderer {
                 for(int j = 0; j < width; j++) {
                     int index = i * width + j;
                     depth[index] = 1.0f;
+                }
+            }
+        }
+
+        inline void clearLightAccumBuffer() {
+            for(int i = 0; i < height; i++) {
+                for(int j = 0; j < width; j++) {
+                    int index = i * width + j;
+                    lightAccumulation[index] = glm::vec3(0);
                 }
             }
         }

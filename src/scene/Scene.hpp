@@ -15,7 +15,7 @@ namespace McRenderer {
     using namespace std;
     class Scene {
     public:
-        vector <Light> lights{};
+        vector <shared_ptr<Light>> lights{};
         vector <Triangle> model{};
         Camera camera{};
         vector <MaterialSpec> materialSpecs;

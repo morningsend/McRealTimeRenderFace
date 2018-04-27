@@ -96,9 +96,10 @@ namespace McRenderer {
                 barycentricCoords.y / triangleAttributes[1].position.z,
                 barycentricCoords.z / triangleAttributes[2].position.z
         );
-        float sum = perspetiveCorrectBarycentricCoords[0];
-
-        result.position = triangleAttributes[0].position * barycentricCoords[0];
+        //std::cout << "position before: " << triangleAttributes[0].position[0] << ' ' << triangleAttributes[1].position[1] << ' '<< triangleAttributes[0].position[2] << ' '<< triangleAttributes[0].position[3] << std::endl;
+        perspetiveCorrectBarycentricCoords = normalize(perspetiveCorrectBarycentricCoords);
+        //std::cout << "perspective correct barycentric: " << perspetiveCorrectBarycentricCoords[0] << ' ' << perspetiveCorrectBarycentricCoords[1] << ' '<< perspetiveCorrectBarycentricCoords[2] << std::endl;
+        result.position = triangleAttributes[0].position * perspetiveCorrectBarycentricCoords[0];
         result.worldPosition = triangleAttributes[0].worldPosition * perspetiveCorrectBarycentricCoords[0];
         result.viewPosition = triangleAttributes[0].viewPosition * perspetiveCorrectBarycentricCoords[0];
         result.normal = triangleAttributes[0].normal * perspetiveCorrectBarycentricCoords[0];
@@ -108,7 +109,7 @@ namespace McRenderer {
         result.textCoord = triangleAttributes[0].textCoord * perspetiveCorrectBarycentricCoords[0];
 
         for(int j = 1; j < 3; j++) {
-            result.position += triangleAttributes[j].position * barycentricCoords[j];
+            result.position += triangleAttributes[j].position * perspetiveCorrectBarycentricCoords[j];
             result.worldPosition += triangleAttributes[j].worldPosition * perspetiveCorrectBarycentricCoords[j];
             result.viewPosition += triangleAttributes[j].viewPosition * perspetiveCorrectBarycentricCoords[j];
             result.normal += triangleAttributes[j].normal * perspetiveCorrectBarycentricCoords[j];
@@ -116,9 +117,12 @@ namespace McRenderer {
             result.bitangent += triangleAttributes[j].bitangent * perspetiveCorrectBarycentricCoords[j];
             result.colour += triangleAttributes[j].colour * perspetiveCorrectBarycentricCoords[j];
             result.textCoord += triangleAttributes[j].textCoord * perspetiveCorrectBarycentricCoords[j];
-            sum += perspetiveCorrectBarycentricCoords[j];
         }
-        sum = 1 / sum;
+
+        //std::cout << "position after: " << result.position[0] << ' ' << result.position[1] << ' '<< result.position[2] << ' ' << result.position[3] << std::endl;
+        /*
+        std::cout << "position before: " << result.position[0] << ' ' << result.position[1] << ' '<< result.position[2] << ' '<< result.position[3] << std::endl;
+        result.position = result.position * sum;
 
         result.worldPosition = result.worldPosition * sum;
         result.viewPosition = result.viewPosition * sum;
@@ -126,7 +130,15 @@ namespace McRenderer {
         result.tangent = result.tangent * sum;
         result.bitangent = result.bitangent * sum;
         result.colour = result.colour * sum;
-        result.textCoord = result.textCoord * sum;
-
+        result.textCoord = result.textCoord * sum;*/
+        if(result.position.x > result.position.w) {
+            std::cout <<"x out of range" << std::endl;
+        }
+        if(result.position.y > result.position.w) {
+            std::cout <<"y out of range" << std::endl;
+        }
+        if(result.position.z > result.position.w) {
+            std::cout <<"z out of range" << std::endl;
+        }
     }
 }

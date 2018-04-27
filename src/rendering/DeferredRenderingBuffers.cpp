@@ -18,6 +18,7 @@ namespace McRenderer {
             ambientOcclusion.reset();
             roughness.reset();
             floatTempBuffer.reset();
+            aaBuffer.reset();
         } else {
             diffuse.reset(new vec4[size]);
             specular.reset(new vec4[size]);
@@ -28,6 +29,7 @@ namespace McRenderer {
             ambientOcclusion.reset(new float[size]);
             roughness.reset(new float[size]);
             floatTempBuffer.reset(new float[size]);
+            aaBuffer.reset(new vec3[size]);
         }
     }
 

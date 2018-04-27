@@ -5,8 +5,16 @@
 #ifndef RENDERER_PHYSICALLYBASEDSHADER_HPP
 #define RENDERER_PHYSICALLYBASEDSHADER_HPP
 #include "FragmentShader.hpp"
+#include "../scene/Light.hpp"
 
 namespace McRenderer {
+
+    union LightProperties {
+        struct PointLight pointLight;
+        struct SpotLight spotLight;
+
+        LightProperties(){}
+    };
 
     struct LightingPassFragmentShaderParams {
         vec3 position;
@@ -18,6 +26,9 @@ namespace McRenderer {
         vec3 lightPosition;
         float lightIntensity;
         vec3 lightColour;
+        LightType lightType;
+        LightProperties lightProperties;
+        float ao;
     };
 
     struct LightingPassFragmentShaderOutput {

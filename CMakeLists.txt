@@ -3,12 +3,8 @@ project(renderer CXX)
 
 
 set(CMAKE_CXX_STANDARD 11)
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc/7.3.0_1/bin/gcc-7)
-else()
-    set(CMAKE_CXX_COMPILER gcc)
-endif()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ffast-math -lstdc++ -fopenmp")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ffast-math")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(SOURCE_FILES
@@ -22,19 +18,18 @@ set(SOURCE_FILES
         src/scene/TestModelH.h
         src/SDLauxiliary.h src/scene/Light.cpp src/scene/Light.hpp
         src/scene/Triangle.cpp src/scene/Triangle.hpp
-        src/scene/Sphere.cpp src/scene/Sphere.hpp
-        src/rendering/RayTracer.cpp src/rendering/RayTracer.hpp
         src/scene/Scene.cpp src/scene/Scene.hpp
         src/scene/BoundingBox.cpp src/scene/BoundingBox.hpp
         src/rendering/FrameBuffer.cpp src/rendering/FrameBuffer.hpp src/scene/MaterialSpec.cpp src/scene/MaterialSpec.hpp tests/scene/RayTests.hpp  src/Exception.cpp src/Exception.hpp
         src/SDLauxiliary.h
+        src/rendering/RasterizerConfig.hpp
         src/rendering/Renderer.cpp src/rendering/Renderer.hpp src/SDLauxiliary.cpp src/scene/Viewport.cpp src/scene/Viewport.hpp src/rendering/DeferredRenderingPipeline.cpp src/rendering/DeferredRenderingPipeline.hpp src/rendering/VertexShader.hpp src/rendering/FragmentShader.hpp src/rendering/PrimitivePreprocessor.cpp src/rendering/PrimitivePreprocessor.hpp
         src/rendering/ShaderEnvironment.hpp
         src/rendering/BasicFragmentShader.hpp
         src/textures/Texture2D.cpp src/textures/Texture2D.hpp
         src/rendering/BasicVertexShader.hpp src/rendering/Fragment.hpp
         src/rendering/VertexShader.cpp
-        src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/rendering/LightingPassFragmentShader.cpp src/rendering/LightingPassFragmentShader.hpp src/shader/Microfacet.hpp src/scene/CubeMapSampler.cpp src/scene/CubeMapSampler.hpp src/rendering/AntiAliasingPostProcessing.cpp src/rendering/AntiAliasingPostProcessing.hpp src/rendering/DeferredRenderingBuffers.hpp src/rendering/DeferredRenderingBuffers.cpp src/rendering/GeometryPassFragmentShader.cpp src/rendering/GeometryPassFragmentShader.hpp src/rendering/AOFragmentShader.cpp src/rendering/AOFragmentShader.hpp src/common.h src/rendering/RasterizerConfig.hpp)
+        src/scene/TextureSampler2D.cpp src/scene/TextureSampler2D.hpp src/rendering/LightingPassFragmentShader.cpp src/rendering/LightingPassFragmentShader.hpp src/shader/Microfacet.hpp src/scene/SphericalMapSampler.cpp src/scene/SphericalMapSampler.hpp src/rendering/AntiAliasingPostProcessing.cpp src/rendering/AntiAliasingPostProcessing.hpp src/rendering/DeferredRenderingBuffers.hpp src/rendering/DeferredRenderingBuffers.cpp src/rendering/GeometryPassFragmentShader.cpp src/rendering/GeometryPassFragmentShader.hpp src/rendering/AOFragmentShader.cpp src/rendering/AOFragmentShader.hpp src/common.h)
 
 set(TESTS_SOURCE_FILES ${SOURCE_FILES} tests/catch.hpp tests/testMain.cpp )
 

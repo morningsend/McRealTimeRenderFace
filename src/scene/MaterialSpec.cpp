@@ -10,7 +10,7 @@ namespace McRenderer {
         // if texture map is not available, fall back to default diffuse
 
         material.basecolourSampler = TextureSampler2D(
-                Texture2D::load(spec.basecolourMap),
+                Texture2D::load(spec.basecolourMap, true),
                 spec.basecolour
         );
         material.roughnessSampler = GrayScaleTextureSampler2D(

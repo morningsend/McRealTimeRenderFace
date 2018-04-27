@@ -12,15 +12,17 @@ namespace McRenderer {
                                 const BufferSampler2D& positionSampler,
                                 const AOShaderParams &params,
                                 AOPassOutput &output) {
-        vec3 randomVector = noise[rand() % 16];
-        vec3 normal = params.normal;
-        vec3 tangent = normalize(normal - randomVector);
-        vec3 bitangent = cross(tangent, normal);
-        mat3 tbn(tangent, bitangent, normal);
+        const vec3 randomVector = noise[rand() % 16];
+        const vec3 normal = params.normal;
+        const vec3 tangent = normalize(normal - randomVector);
+        const vec3 bitangent = cross(tangent, normal);
+        const mat3 tbn(tangent, bitangent, normal);
         float occlusion = 0.0f;
-        
-        for(const vec3& kernel : kernels) {
-            vec3 orientedKernel = tbn * kernel;
+        const int size = kernels.size();
+
+        //#pragma omp parallel for shared(kernels), reduction(+: occlusion)
+        for(int i = 0; i < size; i++) {
+            vec3 orientedKernel = tbn * kernels[i];
             vec3 sample = params.position + orientedKernel * radius;
             vec4 position = env.projectionMatrix * vec4(sample, 1);
             position /= position.w;

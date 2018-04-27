@@ -21,10 +21,9 @@ namespace McRenderer {
         float nDotH2 = nDotH * nDotH;
         float tanNDotH2 = (1 - nDotH2) / nDotH2;
         float denom = nDotH2 * (roughness2 + tanNDotH2);
-        denom *= denom * denom * MPI;
+        denom = denom * denom * MPI;
         float sign = nDotH > 0 ? 1 : 0;
         return sign * roughness2 / denom;
-
     }
 
     inline float blinnPhongDistribution(float nDotH, float shininess) {
@@ -41,6 +40,17 @@ namespace McRenderer {
         float smith1 = nDotL / (nDotL * (1-m ) + m);
         float smith2 = nDotV / (nDotV * (1-m ) + m);
         return smith1 * smith2;
+    }
+    inline float smithGGXGeometry1(float xDotH, float xDotN, float roughness) {
+        float chi = xDotH > 0 ? 1 : 0;
+        float xDotN2 = xDotN * xDotN;
+        float tanTheta2 = (1 - xDotN2) / xDotN2;
+        float denom = 1.0f + std::sqrt(1.0f + roughness * roughness * tanTheta2) * xDotN;
+        return chi * xDotH * 2 / denom;
+    }
+    inline float smithGGXGeometricShadowMaskingFunc(float nDotL, float nDotV, float lDotH, float vDotH, float roughness) {
+        return smithGGXGeometry1(lDotH, nDotL, roughness)
+               * smithGGXGeometry1(vDotH, nDotV, roughness);
     }
     inline float schlickBeckmannGeometricShadowMaskingFunc(float nDotL, float nDotV, float roughness) {
         float roughness2 = roughness * roughness;

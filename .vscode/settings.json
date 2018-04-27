@@ -10,6 +10,13 @@
         "map": "cpp",
         "string_view": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "random": "cpp",
+        "regex": "cpp",
+        "iterator": "cpp",
+        "ios": "cpp",
+        "memory": "cpp"
     }
 }

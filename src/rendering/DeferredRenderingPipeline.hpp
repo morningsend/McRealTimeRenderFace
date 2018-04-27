@@ -14,6 +14,9 @@
 #include "RasterizerConfig.hpp"
 #include "../scene/Scene.hpp"
 #include "AOFragmentShader.hpp"
+#include "LightingPassFragmentShader.hpp"
+#include "AntiAliasingPostProcessing.hpp"
+
 namespace McRenderer {
     class DeferredRenderingPipeline;
     enum class FaceCullingMode {
@@ -45,7 +48,8 @@ namespace McRenderer {
         Material defaultMaterial;
         ShaderPass debuggingPass{ShaderPass::All};
         DeferredRenderingBuffers geometryBuffers{0,0};
-        AOFragmentShader aoShader{.225f, 0.04, 16};
+        AOFragmentShader aoShader{.5f, 0.01f, 16};
+        AntiAliasingPostProcessing fxaaPostProcessing;
         void shadeTriangle(Triangle &tri, VertexShaderOutputParams *vertexOutput);
         void rasterizeTriangleFan(vector<VertexShaderOutputParams> &clippedVertices);
         void rasterizeLine(vec4 p0, vec4 p1);
@@ -79,8 +83,8 @@ namespace McRenderer {
         void ambientOcclusionPass();
         void postProcessingPass();
         void postProcessingAntiAliasing();
-        void postProcessingToneMapping();
         void ambientOcclusionApplyBoxBlur();
+        static inline vec3 hdrFilmicToneMap(vec3 colour, float whitePoint);
     public:
         DeferredRenderingPipeline(std::unique_ptr<VertexShader>& vertexShader,
                           std::unique_ptr<FragmentShader>& fragmentShader,
@@ -109,6 +113,8 @@ namespace McRenderer {
         void setDebuggingPass(ShaderPass pass) {
             debuggingPass = pass;
         }
+
+
     };
 
     class PipelineBuilder {

@@ -5,7 +5,8 @@
 #include "AntiAliasingPostProcessing.hpp"
 namespace McRenderer {
 
-    void AntiAliasingPostProcessing::run(FrameBuffer frameBuffer) {
-
+    float AntiAliasingPostProcessing::luminance(vec3 &colour) {
+        constexpr vec3 weights(0.299f, 0.587f, 0.114f);
+        return glm::dot(colour, weights);
     }
 }

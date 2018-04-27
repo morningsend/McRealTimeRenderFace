@@ -44,8 +44,6 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
-					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/local/include/opencv"/>
@@ -70,8 +68,6 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
-					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/local/include/opencv"/>
@@ -96,8 +92,6 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
-					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/local/include/opencv"/>
@@ -122,8 +116,6 @@
 				<Option type="1"/>
 				<Option compiler="clang"/>
 				<Compiler>
-					<Add directory="/usr/local/Cellar/sdl2/2.0.8/include/SDL2"/>
-					<Add directory="/usr/local/include/SDL2"/>
 					<Add directory="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/lib/glm"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/local/include/opencv"/>
@@ -158,7 +150,27 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/common.h">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/main.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/AOFragmentShader.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/AOFragmentShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/AntiAliasingPostProcessing.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/AntiAliasingPostProcessing.hpp">
+			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/BasicFragmentShader.hpp">
@@ -166,6 +178,22 @@
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/BasicVertexShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/DeferredRenderingBuffers.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/DeferredRenderingBuffers.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/DeferredRenderingPipeline.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/DeferredRenderingPipeline.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -185,6 +213,22 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/GeometryPassFragmentShader.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/GeometryPassFragmentShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/LightingPassFragmentShader.cpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/LightingPassFragmentShader.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/PrimitivePreprocessor.cpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
@@ -193,19 +237,7 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Rasterizer.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Rasterizer.hpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RayTracer.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RayTracer.hpp">
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RasterizerConfig.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -214,14 +246,6 @@
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/Renderer.hpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RenderingPipeline.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/rendering/RenderingPipeline.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -309,23 +333,15 @@
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Sphere.cpp">
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/SphericalMapSampler.cpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Sphere.hpp">
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/SphericalMapSampler.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/TestModelH.h">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/TextureMap.cpp">
-			<Option target="renderer_tests"/>
-			<Option target="renderer"/>
-		</Unit>
-		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/TextureMap.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>
@@ -366,6 +382,10 @@
 			<Option target="renderer"/>
 		</Unit>
 		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/scene/Viewport.hpp">
+			<Option target="renderer_tests"/>
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="/Users/zaiyangli/Documents/COMS3/ComputerGraphics/realtime/src/shader/Microfacet.hpp">
 			<Option target="renderer_tests"/>
 			<Option target="renderer"/>
 		</Unit>

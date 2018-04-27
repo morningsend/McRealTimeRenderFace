@@ -17,21 +17,21 @@ using glm::mat3;
 using glm::vec4;
 using glm::mat4;
 
-#define SCREEN_WIDTH 500
-#define SCREEN_HEIGHT 500
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 512
 #define FULLSCREEN_MODE false
 
 /* ----------------------------------------------------------------------------*/
 /* FUNCTIONS                                                                   */
 
 void Update(Camera& camera);
-void Update(Light& light);
+void Update(shared_ptr<Light>& light);
 void Update(DeferredRenderingPipeline& pipeline);
 
 void setupScene(Scene& scene) {
     vector<::Triangle> triangles;
     LoadTestModel(triangles);
-    scene.camera.position = vec3(0, 0, -2);
+    scene.camera.position = vec3(0, 0, -2.5);
     scene.camera.forward = vec3(0, 0, 1);
     scene.camera.up = vec3(0,1,0);
     scene.camera.aspectRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
@@ -57,21 +57,23 @@ void setupScene(Scene& scene) {
             vec4(1)
     ));*/
 
-    PointLightSource light;
-    light.intensity = 10.0f;
+    struct PointLight light;
+    light.intensity = 20.0f;
     light.colour = vec4(1);
-    light.position = vec4(-0.4, 0.9, 0, 1);
-    scene.lights.push_back(light);
+    light.position = vec4(-0.6, 0.9, 0, 1);
 
-    light.intensity = 10.0f;
-    light.colour = vec4(1, .8f, .5, 1);
-    light.position = vec4(0.4, 0.9, 0, 1);
-    scene.lights.push_back(light);
 
-    light.colour = vec4(.5, 1.0f, .5, 1);
-    light.position = vec4(0, 0.9, .8, 1);
-    scene.lights.push_back(light);
+    struct SpotLight spotLight;
+    spotLight.intensity = 10.0f;
+    spotLight.colour = vec4(1);
+    spotLight.position = vec4(0.6, 0.9, 0.5f, 1);
+    spotLight.fallOffAngle = 35.0f;
+    spotLight.computeCosineFallOff();
+    spotLight.direction = normalize(vec4(.5,1,0,0));
 
+    scene.lights.push_back(make_shared<struct PointLight>(light));
+    scene.lights.push_back(make_shared<struct SpotLight>(spotLight));
+    
     MaterialSpec materialSpec;
 
     materialSpec.basecolourMap = "textures/New_Graph_basecolor.png";
@@ -144,21 +146,21 @@ void Update(DeferredRenderingPipeline& pipeline) {
     }
 #endif
 }
-void Update(Light& light) {
+void Update(shared_ptr<Light>& light) {
     uint8* keystate = const_cast<uint8 *>(SDL_GetKeyboardState(0));
 
     if(keystate[SDL_SCANCODE_W]) {
-        light.position += vec4(0,1,0,0) * 0.051f;
+        light->position += vec4(0,1,0,0) * 0.051f;
     }
     if(keystate[SDL_SCANCODE_S]) {
-        light.position -= vec4(0,1,0,0) * 0.051f;
+        light->position -= vec4(0,1,0,0) * 0.051f;
     }
 
     if(keystate[SDL_SCANCODE_A]) {
-        light.position += vec4(1,0,0,0) * 0.051f;
+        light->position += vec4(1,0,0,0) * 0.051f;
     }
     if(keystate[SDL_SCANCODE_D]) {
-        light.position -= vec4(1,0,0,0) * 0.051f;
+        light->position -= vec4(1,0,0,0) * 0.051f;
     }
 }
 /*Place updates of parameters here*/

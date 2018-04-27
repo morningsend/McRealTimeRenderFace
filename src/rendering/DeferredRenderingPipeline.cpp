@@ -3,7 +3,7 @@
 //
 #include <random>
 #include "DeferredRenderingPipeline.hpp"
-#include "LightingPassFragmentShader.hpp"
+
 
 namespace McRenderer {
     using namespace std;
@@ -13,6 +13,7 @@ namespace McRenderer {
         geometryPass(scene);
         ambientOcclusionPass();
         lightingPass(scene);
+        postProcessingAntiAliasing();
         postProcessingPass();
     }
 
@@ -303,19 +304,34 @@ namespace McRenderer {
         LightingPassFragmentShaderOutput output;
         LightingPassFragmentShader lightingShader;
         //#pragma omp parallel for private (lightingPassParams, output), shared(geometryBuffers, lightingShader)
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++) {
-                lightingPassParams.normal = geometryBuffers.normalAt(j, i);
-                lightingPassParams.diffuseColour = geometryBuffers.diffuseAt(j, i) * geometryBuffers.ambientOcclusionAt(j, i);
-                lightingPassParams.viewDirection = normalize(geometryBuffers.positionAt(j, i) * -1.0f);
-                lightingPassParams.specularColour = geometryBuffers.specularAt(j, i);
-                lightingPassParams.position = geometryBuffers.positionAt(j, i);
-                lightingPassParams.specularRoughness = geometryBuffers.roughnessAt(j, i);
-                geometryBuffers.lightAccumAt(j, i) = vec3(0);
-                for(Light& light: scene.lights) {
-                    lightingPassParams.lightPosition = env.viewingMatrix * light.position;
-                    lightingPassParams.lightIntensity = light.intensity;
-                    lightingPassParams.lightColour = light.colour;
+        geometryBuffers.clearLightAccumBuffer();
+
+        for(auto& light: scene.lights) {
+            lightingPassParams.lightType = light->type;
+            switch(light->type) {
+                case LightType::PointLight:
+                    lightingPassParams.lightProperties.pointLight = static_cast<struct PointLight&>(*light);
+                    break;
+                case LightType::SpotLight:
+                    lightingPassParams.lightProperties.spotLight = static_cast<struct SpotLight&>(*light);
+                    lightingPassParams.lightProperties.spotLight.direction =  normalize(env.viewingMatrix * lightingPassParams.lightProperties.spotLight.direction);
+                    break;
+                default:
+                    break;
+            }
+            lightingPassParams.lightPosition = env.viewingMatrix * light->position;
+            lightingPassParams.lightIntensity = light->intensity;
+            lightingPassParams.lightColour = vec3(light->colour);
+
+            for(int i = 0; i < height; i++) {
+                for(int j = 0; j < width; j++) {
+                    lightingPassParams.normal = geometryBuffers.normalAt(j, i);
+                    lightingPassParams.diffuseColour = geometryBuffers.diffuseAt(j, i);
+                    lightingPassParams.viewDirection = normalize(geometryBuffers.positionAt(j, i) * -1.0f);
+                    lightingPassParams.specularColour = geometryBuffers.specularAt(j, i);
+                    lightingPassParams.position = geometryBuffers.positionAt(j, i);
+                    lightingPassParams.specularRoughness = geometryBuffers.roughnessAt(j, i);
+                    lightingPassParams.ao = geometryBuffers.ambientOcclusionAt(j, i);
                     lightingShader.run(env, lightingPassParams, output);
                     geometryBuffers.lightAccumAt(j, i) += output.lightContribution;
                 }
@@ -326,7 +342,7 @@ namespace McRenderer {
     void DeferredRenderingPipeline::postProcessingPass() {
         const int width = rasterizerConfig.viewportWidth;
         const int height = rasterizerConfig.viewportHeight;
-        #pragma omp parallel for
+        //#pragma omp parallel for
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 vec3 output;
@@ -350,7 +366,9 @@ namespace McRenderer {
                         output = vec3(1) * geometryBuffers.depthAt(j, i);
                         break;
                     default:
-                        output = geometryBuffers.lightAccumAt(j, i);
+                        // gamma correction
+                        output = hdrFilmicToneMap(geometryBuffers.lightAccumAt(j, i), 1.5);
+                        output = glm::pow(output, vec3(1.0f/2.2f));
                 }
                 outputFrameBuffer->setColour(j, i, vec4(output, 1));
             }
@@ -364,6 +382,7 @@ namespace McRenderer {
 
         AOShaderParams params;
         AOPassOutput output;
+
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
                 params.position = vec3(geometryBuffers.positionAt(j, i));
@@ -372,33 +391,46 @@ namespace McRenderer {
                 geometryBuffers.ambientOcclusionAt(j, i) = output.occlusion;
             }
         }
-        //ambientOcclusionApplyBoxBlur();
+        ambientOcclusionApplyBoxBlur();
     }
-
+    // source: http://www.geeks3d.com/20110405/fxaa-fast-approximate-anti-aliasing-demo-glsl-opengl-test-radeon-geforce/3/
     void DeferredRenderingPipeline::postProcessingAntiAliasing() {
-
+        const int width = rasterizerConfig.viewportWidth;
+        const int height = rasterizerConfig.viewportHeight;
+        const float invWidth = 1.0f / width;
+        const float invHeight = 1.0f / height;
+        constexpr float EDGE_THRESHOLD_MIN = 0.0312f;
+        constexpr float EDGE_THRESHOLD_MAX = 0.125f;
+        for(int i = 1 ; i < height -1; i++) {
+            for(int j = 1; j < width - 1; j++) {
+                
+            }
+        }
     }
-
-    void DeferredRenderingPipeline::postProcessingToneMapping() {
-
-    }
-
     void DeferredRenderingPipeline::ambientOcclusionApplyBoxBlur() {
         const int width = rasterizerConfig.viewportWidth;
         const int height = rasterizerConfig.viewportHeight;
         const float weight = 1.0f / 9.0f;
-
+        //#pragma omp parallel for
         for(int i = 1; i < height - 1; i++) {
             for(int j = 1; j < width - 1; j++) {
                 float accum = 0.0f;
-                for(int ki = i - 1; ki < i + 1; ki++ ) {
-                    for(int kj = j - 1; kj <  j + 1; kj++) {
+                for(int ki = i - 1; ki <= i + 1; ki++ ) {
+                    for(int kj = j - 1; kj <=  j + 1; kj++) {
                         accum += geometryBuffers.ambientOcclusionAt(kj, ki);
                     }
                 }
-                geometryBuffers.floatTempAt(j, i) = accum;
+                geometryBuffers.floatTempAt(j, i) = accum * weight;
             }
         }
+
         geometryBuffers.swapTempWithAmbientOcclusion();
+    }
+
+    vec3 DeferredRenderingPipeline::hdrFilmicToneMap(vec3 colour, float whitePoint) {
+        vec4 vh = vec4(colour, whitePoint);
+        vec4 va = (vh * 1.425f) + vec4(0.5f);
+        vec4 vf = ((vh * va + vec4(0.004f)));
+        return vec3(vf) / vf.w;
     }
 }

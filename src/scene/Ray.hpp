@@ -7,7 +7,6 @@
 
 #include "../common.h"
 #include "Triangle.hpp"
-#include "Sphere.hpp"
 
 namespace McRenderer {
     using namespace glm;
@@ -18,7 +17,6 @@ namespace McRenderer {
     };
 
     bool castRay(const Ray& ray, const Triangle& triangle, vec3& hitLocation);
-    bool castRay(const Ray& ray, const Sphere& sphere, vec3& hitLocation);
 }
 
 

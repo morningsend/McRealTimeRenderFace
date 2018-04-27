@@ -29,15 +29,27 @@ namespace McRenderer {
         return glm::vec3(r,g,b);
     }
 
-    void Texture2D::loadImage(std::string path) {
+    void Texture2D::loadImage(std::string path, bool gammaToLinear) {
         cout<<"loading texture imagee: " << path << endl;
         image = cv::imread(path);
         if(image.data == nullptr) {
             imageLoaded = false;
         } else {
             imageLoaded = true;
+
             rows = image.rows;
             columns = image.cols;
+            if(gammaToLinear) {
+                float inverseGamma = 2.2f;
+                Mat lut_matrix(1, 256, CV_8UC1);
+                uchar *ptr = lut_matrix.ptr();
+                for (int i = 0; i < 256; i++)
+                    ptr[i] = (int) (pow((float) i / 255.0f, inverseGamma) * 255.0f);
+
+                Mat result;
+                LUT(image, lut_matrix, result);
+                result.assignTo(image);
+            }
             // adding 1 pixel a border to the original image to speed up sampling calculations.
             copyMakeBorder(image, image, 1,1,1,1, BORDER_REPLICATE);
         }

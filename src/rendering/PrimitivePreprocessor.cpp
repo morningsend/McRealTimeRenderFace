@@ -259,6 +259,7 @@ namespace McRenderer {
                     //vNew.y = v1.y + (v2.y - v1.y) / (v2.x - v1.x) * (-1 - v1.x);
                     //vNew.z = v1.z + (v2.z - v1.z) / (v2.x - v1.x) * (-1 - v1.x);
                     t = (v1.w - v1.y) / ((v1.w - v1.y) - (v2.w - v2.y));
+                    //t = (v1.y + v1.w) / ((v1.y + v1.w) - (v2.y + v2.w));
                     vNew = v1 * (1 - t) + t * v2;
                     verticesNext.push_back(vNew);
                     if (flags == 1) {
@@ -276,7 +277,7 @@ namespace McRenderer {
         verticesNext.clear();
 
 
-        // y + w = 0
+        // z = w
         for (size_t i = 0; i < vertices.size(); i++) {
             flags = 0;
             const vec4 &v1 = vertices[i];
@@ -296,7 +297,8 @@ namespace McRenderer {
 
                     //vNew.y = v1.y + (v2.y - v1.y) / (v2.x - v1.x) * (-1 - v1.x);
                     //vNew.z = v1.z + (v2.z - v1.z) / (v2.x - v1.x) * (-1 - v1.x);
-                    t = (v1.z + v1.w) / ((v1.z + v1.w) - (v2.z + v2.w));
+                    //t = (v1.y + v1.w) / ((v1.y + v1.w) - (v2.y + v2.w));
+                    t = (v1.w - v1.y) / ((v1.w - v1.y) - (v2.w - v2.y));
                     vNew = v1 * (1 - t) + t * v2;
                     verticesNext.push_back(vNew);
                     if (flags == 1) {
@@ -313,7 +315,7 @@ namespace McRenderer {
         vertices.swap(verticesNext);
         verticesNext.clear();
 
-        // z - w = 0
+        // z + w = 0
 
         for (size_t i = 0; i < vertices.size(); i++) {
             flags = 0;
@@ -335,7 +337,7 @@ namespace McRenderer {
                     //vNew.y = v1.y + (v2.y - v1.y) / (v2.x - v1.x) * (-1 - v1.x);
                     //vNew.z = v1.z + (v2.z - v1.z) / (v2.x - v1.x) * (-1 - v1.x);
                     t = (v1.w - v1.z) / ((v1.w - v1.z) - (v2.w - v2.z));
-                    vNew = v1 * (1 - t) + t * v2;
+                    vNew = v1 * (1 - t) + v2 * t;
                     verticesNext.push_back(vNew);
                     if (flags == 1) {
                         verticesNext.push_back(v2);
@@ -368,8 +370,9 @@ namespace McRenderer {
         // interpolate the attributes.
         for (int i = 0; i < vertices.size(); i++) {
             Triangle::computeBarycentricCoord(v0, v1, v2, vertices[i], barycentric);
-            //cout << barycentric[0] << ' ' << barycentric[1] <<  ' ' << barycentric[2] << endl;
-            interpolateBarycentric(triangleAttributes, barycentric, interpolatedValue);
+            barycentric = clamp(barycentric, vec3(0), vec3(1));
+            //cout << "barycentric: " << barycentric.x << ' ' << barycentric.y << ' ' << barycentric.z << endl;
+            perspectiveInterpolateBarycentric(triangleAttributes, barycentric, interpolatedValue);
             result.push_back(interpolatedValue);
         }
     }

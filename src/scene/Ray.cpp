@@ -6,10 +6,6 @@
 
 namespace McRenderer {
 
-    bool castRay(const Ray &ray, const Sphere &sphere, vec3 &hitLocation) {
-
-        return false;
-    }
 
     bool castRay(const Ray &ray, const Triangle &triangle, vec3 &hitLocation) {
 

@@ -19,14 +19,14 @@ namespace McRenderer {
     private:
         bool imageLoaded { false };
         cv::Mat image;
-        void loadImage(std::string path);
+        void loadImage(std::string path, bool gammaToLinear);
         int columns;
         int rows;
     public:
-        Texture2D(std::string path,
-                  bool generateMipMaps = false){
+        Texture2D(std::string path, bool generateMipMaps = false, bool gammaToLinear = false){
+            std::cout << "gamma to linear " << gammaToLinear << std::endl;
             if(!path.empty())
-                loadImage(path);
+                loadImage(path, gammaToLinear);
         }
 
         bool isLoaded() const {
@@ -40,8 +40,8 @@ namespace McRenderer {
         ~Texture2D() { }
         glm::vec3 sample(glm::vec2 uvCoord, FilteringMethod filter = FilteringMethod::Nearest) const;
         inline glm::vec3 sampleBilinear(glm::vec2 uvCoord) const;
-        static Texture2D* load(std::string path) {
-            Texture2D* texture = new Texture2D(path);
+        static Texture2D* load(std::string path, bool gammaToLinear = false) {
+            Texture2D* texture = new Texture2D(path, false, gammaToLinear);
             if(texture->isLoaded()) {
                 return texture;
             } else {
